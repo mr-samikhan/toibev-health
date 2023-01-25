@@ -1,0 +1,53 @@
+.sidebar-tab-text {
+  text-transform: capitalize;
+  color: var(--white) !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  @media screen and (max-width: 768px) {
+    text-transform: capitalize;
+    color: var(--black) !important;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+
+.active-tab {
+  color: var(--white) !important;
+  text-transform: capitalize;
+  box-sizing: border-box !important;
+  border-left: 6px solid var(--white) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.29) 0%,
+    rgba(217, 217, 217, 0) 91.58%
+  ) !important;
+
+  @media only screen and (max-width: 768px) {
+    color: var(--primary) !important;
+    text-transform: capitalize;
+    border-left: 6px solid var(--primary) !important;
+    box-sizing: border-box;
+    background: linear-gradient(
+      90deg,
+      rgba(70, 141, 141, 0.17) 2.73%,
+      rgba(70, 141, 141, 0) 100%
+    ) !important;
+  }
+}
+
+.black_icon {
+  filter: brightness(0) invert(0);
+}
+
+.white_icon {
+  color: var(--white) !important;
+  filter: brightness(1) invert(0);
+  @media only screen and (max-width: 768px) {
+    color: var(--primary) !important;
+    filter: brightness(0) invert(0);
+  }
+}
