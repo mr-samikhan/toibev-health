@@ -1,0 +1,23 @@
+.list {
+  .list-item {
+    background: #ffffff;
+    box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 20px;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background-color: rgba(242, 106, 71, 0.08);
+      border-radius: 10px;
+    }
+    .primary-text {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 150%;
+      color: #000000;
+    }
+  }
+}
