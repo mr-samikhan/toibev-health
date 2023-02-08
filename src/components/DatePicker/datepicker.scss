@@ -1,0 +1,19 @@
+.date-picker {
+  .label {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    color: #7b7b7b;
+  }
+  .date-picker-field {
+    min-width: 225px !important;
+  }
+  input {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+  }
+}

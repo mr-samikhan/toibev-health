@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
 import NavItem from "./NavItem";
 import "./sidebar.scss";
-import { drawerWidth } from "../mocks/menuList";
 import BottomNav from "./BottomNav";
 import { Navbar } from "../Header";
 
-export default ({ children }, props) => {
+const drawerWidth = 240;
+
+export function Sidebar({ children }, props) {
   const { window } = props;
   const [childData, setChildData] = useState("");
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -23,12 +23,15 @@ export default ({ children }, props) => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Navbar childData={childData} handleDrawerToggle={handleDrawerToggle} />
+      {/* <Navbar childData={childData} handleDrawerToggle={handleDrawerToggle} /> */}
 
       <CssBaseline />
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: { sm: drawerWidth },
+          flexShrink: { sm: 0 },
+        }}
         aria-label="mailbox folders"
       >
         <Drawer
@@ -63,6 +66,7 @@ export default ({ children }, props) => {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            background: (theme) => theme.palette.primary.main,
           }}
           className="sidebar-class"
           open
@@ -76,9 +80,9 @@ export default ({ children }, props) => {
           flexGrow: 1,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           background: (theme) => theme.palette.primary.main,
+          display: { sx: "block", sm: "none" },
         }}
       >
-        <Toolbar />
         <Box sx={{ p: 3, background: (theme) => theme.palette.primary.light }}>
           {children}
           <Box sx={{ display: { sx: "block", sm: "none" }, marginTop: "50px" }}>
@@ -88,4 +92,4 @@ export default ({ children }, props) => {
       </Box>
     </Box>
   );
-};
+}

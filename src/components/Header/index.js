@@ -5,15 +5,24 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Avatar, InputAdornment, TextField, Typography } from "@mui/material";
-import { drawerWidth } from "../mocks/menuList";
-import { ReactComponent as BellImage } from "../assets/images/bell.svg";
-import { ReactComponent as MenImage } from "../assets/images/men.svg";
-import { ReactComponent as DropdownIcon } from "../assets/images/dropdown.svg";
-import { ReactComponent as CalenderIcon } from "../assets/images/calender.svg";
-import { ReactComponent as SearchIcon } from "../assets/icons/search.svg";
-import "./sidebar.scss";
-
+import {
+  Avatar,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
+// import { drawerWidth } from "../mocks/menuList";
+import { ReactComponent as BellImage } from "../../assets/images/bell.svg";
+import { ReactComponent as MenImage } from "../../assets/images/men.svg";
+import { ReactComponent as DropdownIcon } from "../../assets/images/dropdown.svg";
+import { ReactComponent as NotificationBadge } from "../../assets/icons/notificationbadge.svg";
+import { ReactComponent as DownArrow } from "../../assets/icons/downarrow.svg";
+import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
+import "../Sidebar/sidebar.scss";
+import "./header.scss";
+import { DatePicker } from "../DatePicker";
+const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -31,16 +40,13 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export const Navbar = ({ childData, handleDrawerToggle }) => {
+export const Header = ({ childData, handleDrawerToggle, title = "Learn" }) => {
   return (
-    <Box>
+    <Box className="header">
       <AppBar
         position="fixed"
+        className="app-bar"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          borderBottom: { sm: "1px solid #F1F1F1" },
-          borderTopLeftRadius: { sm: "20px" },
           background: {
             xs: (theme) => theme.palette.primary.main,
             sm: "#fff",
@@ -49,104 +55,42 @@ export const Navbar = ({ childData, handleDrawerToggle }) => {
         elevation={0}
       >
         <Toolbar
+          className="toolbar"
           sx={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, color: "#fff", display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              textTransform: "capitalize",
-              color: "#000",
-              flex: 1.5,
-              display: { xs: "none", sm: "block" },
-            }}
-          >
-            {childData || "Dashboard"}
-          </Typography>
-          <Box sx={{ display: { xs: "block", sm: "none" } }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "30px",
-                width: "30px",
-              }}
-            >
-              <MenImage />
-            </Box>
-          </Box>
-          <Box sx={{ display: { xs: "block", sm: "none" } }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "30px",
-                width: "30px",
-              }}
-            >
-              <MenImage />
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: { xs: "none", sm: "none", md: "flex" },
-              justifyContent: "space-between",
-              alignItems: "center",
-              flex: 1,
-            }}
-          >
-            <Typography
-              variant="body1"
-              sx={{
-                textTransform: "capitalize",
-                color: "#7B7B7B",
-              }}
-            >
-              Date Range
-            </Typography>
-            <TextField
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Avatar
-                      sx={{
-                        background: "#468D8D",
-                        width: "24px",
-                        height: "24px",
-                      }}
-                      variant="rounded"
-                    >
-                      <CalenderIcon />
-                    </Avatar>
-                  </InputAdornment>
-                ),
-              }}
-              value={"16 July, 2022"}
-            />
-            <BellImage />
-            <MenImage />
-            <Typography variant="body1" color="#202020">
-              Alfonso Gouse
-            </Typography>
-            <DropdownIcon />
-          </Box>
+          <Grid container justifyContent={"space-between"}>
+            <Grid item>
+              <Typography className="title">{title}</Typography>
+            </Grid>
+            <Grid item>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <DatePicker />
+                </Grid>
+                <Grid item sx={{ margin: "0px 24px 0px 32px" }}>
+                  <IconButton>
+                    {" "}
+                    <NotificationBadge />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Avatar />
+                </Grid>
+                <Grid item>
+                  <Typography className="username">Alfonso Gouse</Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton>
+                    <DownArrow />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </Toolbar>
         <Box
           sx={{
@@ -155,28 +99,7 @@ export const Navbar = ({ childData, handleDrawerToggle }) => {
             background: (theme) => theme.palette.primary.main,
             borderBottomRightRadius: "20px",
           }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <TextField
-              placeholder="Search"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position={"start"} sx={{ pl: 1 }}>
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                flex: 1,
-                background: `linear-gradient(92.12deg, rgba(255, 255, 255, 0.3) -8.66%, rgba(255, 255, 255, 0.15) 111.93%)`,
-                borderRadius: "15px",
-                m: 2,
-                color: "#fff",
-              }}
-            />
-          </Box>
-        </Box>
+        ></Box>
       </AppBar>
     </Box>
   );

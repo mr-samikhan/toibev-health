@@ -1,16 +1,21 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { Sidebar } from "./components/Sidebar";
+import { Header } from "./components/Header";
 
 function App() {
-  if (true) return <Navigate to="/login" />;
+  if (false) return <Navigate to="/login" />;
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <div className="sidebar" id="sidebar">
-        <></>
+        <Sidebar />
       </div>
-      <main className="main" id="detail">
-        <Outlet />
-      </main>
+      <div>
+        <Header />
+        <main className="main" id="detail">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,82 @@
+@use "./styles/variables.scss" as v;
+
+:root {
+  --primary: #{v.$primary};
+  --secondary: #{v.$secondary};
+  --white: #{v.$white};
+  --black: #{v.$black};
+  --gray: #{v.$lightgray};
+}
+
+@mixin border($value) {
+  border-radius: $value !important;
+}
+
+@mixin displayFlex($display, $Justify, $align) {
+  display: $display;
+  justify-content: $Justify;
+  align-items: $align;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.login-main {
+  @include displayFlex("flex", "center", "center");
+  height: calc(90vh - 64px);
+}
+.app-logo {
+  display: flex;
+  justify-content: center;
+  padding: 10px 5px;
+}
+.MuiOutlinedInput-root {
+  padding: 0px !important;
+}
+.divider {
+  height: 1px;
+  border-image-source: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0.62%,
+    rgba(255, 255, 255, 0.5) 51.61%,
+    rgba(255, 255, 255, 0) 98.92%
+  );
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0.62%,
+    rgba(255, 255, 255, 0.5) 51.61%,
+    rgba(255, 255, 255, 0) 98.92%
+  );
+  @media screen and (max-width: 768px) {
+    height: 1px;
+    border-image-source: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 0.62%,
+      rgba(59, 125, 125, 0.5) 51.61%,
+      rgba(255, 255, 255, 0) 98.92%
+    );
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) 0.62%,
+      rgba(59, 125, 125, 0.5) 51.61%,
+      rgba(255, 255, 255, 0) 98.92%
+    );
+  }
+}
+.itemDivider {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0.62%,
+    rgba(59, 125, 125, 0.5) 51.61%,
+    rgba(255, 255, 255, 0) 98.92%
+  );
+  height: 1px;
+  border-image-source: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) 0.62%,
+    rgba(59, 125, 125, 0.5) 51.61%,
+    rgba(255, 255, 255, 0) 98.92%
+  );
+}

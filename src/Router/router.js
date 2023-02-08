@@ -1,9 +1,8 @@
 import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import App from "../App";
+import { Learn } from "../views/Learn";
+import { CustomList } from "../components/List";
 
-const Learn = () => {
-  return <div>Hello Learn</div>;
-};
 const Health = () => {
   return <div>Hello Health</div>;
 };
@@ -38,5 +37,5 @@ export const router = createBrowserRouter([
     ],
     errorElement: <ErrorPage />,
   },
-  { path: "/login", element: <h1>Login</h1> },
+  { path: "/login", element: <CustomList /> },
 ]);

@@ -5,7 +5,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 21px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 600px) {
     text-transform: capitalize;
     color: var(--black) !important;
     font-style: normal;
@@ -26,7 +26,7 @@
     rgba(217, 217, 217, 0) 91.58%
   ) !important;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 600px) {
     color: var(--primary) !important;
     text-transform: capitalize;
     border-left: 6px solid var(--primary) !important;
@@ -46,7 +46,7 @@
 .white_icon {
   color: var(--white) !important;
   filter: brightness(1) invert(0);
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 600px) {
     color: var(--primary) !important;
     filter: brightness(0) invert(0);
   }
