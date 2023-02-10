@@ -13,7 +13,7 @@ import icons from "../../assets/index";
 import "./list.scss";
 
 function generate(element) {
-  return [0, 1, 2].map((value) =>
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((value) =>
     React.cloneElement(element, {
       key: value,
     })
@@ -24,14 +24,11 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export function CustomList({ rows, icon = icons.peopleIcon }) {
+export function CustomList({ list, icon = icons.peopleIcon }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={12}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Avatar with text and icon
-          </Typography>
           <Demo>
             <List dense={false} className="list">
               {generate(

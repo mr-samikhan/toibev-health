@@ -43,25 +43,18 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
-export function CustomTabs({ options }) {
-  const [value, setValue] = React.useState(0);
-
+export function CustomTabs({ options, setTab, tab }) {
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTab(newValue);
   };
 
   return (
     <Box sx={{ width: "100%" }}>
-      <StyledTabs
-        value={value}
-        onChange={handleChange}
-        aria-label="styled tabs example"
-      >
+      <StyledTabs value={tab} onChange={handleChange} aria-label="styled tabs">
         {options.map((tab) => (
           <StyledTab label={tab} />
         ))}
       </StyledTabs>
-      <Box sx={{ p: 3 }} />
     </Box>
   );
 }
