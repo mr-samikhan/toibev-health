@@ -65,6 +65,7 @@ export function Sidebar({ children }, props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              border: "0px",
             },
             background: (theme) => theme.palette.primary.main,
           }}

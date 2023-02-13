@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import App from "../App";
 import { Learn } from "../views/Learn";
 import { CustomList } from "../components/List";
+import { Admins } from "../views/Admins";
 
 const Health = () => {
   return <div>Hello Health</div>;
@@ -14,9 +15,6 @@ const Information = () => {
 };
 const Assesment = () => {
   return <div>Hello Assesment</div>;
-};
-const Admins = () => {
-  return <div>Hello Admin</div>;
 };
 
 export default function ErrorPage() {

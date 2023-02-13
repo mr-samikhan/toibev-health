@@ -44,7 +44,7 @@ export const sidebarTabsList = [
   },
   {
     text: "Admin",
-    key: "admin",
+    key: "admins",
     sub: false,
     icon: AdminIcon,
   },

@@ -10,7 +10,7 @@ function App() {
       <div className="sidebar" id="sidebar">
         <Sidebar />
       </div>
-      <div style={{ flexGrow: 1 }}>
+      <div className="main-content">
         <Header />
         <main className="main" id="detail">
           <Outlet />

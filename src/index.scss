@@ -21,6 +21,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: #468d8d !important;
 }
 
 .login-main {
@@ -90,4 +91,12 @@ body {
   text-transform: none !important;
   border-radius: 14px !important;
   padding: 14px 24px !important;
+}
+.main-content {
+  flex-grow: 1;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  height: 100vh;
+  overflow-y: auto;
 }

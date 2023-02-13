@@ -1,0 +1,35 @@
+.table-header {
+  background: #f3f6f9;
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  min-width: 1105px;
+  .item {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    color: #6f6f6f;
+  }
+}
+
+.row {
+  background: #ffffff;
+  box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+  border-radius: 16px;
+  margin-bottom: 20px;
+  min-width: 1105px;
+  .wrapper {
+    padding: 16px;
+    .avatar {
+      margin-right: 16px;
+      width: 60px;
+      height: 60px;
+    }
+    .text {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 150%;
+      color: #000000;
+    }
+  }
+}

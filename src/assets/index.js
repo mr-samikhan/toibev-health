@@ -4,6 +4,7 @@ import clockIcon from "./icons/clock.svg";
 import editIcon from "./icons/edit.svg";
 import documentIcon from "./icons/document.svg";
 import clipboardIcon from "./icons/clipboard.svg";
+import deleteIcon from "./icons/delete.svg";
 
 export default {
   peopleIcon,
@@ -12,4 +13,5 @@ export default {
   clockIcon,
   documentIcon,
   clipboardIcon,
+  deleteIcon,
 };
