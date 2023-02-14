@@ -3,18 +3,12 @@ import App from "../App";
 import { Learn } from "../views/Learn";
 import { CustomList } from "../components/List";
 import { Admins } from "../views/Admins";
+import { Assessment } from "../views/Assessment";
+import { Health } from "../views/Health";
+import { Events } from "../views/Events";
 
-const Health = () => {
-  return <div>Hello Health</div>;
-};
-const Event = () => {
-  return <div>Hello Event</div>;
-};
 const Information = () => {
   return <div>Hello Information</div>;
-};
-const Assesment = () => {
-  return <div>Hello Assesment</div>;
 };
 
 export default function ErrorPage() {
@@ -28,9 +22,9 @@ export const router = createBrowserRouter([
     children: [
       { path: "learn", element: <Learn /> },
       { path: "health", element: <Health /> },
-      { path: "event", element: <Event /> },
+      { path: "events", element: <Events /> },
       { path: "Information", element: <Information /> },
-      { path: "assesment", element: <Assesment /> },
+      { path: "assesment", element: <Assessment /> },
       { path: "admins", element: <Admins /> },
     ],
     errorElement: <ErrorPage />,

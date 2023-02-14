@@ -5,6 +5,7 @@ import editIcon from "./icons/edit.svg";
 import documentIcon from "./icons/document.svg";
 import clipboardIcon from "./icons/clipboard.svg";
 import deleteIcon from "./icons/delete.svg";
+import editCalendarIcon from "./icons/edit-calendar.svg";
 
 export default {
   peopleIcon,
@@ -14,4 +15,5 @@ export default {
   documentIcon,
   clipboardIcon,
   deleteIcon,
+  editCalendarIcon,
 };

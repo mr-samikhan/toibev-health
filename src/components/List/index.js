@@ -24,7 +24,7 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export function CustomList({ list, icon = icons.peopleIcon }) {
+export function CustomList({ list, icon = icons.peopleIcon, Actions }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -35,9 +35,13 @@ export function CustomList({ list, icon = icons.peopleIcon }) {
                 <ListItem
                   className="list-item"
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <img src={icons.editIcon} />
-                    </IconButton>
+                    !!Actions ? (
+                      <Actions />
+                    ) : (
+                      <IconButton edge="end" aria-label="delete">
+                        <img src={icons.editIcon} />
+                      </IconButton>
+                    )
                   }
                 >
                   <ListItemAvatar sx={{ marginRight: "8px" }}>
@@ -48,6 +52,11 @@ export function CustomList({ list, icon = icons.peopleIcon }) {
                   <ListItemText
                     primary={
                       <Typography className="primary-text">ABC</Typography>
+                    }
+                    secondary={
+                      <Typography className="secondary-text">
+                        250 N SeeVee Lane, Bishop, CA 93514
+                      </Typography>
                     }
                   />
                 </ListItem>

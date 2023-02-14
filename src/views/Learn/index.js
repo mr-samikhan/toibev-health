@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import icons from "../../assets/index";
 import { ListItem } from "../../components/ListItem";
 import { ListTitle } from "../../components/ListTitile";
+import { Actions } from "./components/ActionButtons";
 
 export function Learn() {
   const [tab, setTab] = useState(0);
@@ -38,7 +39,10 @@ export function Learn() {
         </Grid>
       </Grid>
       {tab !== 2 && (
-        <CustomList icon={tab === 0 ? icons.peopleIcon : icons.languageIcon} />
+        <CustomList
+          icon={tab === 0 ? icons.peopleIcon : icons.languageIcon}
+          Actions={Actions}
+        />
       )}
       {tab === 2 && (
         <>
@@ -74,7 +78,7 @@ export function Learn() {
                 </Grid>
               </Grid>
               <Grid item sm={12}>
-                <CustomList icon={icons.clipboardIcon} />
+                <CustomList icon={icons.clipboardIcon} Actions={Actions} />
               </Grid>
             </Grid>
           ))}
