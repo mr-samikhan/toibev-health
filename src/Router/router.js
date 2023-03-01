@@ -1,33 +1,31 @@
-import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
-import App from "../App";
+import { Routes, Route } from "react-router-dom";
 import { Learn } from "../views/Learn";
-import { CustomList } from "../components/List";
 import { Admins } from "../views/Admins";
 import { Assessment } from "../views/Assessment";
 import { Health } from "../views/Health";
 import { Events } from "../views/Events";
+import ProtectedRoutes from "../HOC/ProtectedRoutes";
+import { Information } from "../views/Information";
+import Layout from "../Layout";
 
-const Information = () => {
-  return <div>Hello Information</div>;
-};
-
-export default function ErrorPage() {
-  return <>Page Not Found</>;
+export function Router() {
+  return (
+    <>
+      <Routes>
+        {/* <Route path="/login" exact element={<Login />}></Route> */}
+      </Routes>
+      <ProtectedRoutes>
+        <Routes>
+          <Route path="/" exact element={<Layout />}>
+            <Route path="/learn" exact element={<Learn />} />
+            <Route path="/health" exact element={<Health />} />
+            <Route path="/events" exact element={<Events />} />
+            <Route path="/information" exact element={<Information />} />
+            <Route path="/assesment" exact element={<Assessment />} />
+            <Route path="/admins" exact element={<Admins />} />
+          </Route>
+        </Routes>{" "}
+      </ProtectedRoutes>
+    </>
+  );
 }
-
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      { path: "learn", element: <Learn /> },
-      { path: "health", element: <Health /> },
-      { path: "events", element: <Events /> },
-      { path: "Information", element: <Information /> },
-      { path: "assesment", element: <Assessment /> },
-      { path: "admins", element: <Admins /> },
-    ],
-    errorElement: <ErrorPage />,
-  },
-  { path: "/login", element: <CustomList /> },
-]);
