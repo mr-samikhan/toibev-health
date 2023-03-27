@@ -17,7 +17,7 @@
   box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
   border-radius: 16px;
   margin-bottom: 20px;
-  min-width: 1105px;
+
   .wrapper {
     padding: 16px;
     .avatar {
@@ -25,11 +25,47 @@
       width: 60px;
       height: 60px;
     }
+    .avatar-small {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
     .text {
       font-weight: 400;
       font-size: 16px;
       line-height: 150%;
       color: #000000;
     }
+    .text-small {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #000000;
+    }
+    .email-small {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 150%;
+      color: #525252;
+    }
+    .level {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: #6f6f6f;
+    }
+  }
+}
+.contained-icon-button {
+  padding: 8px !important;
+  border-radius: 8px !important;
+  min-width: 0px !important;
+  span {
+    margin: 0px;
   }
 }
