@@ -1,0 +1,17 @@
+.main {
+  margin-top: 100px;
+  padding: 24px 40px;
+}
+.main-mobile {
+  margin-top: 210px;
+  margin-bottom: 50px;
+  padding: 16px;
+}
+.main-content {
+  flex-grow: 1;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  height: 100vh;
+  overflow-y: auto;
+}

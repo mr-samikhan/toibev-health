@@ -1,6 +1,11 @@
 .header {
+  header {
+    @media only screen and (max-width: 900px) {
+      border-radius: 0px 0px 20px 20px;
+    }
+  }
   .app-bar {
-    @media only screen and (min-width: 600px) {
+    @media only screen and (min-width: 900px) {
       width: calc(100% - 240px);
       margin-left: 240px;
       border-bottom: 1px solid #f1f1f1;
@@ -8,6 +13,27 @@
     }
     .toolbar {
       padding: 24px 40px;
+      @media only screen and (max-width: 900px) {
+        padding: 16px;
+      }
+      .header-title {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 29px;
+        color: #ffffff;
+      }
+      .search-field {
+        .MuiOutlinedInput-notchedOutline {
+          background: linear-gradient(
+            92.12deg,
+            rgba(255, 255, 255, 0.3) -8.66%,
+            rgba(255, 255, 255, 0.15) 111.93%
+          );
+          backdrop-filter: blur(10px);
+        }
+      }
       .title {
         font-style: normal;
         font-weight: 700;
