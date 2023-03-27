@@ -50,7 +50,7 @@ body {
     rgba(255, 255, 255, 0.5) 51.61%,
     rgba(255, 255, 255, 0) 98.92%
   );
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
     height: 1px;
     border-image-source: linear-gradient(
       270deg,
@@ -81,22 +81,11 @@ body {
     rgba(255, 255, 255, 0) 98.92%
   );
 }
-.main {
-  margin-top: 100px;
-  padding: 24px 40px;
-}
+
 .contained-button {
   font-size: 16px !important;
   font-weight: 700 !important;
   text-transform: none !important;
   border-radius: 14px !important;
   padding: 14px 24px !important;
-}
-.main-content {
-  flex-grow: 1;
-  background: #fff;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  height: 100vh;
-  overflow-y: auto;
 }

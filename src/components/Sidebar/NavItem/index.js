@@ -9,17 +9,25 @@ import { sidebarTabsList } from "../menuList";
 import appLogo from "../../../assets/images/app.svg";
 import mobileLogo from "../../../assets/images/mobilelogo.svg";
 import classNames from "classnames";
-import { Box, Button, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useTheme } from "@mui/system";
+import backgroundImage from "../../../assets/images/background.png";
 
 const NavItem = (props) => {
   const [activeTab, setActiveTab] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   useEffect(() => {
     highlightActiveTab();
   }, []);
@@ -51,12 +59,21 @@ const NavItem = (props) => {
   };
 
   return (
-    <List>
+    <List sx={{ position: "relative" }}>
+      <Grid>
+        <img src={backgroundImage} className="background" />
+      </Grid>
       <ListItemIcon
-        sx={{ textAlign: "right", mr: 1, display: { xs: "block", sm: "none" } }}
-        onClick={() => props.handleDrawerToggle()}
+        sx={{
+          textAlign: "right",
+          mt: 1,
+          mr: 1,
+          display: { xs: "block", md: "none" },
+        }}
       >
-        <CancelOutlinedIcon color="#9DA5AF" />
+        <IconButton onClick={() => props.handleDrawerToggle()}>
+          <CancelOutlinedIcon color="#9DA5AF" />
+        </IconButton>
       </ListItemIcon>
 
       <ListItemIcon
@@ -73,7 +90,7 @@ const NavItem = (props) => {
             ? ["active-tab", "white_icon"]
             : ["sidebar-tab-text", "white_icon"];
 
-        const Icon = menu.icon;
+        const Icon = isDesktop ? menu.icon : menu.mobileIcon ?? menu.icon;
         const itemIcon = menu?.icon ? (
           <Icon stroke={1.5} size="1rem" />
         ) : (
@@ -86,12 +103,17 @@ const NavItem = (props) => {
               key={menu.key}
               onClick={(e) => onTabHandler(e, menu)}
               className={classNames(textClass)}
-              sx={{ my: 1 }}
+              sx={{ my: 1, pl: { xs: 5, md: 2 } }}
             >
+              <div
+                className={activeTab === menu.key.toLowerCase() ? "border" : ""}
+              ></div>
               <ListItemIcon className={iconColor} sx={{ minWidth: "30px" }}>
                 {itemIcon}
               </ListItemIcon>
-              <ListItemText primary={menu.text} />
+              <ListItemText
+                primary={!!isDesktop ? menu.text : menu.mobileText ?? menu.text}
+              />
             </ListItem>
             {isDesktop && menu.text === "Information" && (
               <div className="divider"></div>
@@ -102,8 +124,9 @@ const NavItem = (props) => {
       <Box
         sx={{
           mt: 16,
+          mb: 6,
           textAlign: "center",
-          display: { xs: "block", sm: "none" },
+          display: { xs: "block", md: "none" },
         }}
       >
         <Button

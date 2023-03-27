@@ -1,21 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import NavItem from "./NavItem";
+import { useSelector, useDispatch } from "react-redux";
 import "./sidebar.scss";
-import BottomNav from "./BottomNav";
-import { Navbar } from "../Header";
 
 const drawerWidth = 240;
 
-export function Sidebar({ children }, props) {
+export function Sidebar(props) {
   const { window } = props;
-  const [childData, setChildData] = useState("");
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { toggle } = useSelector((state) => state.Sidebar);
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    dispatch({ type: "TOGGLESIDEBAR" });
   };
 
   const container =
@@ -23,13 +22,11 @@ export function Sidebar({ children }, props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <Navbar childData={childData} handleDrawerToggle={handleDrawerToggle} /> */}
-
       <CssBaseline />
       <Box
         component="nav"
         sx={{
-          width: { sm: drawerWidth },
+          width: { md: drawerWidth },
           flexShrink: { sm: 0 },
         }}
         aria-label="mailbox folders"
@@ -37,13 +34,13 @@ export function Sidebar({ children }, props) {
         <Drawer
           container={container}
           variant="temporary"
-          open={mobileOpen}
+          open={toggle}
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true,
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -53,15 +50,12 @@ export function Sidebar({ children }, props) {
             },
           }}
         >
-          <NavItem
-            passChild={setChildData}
-            handleDrawerToggle={handleDrawerToggle}
-          />
+          <NavItem handleDrawerToggle={handleDrawerToggle} />
         </Drawer>
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -72,24 +66,8 @@ export function Sidebar({ children }, props) {
           className="sidebar-class"
           open
         >
-          <NavItem passChild={setChildData} />
+          <NavItem />
         </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          background: (theme) => theme.palette.primary.main,
-          display: { sx: "block", sm: "none" },
-        }}
-      >
-        <Box sx={{ p: 3, background: (theme) => theme.palette.primary.light }}>
-          {children}
-          <Box sx={{ display: { sx: "block", sm: "none" }, marginTop: "50px" }}>
-            <BottomNav />
-          </Box>
-        </Box>
       </Box>
     </Box>
   );
