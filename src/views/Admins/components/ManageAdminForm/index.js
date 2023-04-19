@@ -22,7 +22,7 @@ export default function ManageAdminForm({ data }) {
               <CustomTextfield
                 label="Email Address"
                 placeholder="Enter email address"
-                startIconPrimary={<SMSIcon />}
+                endIconPrimary={<SMSIcon />}
                 {...field}
               />
             )}

@@ -12,31 +12,42 @@ import Typography from "@mui/material/Typography";
 import icons from "../../assets/index";
 import "./list.scss";
 
-function generate(element) {
-  return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    })
-  );
-}
+const assessmentList = [
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+  { title: "ABC", subtitle: "Get out in front of this addiction" },
+];
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export function CustomList({ list, icon = icons.peopleIcon, Actions }) {
+export function CustomList({
+  list = assessmentList,
+  icon = icons.peopleIcon,
+  Actions,
+}) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={12}>
           <Demo>
             <List dense={false} className="list">
-              {generate(
+              {list?.map((item) => (
                 <ListItem
                   className="list-item"
                   secondaryAction={
                     !!Actions ? (
-                      <Actions />
+                      <Actions data={item} />
                     ) : (
                       <IconButton edge="end" aria-label="delete">
                         <img src={icons.editIcon} />
@@ -51,16 +62,18 @@ export function CustomList({ list, icon = icons.peopleIcon, Actions }) {
                   </ListItemAvatar>
                   <ListItemText
                     primary={
-                      <Typography className="primary-text">ABC</Typography>
+                      <Typography className="primary-text">
+                        {item.title}
+                      </Typography>
                     }
                     secondary={
                       <Typography className="secondary-text">
-                        250 N SeeVee Lane, Bishop, CA 93514
+                        {item.subtitle}
                       </Typography>
                     }
                   />
                 </ListItem>
-              )}
+              ))}
             </List>
           </Demo>
         </Grid>

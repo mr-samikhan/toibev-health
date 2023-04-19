@@ -8,6 +8,7 @@ import ProtectedRoutes from "../HOC/ProtectedRoutes";
 import { Information } from "../views/Information";
 import Layout from "../Layout";
 import Settings from "../views/Setttings";
+import SingleAssessment from "../views/Assessment/SingleAssessment";
 
 export function Router() {
   return (
@@ -23,7 +24,14 @@ export function Router() {
             <Route path="/health" exact element={<Health />} />
             <Route path="/events" exact element={<Events />} />
             <Route path="/information" exact element={<Information />} />
-            <Route path="/assesment" exact element={<Assessment />} />
+            <Route path="/assesment">
+              <Route path="/assesment" exact element={<Assessment />} />
+              <Route
+                path="/assesment/single-assessment"
+                exact
+                element={<SingleAssessment />}
+              />
+            </Route>
             <Route path="/admins" exact element={<Admins />} />
             <Route path="/account-settings" exact element={<Settings />} />
           </Route>

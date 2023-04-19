@@ -22,7 +22,7 @@ export default function AddAdminForm() {
               <CustomTextfield
                 label="Email Address"
                 placeholder="Enter email address"
-                startIconPrimary={<SMSIcon />}
+                endIconPrimary={<SMSIcon />}
                 {...field}
               />
             )}
@@ -36,7 +36,7 @@ export default function AddAdminForm() {
               <CustomTextfield
                 label="Create Password"
                 placeholder="Enter password"
-                startIconPrimary={<LockIcon />}
+                endIconPrimary={<LockIcon />}
                 {...field}
               />
             )}
@@ -50,7 +50,7 @@ export default function AddAdminForm() {
               <CustomTextfield
                 label="Confirm"
                 placeholder="Retype password"
-                startIconPrimary={<LockIcon />}
+                endIconPrimary={<LockIcon />}
                 {...field}
               />
             )}

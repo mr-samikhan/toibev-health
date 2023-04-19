@@ -39,7 +39,7 @@ export default function AlertDialog({
           <CloseIcon />
         </IconButton> */}
       </DialogTitle>
-      <DialogContent> {message}</DialogContent>
+      <DialogContent sx={{ pt: "8px !important" }}> {message}</DialogContent>
       {/* <DialogActions></DialogActions> */}
     </Dialog>
   );

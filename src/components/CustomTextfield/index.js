@@ -1,13 +1,17 @@
 import React from "react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
 
-const CustomIconButton = styled((props) => <IconButton {...props} />)(
+export const CustomIconButton = styled((props) => <IconButton {...props} />)(
   ({ theme }) => ({
     "&.MuiIconButton-root": {
       background: "rgba(242, 106, 71, 0.08)",
       borderRadius: "10px",
       marginRight: "8px",
+      filter:
+        "invert(50%) sepia(97%) saturate(1979%) hue-rotate(334deg) brightness(102%) contrast(90%)",
     },
   })
 );
@@ -15,6 +19,10 @@ const CustomIconButton = styled((props) => <IconButton {...props} />)(
 const CustomTextField = styled((props) => <TextField focused {...props} />)(
   ({ theme }) => ({
     "&.MuiTextField-root": {
+      "& input": {
+        width: "unset",
+        flexGrow: 1,
+      },
       "& .MuiFormLabel-root": { color: "#000" },
       "& .MuiOutlinedInput-notchedOutline": {
         border: "1px solid #DCDCDC",
@@ -41,21 +49,48 @@ const CustomTextField = styled((props) => <TextField focused {...props} />)(
   })
 );
 
-export default function CustomTextfield({ startIconPrimary, ...rest }) {
+export default function CustomTextfield({
+  endIconPrimary,
+  EndIconPrimary,
+  noBackground,
+  select,
+  options,
+  ...rest
+}) {
   return (
     <CustomTextField
       id="outlined"
-      //   label={label}
-      //   placeholder={placeholder}
+      select={select}
       fullWidth
       InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <CustomIconButton>{startIconPrimary}</CustomIconButton>
-          </InputAdornment>
+        endAdornment:
+          EndIconPrimary || endIconPrimary ? (
+            <InputAdornment position="end">
+              {EndIconPrimary ? (
+                <EndIconPrimary />
+              ) : (
+                <CustomIconButton>{endIconPrimary}</CustomIconButton>
+              )}
+            </InputAdornment>
+          ) : (
+            <></>
+          ),
+      }}
+      SelectProps={{
+        IconComponent: (props) => (
+          <IconButton>
+            <ExpandMoreIcon />
+          </IconButton>
         ),
       }}
       {...rest}
-    />
+    >
+      {select &&
+        options.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+    </CustomTextField>
   );
 }
