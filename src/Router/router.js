@@ -9,12 +9,13 @@ import { Information } from "../views/Information";
 import Layout from "../Layout";
 import Settings from "../views/Setttings";
 import SingleAssessment from "../views/Assessment/SingleAssessment";
+import Login from "../views/Login";
 
 export function Router() {
   return (
     <>
       <Routes>
-        {/* <Route path="/login" exact element={<Login />}></Route> */}
+        <Route path="/login" exact element={<Login />}></Route>
       </Routes>
       <ProtectedRoutes>
         <Routes>

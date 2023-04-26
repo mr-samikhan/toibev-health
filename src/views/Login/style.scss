@@ -1,0 +1,31 @@
+.sections {
+  height: 100%;
+  flex-direction: column !important;
+  .section {
+    height: 50%;
+    .bottom-background {
+      position: absolute;
+      bottom: -30px;
+      left: -49px;
+      .image {
+        mix-blend-mode: soft-light;
+        opacity: 0.9;
+      }
+    }
+    .top-background {
+      position: absolute;
+      top: -60px;
+      right: 49px;
+      .image {
+        mix-blend-mode: soft-light;
+        opacity: 0.9;
+      }
+    }
+  }
+}
+.form-section {
+  background: #fff;
+  margin-left: -50px;
+  flex-grow: 1;
+  border-radius: 50px 0px 0px 50px;
+}
