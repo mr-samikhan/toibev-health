@@ -1,63 +1,121 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import { Wrapper } from "../../components/wrapper/Wrapper";
-import { CustomList } from "../../components/list/CustomList";
-import { CustomCard } from "../../components/card/CustomCard";
-import { dummyCardList } from "mocks/dashboardMock";
-import CommonTitle from "components/CommonTitle/Index";
-import BasicTabs from "components/tabs";
+import React, { useState } from "react";
+import { Grid, Typography } from "@mui/material";
+import StatsCard from "./components/StatsCard";
+import icons from "../../assets/index";
+import DashboardListing from "./components/DashboardListing";
+import CustomCarousel from "../../components/Carousel";
+import { CustomTabs } from "../../components/Tabs";
+
+const list1 = [
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+];
 
 export function Dashboard() {
+  const [tab, setTab] = useState(0);
   return (
-    <>
-      <Grid
-        container
-        spacing={3}
-        sx={{ background: (theme) => theme.palette.primary.light }}
-      >
+    <Grid className="dashboard">
+      <Grid container flexDirection="column" className="section" mb={3}>
+        <Grid item mb={1}>
+          <Typography className="heading">General</Typography>
+        </Grid>
+
         <Grid item xs={12}>
-          <CommonTitle title="General" />
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={2}>
-            {dummyCardList.map((card, index) => {
-              return (
-                <Grid item xs={12} sm={6} md={3}>
-                  <CustomCard variant="rounded" key={index} cardData={card} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Wrapper>{""}</Wrapper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CommonTitle title="Events" />
-          <Wrapper>
-            <CustomList />
-          </Wrapper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CommonTitle title="Resources" />
-          <Wrapper>
-            <CustomList />
-          </Wrapper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CommonTitle title="Geographic" />
-          <Wrapper>
-            <CustomList />
-          </Wrapper>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <CommonTitle title="Surveys" />
-          <Wrapper>
-            {/* <CustomList /> */}
-            <BasicTabs />
-          </Wrapper>
+          <CustomCarousel>
+            <StatsCard
+              title="Scheduled Appointments"
+              count={"2,000"}
+              icon={icons.statsAppointmentIcon}
+            />
+
+            <StatsCard
+              title="Scheduled Calendar Events"
+              count={920}
+              icon={icons.statsCalendarIcon}
+            />
+
+            <StatsCard
+              title="Registered Users"
+              count={"1,240"}
+              icon={icons.statsUsersIcon}
+            />
+
+            <StatsCard
+              title="Views"
+              count={"3,548"}
+              icon={icons.statsViewsIcon}
+            />
+          </CustomCarousel>
         </Grid>
       </Grid>
-    </>
+      <Grid container spacing={3}>
+        <Grid item md={6}>
+          {" "}
+          <Grid container flexDirection="column" className="section" mb={3}>
+            {" "}
+            <Grid item mb={1}>
+              <Typography className="heading">Events</Typography>
+            </Grid>
+            <Grid item>
+              {" "}
+              <DashboardListing list={list1} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item md={6}>
+          {" "}
+          <Grid container flexDirection="column" className="section" mb={3}>
+            {" "}
+            <Grid item mb={1}>
+              <Typography className="heading">Resources</Typography>
+            </Grid>
+            <Grid item>
+              <DashboardListing list={list1} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item md={6}>
+          {" "}
+          <Grid container flexDirection="column" className="section" mb={3}>
+            {" "}
+            <Grid item mb={1}>
+              <Typography className="heading">Geographic</Typography>
+            </Grid>
+            <Grid item>
+              <DashboardListing list={list1} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item md={6}>
+          {" "}
+          <Grid container flexDirection="column" className="section" mb={3}>
+            {" "}
+            <Grid item mb={1}>
+              <Typography className="heading">Surveys</Typography>
+            </Grid>
+            <Grid item>
+              <DashboardListing
+                list={list1}
+                tabs={
+                  <CustomTabs
+                    options={["Culture", "Language", "Resiliency"]}
+                    setTab={setTab}
+                    tab={tab}
+                  />
+                }
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 }
