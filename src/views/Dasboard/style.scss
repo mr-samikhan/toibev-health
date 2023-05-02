@@ -1,0 +1,109 @@
+.dashboard {
+  .section {
+    .heading {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 23px;
+      color: #000000;
+    }
+  }
+  .card {
+    background: #ffffff;
+    box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+    border-radius: 16px;
+    padding: 16px 0px;
+    .dashboard-listing {
+      padding: 0px 20px;
+      max-height: 300px;
+      overflow-y: scroll;
+      .dashboard-list-item {
+        .title {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 21px;
+          color: #000000;
+        }
+        .count {
+          font-size: 16px;
+          line-height: 21px;
+          text-align: right;
+          color: #468d8d;
+        }
+        .icon-container {
+          width: 46px;
+          height: 46px;
+          background: rgba(242, 106, 71, 0.08);
+          border-radius: 10px;
+          align-items: center;
+          justify-content: center;
+          .icon {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .item-divider {
+          height: 1px;
+          width: "75% !important";
+          border-image-source: linear-gradient(
+            270deg,
+            rgba(255, 255, 255, 0) 0.62%,
+            rgba(59, 125, 125, 0.5) 51.61%,
+            rgba(255, 255, 255, 0) 98.92%
+          );
+          background: linear-gradient(
+            270deg,
+            rgba(255, 255, 255, 0) 0.62%,
+            rgba(59, 125, 125, 0.5) 51.61%,
+            rgba(255, 255, 255, 0) 98.92%
+          );
+        }
+      }
+    }
+  }
+}
+
+.stats-card {
+  background: #ffffff;
+  box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+  border-radius: 16px;
+  padding: 15px;
+  gap: 16px;
+  align-items: center;
+  margin-right: 16px;
+  .icon-container {
+    width: 60px;
+    height: 60px;
+    background: rgba(242, 106, 71, 0.08);
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+    }
+  }
+  .title {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #787878;
+  }
+  .count {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    color: #468d8d;
+  }
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(209, 222, 222, 0.5);
+  border-radius: 60px;
+}
+::-webkit-scrollbar-thumb {
+  background: #3b7d7d;
+  border-radius: 60px;
+}

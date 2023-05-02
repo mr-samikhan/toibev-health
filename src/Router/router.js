@@ -10,6 +10,7 @@ import Layout from "../Layout";
 import Settings from "../views/Setttings";
 import SingleAssessment from "../views/Assessment/SingleAssessment";
 import Login from "../views/Login";
+import { Dashboard } from "../views/Dasboard/Dashboard";
 
 export function Router() {
   return (
@@ -20,7 +21,7 @@ export function Router() {
       <ProtectedRoutes>
         <Routes>
           <Route path="/" exact element={<Layout />}>
-            <Route path="/dashboard" exact element={<></>} />
+            <Route path="/dashboard" exact element={<Dashboard />} />
             <Route path="/learn" exact element={<Learn />} />
             <Route path="/health" exact element={<Health />} />
             <Route path="/events" exact element={<Events />} />

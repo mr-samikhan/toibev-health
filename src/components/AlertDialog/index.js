@@ -16,6 +16,7 @@ export default function AlertDialog({
   maxWidth = "sm",
   title,
   message,
+  anchorEl,
 }) {
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,7 +31,14 @@ export default function AlertDialog({
       open={open}
       fullWidth={true}
       onClose={handleClose}
-      sx={{ "& .MuiPaper-root": { py: 4, px: 4, borderRadius: 4 } }}
+      sx={{
+        "& .MuiPaper-root": {
+          py: 4,
+          px: 4,
+          borderRadius: 4,
+        },
+      }}
+      anchorEl={anchorEl}
       maxWidth={maxWidth}
     >
       <DialogTitle className="dialog-title">

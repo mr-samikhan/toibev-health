@@ -4,27 +4,23 @@ import { Sidebar } from "../components/Sidebar";
 import BottomNav from "../components/BottomNavBar";
 import { Header } from "../components/Header";
 import { useMediaQuery, Box } from "@mui/material";
+import { useBreakpints } from "../common/helpers";
 import "./layout.scss";
 
 export default function Layout() {
-  const matches = useMediaQuery("(max-width: 900px)");
+  const { mobileMode, tabMode } = useBreakpints();
   return (
     <div style={{ display: "flex" }}>
       <div className="sidebar" id="sidebar">
         <Sidebar />
       </div>
-      {/* {!matches && (
-        <div className="sidebar" id="sidebar">
-          <Sidebar />
-        </div>
-      )} */}
-      <div className="main-content">
+      <div className={tabMode ? "main-content-mobile" : "main-content"}>
         <Header />
-        <main className={matches ? "main-mobile" : "main"} id="detail">
+        <main className={mobileMode ? "main-mobile" : "main"} id="detail">
           <Outlet />
         </main>
       </div>
-      {matches && (
+      {mobileMode && (
         <Box sx={{ display: { xs: "block", md: "none" }, marginTop: "50px" }}>
           <BottomNav />
         </Box>

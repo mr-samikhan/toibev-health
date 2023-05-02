@@ -29,7 +29,8 @@ export function useHeader() {
   const { pathname } = useLocation();
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
-  const matches = useMediaQuery("(min-width: 900px)");
+  const matches = useMediaQuery("(min-width: 600px)");
+  const tabMode = useMediaQuery("(max-width: 900px)");
   useEffect(() => {
     setTitle(
       pathname === "/dashboard"
@@ -51,5 +52,5 @@ export function useHeader() {
         : ""
     );
   }, [pathname]);
-  return { title: title, drawerWidth, AppBar, dispatch, matches };
+  return { title: title, drawerWidth, AppBar, dispatch, matches, tabMode };
 }

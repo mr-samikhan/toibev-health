@@ -7,6 +7,12 @@
   margin-bottom: 50px;
   padding: 16px;
 }
+.main-content-mobile {
+  flex-grow: 1;
+  background: #fff;
+  height: 100vh;
+  overflow-y: auto;
+}
 .main-content {
   flex-grow: 1;
   background: #fff;

@@ -6,10 +6,104 @@ import AddIcon from "@mui/icons-material/Add";
 import icons from "../../assets/index";
 import { ListItem } from "../../components/ListItem";
 import { ListTitle } from "../../components/ListTitile";
-import { Actions } from "./components/ActionButtons";
+import { CultureActions } from "./components/ActionButtons";
+import AlertDialog from "../../components/AlertDialog";
+import TribeForm from "./components/TribeForm";
+
+const cultureList = [
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+  {
+    title: "ABC",
+    subtitle: "Get out in front of this addiction",
+    tribeName: "NAME OF TRIBE",
+  },
+];
 
 export function Learn() {
   const [tab, setTab] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setOpen(true);
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
       <Grid
@@ -32,16 +126,38 @@ export function Learn() {
             variant="contained"
             startIcon={<AddIcon />}
             className="contained-button"
+            sx={{ position: "relative" }}
+            onClick={handleClick}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
           >
             {" "}
             Add
           </Button>
+          {open && (
+            <AlertDialog
+              open={open}
+              setOpen={setOpen}
+              title="Add Tribe"
+              message={<TribeForm />}
+            />
+          )}
         </Grid>
       </Grid>
-      {tab !== 2 && (
+      {tab === 0 && (
         <CustomList
+          list={cultureList}
           icon={tab === 0 ? icons.peopleIcon : icons.languageIcon}
-          Actions={Actions}
+          Actions={CultureActions}
+        />
+      )}
+      {tab === 1 && (
+        <CustomList
+          // list={list}
+          icon={tab === 0 ? icons.peopleIcon : icons.languageIcon}
+          // Actions={Actions}
         />
       )}
       {tab === 2 && (
@@ -78,7 +194,11 @@ export function Learn() {
                 </Grid>
               </Grid>
               <Grid item sm={12}>
-                <CustomList icon={icons.clipboardIcon} Actions={Actions} />
+                <CustomList
+                  icon={icons.clipboardIcon}
+                  // Actions={Actions}
+                  // list={list}
+                />
               </Grid>
             </Grid>
           ))}
