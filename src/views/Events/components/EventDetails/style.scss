@@ -1,0 +1,22 @@
+.event-details {
+  & .--text {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #161616;
+    @media (max-width: 600px) {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+  & .--icon {
+    filter: invert(50%) sepia(97%) saturate(1979%) hue-rotate(334deg)
+      brightness(102%) contrast(90%);
+    width: 16px;
+    height: 16px;
+    @media (max-width: 600px) {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}

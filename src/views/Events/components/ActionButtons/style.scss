@@ -1,0 +1,23 @@
+.event-action-buttons {
+  .clicks-count-container {
+    padding: 10px;
+    background: rgba(153, 153, 153, 0.08);
+    border-radius: 10px;
+    width: unset;
+    @media (max-width: 600px) {
+      width: 54px;
+    }
+
+    .clicks-count {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 18px;
+      color: #474747;
+      @media (max-width: 600px) {
+        font-size: 12px;
+        line-height: 14px;
+        text-align: center;
+      }
+    }
+  }
+}

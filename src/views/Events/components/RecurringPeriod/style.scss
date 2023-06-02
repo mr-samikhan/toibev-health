@@ -1,0 +1,10 @@
+.field-set {
+  border: 1px solid #dcdcdc;
+  border-radius: 14px;
+  padding: 8px 8px 8px 24px;
+  height: 210px;
+  overflow: auto;
+  & legend {
+    padding: 0px 8px;
+  }
+}
