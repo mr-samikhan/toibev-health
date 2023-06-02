@@ -10,6 +10,9 @@ import statsCalendarIcon from "./icons/stats-calendar.svg";
 import statsAppointmentIcon from "./icons/stats-appointment.svg";
 import statsUsersIcon from "./icons/stats-users.svg";
 import statsViewsIcon from "./icons/stats-views.svg";
+import mediaUploadIcon from "./icons/media-upload.png";
+import clearIcon from "./icons/clear.svg";
+import pdfIcon from "./icons/pdf.svg";
 
 export default {
   peopleIcon,
@@ -24,4 +27,7 @@ export default {
   statsAppointmentIcon,
   statsUsersIcon,
   statsViewsIcon,
+  mediaUploadIcon,
+  clearIcon,
+  pdfIcon,
 };
