@@ -18,7 +18,7 @@ const ProtectedRoutes = ({ children }) => {
 
   useEffect(() => {
     if (!userToken || !isAuthenticated) {
-      //   navigate("/login");
+      navigate("/login");
     }
   }, []);
 
