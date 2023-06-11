@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   Divider,
 } from "@mui/material";
-import { Actions } from "../Actions";
+import { Actions } from "../ActionButtons";
 
 function SingleAdminSmall({
   name = "Chop Dawg",
@@ -52,11 +52,8 @@ function SingleAdminSmall({
   );
 }
 
-function SingleAdmin({
-  name = "Chop Dawg",
-  email = "partner@chopdawg.com",
-  level = "Moderator",
-}) {
+function SingleAdmin({ admin }) {
+  const { username, email, permissionLevel } = admin;
   return (
     <Grid container className="row" sx={{ minWidth: "1105px" }}>
       <Grid
@@ -79,7 +76,7 @@ function SingleAdmin({
               <Avatar className={"avatar"} />
             </Grid>
             <Grid item>
-              <Typography className={"text"}>{name}</Typography>
+              <Typography className={"text"}>{username}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -99,15 +96,20 @@ function SingleAdmin({
             minWidth: "200px",
           }}
         >
-          <Typography className="text">{level}</Typography>
+          <Typography className="text">{permissionLevel}</Typography>
         </Grid>
 
         <Grid item sm={3} sx={{ minWidth: "200px" }}>
           <Actions
             data={{
-              name: "Chop Dawg",
-              email: "partner@chopdawg.com",
-              level: { value: "moderator", label: "Moderator" },
+              permissionLevel: {
+                value: permissionLevel,
+                label:
+                  permissionLevel === "moderator"
+                    ? "Moderator"
+                    : "Administrator",
+              },
+              ...admin,
             }}
           />
         </Grid>
@@ -116,13 +118,16 @@ function SingleAdmin({
   );
 }
 
-export default function AdminsTable() {
+export default function AdminsTable({ admins }) {
   const matches = useMediaQuery("(max-width: 600px)");
+
   return matches ? (
-    [1, 2, 3, 4, 1, 2, 3, 12, 3].map(() => <SingleAdminSmall />)
+    admins?.map((admin) => <SingleAdminSmall admin={admin} />)
   ) : (
     <Grid sx={{ overflowX: "scroll" }}>
       <Grid
+        item
+        xs={12}
         container
         className="table-header"
         justifyContent="space-between"
@@ -140,8 +145,8 @@ export default function AdminsTable() {
         <Grid item className="item" xs={3} sx={{ minWidth: "200px" }}></Grid>
       </Grid>
 
-      {[1, 2, 3, 4, 1, 2, 3, 12, 3].map(() => (
-        <SingleAdmin />
+      {admins?.map((admin) => (
+        <SingleAdmin admin={admin} />
       ))}
     </Grid>
   );

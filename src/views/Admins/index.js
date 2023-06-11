@@ -1,22 +1,18 @@
-import {
-  Avatar,
-  Grid,
-  Typography,
-  Button,
-  useMediaQuery,
-  Divider,
-} from "@mui/material";
+import { Grid, Button, useMediaQuery } from "@mui/material";
 import React, { useState } from "react";
-import { Actions } from "./components/Actions";
 import AddIcon from "@mui/icons-material/Add";
-import "./style.scss";
 import AdminsTable from "./components/AdmimsTable";
 import AlertDialog from "../../components/AlertDialog";
-import AddAdminForm from "./components/AddAdminForm";
+import AddAdminForm from "./components/Forms/AddAdminForm";
+import { useGetAdmins } from "../../hooks/useGetAdmins";
+import { CircularProgress } from "@mui/material";
+import "./style.scss";
 
 export function Admins() {
   const matches = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = useState(false);
+  const { admins, isLoading, isFetching } = useGetAdmins({});
+
   return (
     <>
       {open && (
@@ -24,7 +20,7 @@ export function Admins() {
           open={open}
           setOpen={setOpen}
           title="Add Admin"
-          message={<AddAdminForm />}
+          message={<AddAdminForm setOpen={setOpen} />}
         />
       )}
       <Grid
@@ -46,7 +42,14 @@ export function Admins() {
           </Button>
         </Grid>
       </Grid>
-      <AdminsTable />
+      {isLoading || isFetching ? (
+        <Grid container justifyContent="center">
+          {" "}
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <AdminsTable admins={admins} />
+      )}
     </>
   );
 }
