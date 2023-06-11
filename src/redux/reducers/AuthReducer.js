@@ -10,8 +10,8 @@ const LoginReducer = produce((state = initialstate, action) => {
   switch (action.type) {
     case "LOGIN_PAGE_ATTEMPT_SUCCESS": {
       state.isAuthenticated = true;
-      state.user = action.payload;
-      state.userToken = action.payload.token;
+      state.user = action.payload.user;
+      state.userToken = action.payload.user.accessToken;
       return state;
     }
 
