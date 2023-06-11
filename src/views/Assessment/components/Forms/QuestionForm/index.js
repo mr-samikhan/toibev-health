@@ -3,10 +3,11 @@ import { Grid, Button, IconButton, Typography, Box } from "@mui/material";
 import { Controller } from "react-hook-form";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
-import { ReactComponent as NotesIcon } from "../../../../assets/icons/assesments.svg";
-import CustomTextfield from "../../../../components/CustomTextfield";
-import useAddQuestion from "../../hooks/useAddQuestion";
-import CustomButton from "../../../../components/CustomButton";
+import { ReactComponent as NotesIcon } from "../../../../../assets/icons/assesments.svg";
+import CustomTextfield from "../../../../../components/CustomTextfield";
+import useQuestionForm from "../../../hooks/useQuestionForm";
+import CustomButton from "../../../../../components/CustomButton";
+import { useGetSingleAssessment } from "../../../../../hooks/useGetAssessmentQuestions";
 
 const Actions = ({ handleCheck, handleRemove, idx, checked }) => {
   return (
@@ -42,7 +43,7 @@ const Actions = ({ handleCheck, handleRemove, idx, checked }) => {
   );
 };
 
-export default function AddQuestionForm() {
+export default function QuestionForm({ setOpen, initialState, isEdit }) {
   const {
     control,
     answers,
@@ -52,7 +53,9 @@ export default function AddQuestionForm() {
     handleChangeAnswer,
     handleSubmit,
     onSubmit,
-  } = useAddQuestion();
+    errors,
+    isLoading,
+  } = useQuestionForm({ setOpen, initialState, isEdit });
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -61,11 +64,14 @@ export default function AddQuestionForm() {
           <Controller
             name="question"
             control={control}
+            rules={{ required: "Field is Required" }}
             render={({ field }) => (
               <CustomTextfield
+                error={errors?.question}
+                errorMessage={errors?.question?.message}
                 label="Question"
                 placeholder="Enter Question"
-                endIconPrimary={<NotesIcon />}
+                EndIcon={NotesIcon}
                 {...field}
               />
             )}
@@ -99,7 +105,7 @@ export default function AddQuestionForm() {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="outlined" type="submit">
-            Save Question
+            {isLoading ? "Saving..." : "Save Question"}
           </CustomButton>
         </Grid>
       </Grid>

@@ -3,12 +3,27 @@ import { Grid, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AlertDialog from "../../../components/AlertDialog";
-import AddQuestionForm from "../components/AddQuestionForm";
-import AddConditionForm from "../components/AddConditionForm";
+import QuestionForm from "../components/Forms/QuestionForm";
+import ConditionForm from "../components/Forms/ConditionForm";
+import { useLocation } from "react-router-dom";
+import { CustomList } from "../../../components/List";
+import { useGetSingleAssessment } from "../../../hooks/useGetAssessmentQuestions";
+import { SingleAssessmentActionButtons } from "../components/ActionButtons";
+import useSingleAssessment from "../hooks/useSingleAssessment";
 
 export default function SingleAssessment() {
-  const [openQusetion, setOpenQuestion] = useState(false);
-  const [openCondition, setOpenCondition] = useState(false);
+  const {
+    questions,
+    openQusetion,
+    setOpenQuestion,
+    openCondition,
+    setOpenCondition,
+    isLoading,
+    isFetching,
+  } = useSingleAssessment({});
+
+  if (isLoading || isFetching) return <div>Loading...</div>;
+
   return (
     <>
       {openQusetion && (
@@ -16,7 +31,12 @@ export default function SingleAssessment() {
           open={openQusetion}
           setOpen={setOpenQuestion}
           title="Add Question"
-          message={<AddQuestionForm />}
+          message={
+            <QuestionForm
+              setOpen={setOpenQuestion}
+              // allQuestions={assessment.questions}
+            />
+          }
         />
       )}
       {openCondition && (
@@ -24,7 +44,7 @@ export default function SingleAssessment() {
           open={openCondition}
           setOpen={setOpenCondition}
           title="Add Condition"
-          message={<AddConditionForm />}
+          message={<ConditionForm />}
         />
       )}
 
@@ -55,6 +75,13 @@ export default function SingleAssessment() {
                 </Button>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item>
+            <CustomList
+              indexed
+              list={questions ?? []}
+              Actions={SingleAssessmentActionButtons}
+            />
           </Grid>
         </Grid>
         <Grid item>
