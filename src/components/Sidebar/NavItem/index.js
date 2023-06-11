@@ -8,6 +8,8 @@ import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecord
 import { sidebarTabsList } from "../menuList";
 import appLogo from "../../../assets/images/app.svg";
 import mobileLogo from "../../../assets/images/mobilelogo.svg";
+import { signOut, auth } from "../../../firebase";
+import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import {
   Box,
@@ -21,11 +23,13 @@ import { LogoutOutlined } from "@mui/icons-material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import { useTheme } from "@mui/system";
 import backgroundImage from "../../../assets/images/background.png";
+import { resetAuthValues } from "../../../redux/actions/loginActions";
 
 const NavItem = (props) => {
   const [activeTab, setActiveTab] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   useEffect(() => {
@@ -134,6 +138,10 @@ const NavItem = (props) => {
           size="large"
           sx={{ borderRadius: "10px" }}
           startIcon={<LogoutOutlined />}
+          onClick={() => {
+            signOut(auth);
+            dispatch(resetAuthValues());
+          }}
         >
           Log out
         </Button>
