@@ -3,19 +3,30 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  font-family: "DM Sans";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 31px;
+  font-weight: 700 !important;
+  font-size: 24px !important;
+  line-height: 31px !important;
   text-align: center;
   color: #000;
+  padding-top: 0px !important;
+  padding-bottom: 52px !important;
 }
-.close-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 4px;
-  border: 1px solid #eee;
-  border-radius: 10px;
+.dialog-title-mobile {
+  font-size: 20px !important;
+  padding-bottom: 32px !important;
+}
+.dialog-close-button {
+  position: absolute !important;
+  right: 24px !important;
+  border: 1px solid #eeeeee !important;
+  border-radius: 10px !important;
+  top: -5px !important;
+}
+.dialog-close-button-mobile {
+  right: 10px !important;
+  top: 10px !important;
+}
+.cancel-mobile-icon {
+  width: 17px !important;
+  height: 17px !important;
 }

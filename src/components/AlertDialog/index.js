@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { IconButton } from "@mui/material";
+import { IconButton, useMediaQuery } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "./style.scss";
 
@@ -22,6 +22,7 @@ export default function AlertDialog({
     setOpen(true);
   };
 
+  const mobile = useMediaQuery("(max-width:600px)");
   const handleClose = () => {
     setOpen(false);
   };
@@ -33,21 +34,36 @@ export default function AlertDialog({
       onClose={handleClose}
       sx={{
         "& .MuiPaper-root": {
-          py: 4,
-          px: 4,
+          py: mobile ? 3 : 4,
           borderRadius: 4,
+          position: "relative",
         },
       }}
       anchorEl={anchorEl}
       maxWidth={maxWidth}
     >
-      <DialogTitle className="dialog-title">
+      {mobile && (
+        <IconButton
+          className="dialog-close-button dialog-close-button-mobile"
+          onClick={handleClose}
+        >
+          <CloseIcon className="cancel-mobile-icon" />
+        </IconButton>
+      )}
+      <DialogTitle
+        className={mobile ? "dialog-title dialog-title-mobile" : "dialog-title"}
+      >
         {title}{" "}
-        {/* <IconButton className="close-button">
-          <CloseIcon />
-        </IconButton> */}
+        {!mobile && (
+          <IconButton className="dialog-close-button" onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        )}
       </DialogTitle>
-      <DialogContent sx={{ pt: "8px !important" }}> {message}</DialogContent>
+      <DialogContent sx={{ pt: "8px !important", px: mobile ? 3 : 7 }}>
+        {" "}
+        {message}
+      </DialogContent>
       {/* <DialogActions></DialogActions> */}
     </Dialog>
   );
