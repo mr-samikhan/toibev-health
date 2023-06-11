@@ -35,40 +35,52 @@ export function CustomList({
   list = assessmentList,
   icon = icons.peopleIcon,
   Actions,
+  listing,
+  onRowClick,
+  indexed,
 }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={12}>
           <Demo>
-            <List dense={false} className="list">
-              {list?.map((item) => (
+            <List dense={false} className="listing">
+              {list?.map((item, index) => (
                 <ListItem
-                  className="list-item"
+                  className="listing-item"
                   secondaryAction={
                     !!Actions ? (
-                      <Actions data={item} />
+                      <Actions data={item} list={list} />
                     ) : (
                       <IconButton edge="end" aria-label="delete">
                         <img src={icons.editIcon} />
                       </IconButton>
                     )
                   }
+                  sx={{ cursor: onRowClick && "pointer" }}
+                  onClick={() => onRowClick(item)}
                 >
-                  <ListItemAvatar sx={{ marginRight: "8px" }}>
-                    <Avatar className="avatar">
-                      <img src={icon} />
+                  <ListItemAvatar>
+                    <Avatar
+                      className={
+                        listing === "events" || indexed
+                          ? "image-avatar avatar"
+                          : "avatar"
+                      }
+                    >
+                      {" "}
+                      {indexed ? index + 1 : <img src={item.icon ?? icon} />}
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
                     primary={
                       <Typography className="primary-text">
-                        {item.title}
+                        {item?.title}
                       </Typography>
                     }
                     secondary={
                       <Typography className="secondary-text">
-                        {item.subtitle}
+                        {item?.subtitle ?? ""}
                       </Typography>
                     }
                   />
