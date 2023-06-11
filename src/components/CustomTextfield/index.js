@@ -13,6 +13,10 @@ export const CustomIconButton = styled((props) => <IconButton {...props} />)(
       filter:
         "invert(50%) sepia(97%) saturate(1979%) hue-rotate(334deg) brightness(102%) contrast(90%)",
     },
+    "& svg": {
+      width: "16px",
+      height: "16px",
+    },
   })
 );
 
@@ -45,16 +49,25 @@ const CustomTextField = styled((props) => <TextField focused {...props} />)(
         border: "1px solid #DCDCDC",
         borderRadius: "14px",
       },
+      "& fieldset": {
+        padding: "0px 24px",
+      },
+      "& label": { left: "16px" },
+      "& input": { paddingLeft: "24px" },
     },
   })
 );
 
 export default function CustomTextfield({
-  endIconPrimary,
+  EndIcon,
   EndIconPrimary,
   noBackground,
   select,
   options,
+  errorMessage,
+  multiline,
+  handleEnterKeyPress,
+  sx,
   ...rest
 }) {
   return (
@@ -62,14 +75,31 @@ export default function CustomTextfield({
       id="outlined"
       select={select}
       fullWidth
+      multiline={multiline}
+      helperText={errorMessage}
+      onKeyPress={handleEnterKeyPress}
+      sx={{
+        "& .MuiInputBase-input": {
+          padding: "16px",
+        },
+        "& .MuiInputBase-root": {
+          alignItems: multiline ? "start" : "center",
+        },
+        ...sx,
+      }}
       InputProps={{
         endAdornment:
-          EndIconPrimary || endIconPrimary ? (
-            <InputAdornment position="end">
+          EndIconPrimary || EndIcon ? (
+            <InputAdornment
+              position="end"
+              sx={{ marginTop: multiline && "28px" }}
+            >
               {EndIconPrimary ? (
                 <EndIconPrimary />
               ) : (
-                <CustomIconButton>{endIconPrimary}</CustomIconButton>
+                <CustomIconButton>
+                  <EndIcon />
+                </CustomIconButton>
               )}
             </InputAdornment>
           ) : (
