@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, Avatar, Typography, IconButton } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { CustomList } from "../../components/List";
 import { CustomTabs } from "../../components/Tabs";
 import AddIcon from "@mui/icons-material/Add";
@@ -7,105 +7,39 @@ import icons from "../../assets/index";
 import { ListItem } from "../../components/ListItem";
 import { ListTitle } from "../../components/ListTitile";
 import { CultureActions } from "./components/ActionButtons";
-import AlertDialog from "../../components/AlertDialog";
 import TribeForm from "./components/TribeForm";
-
-const cultureList = [
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-  {
-    title: "ABC",
-    subtitle: "Get out in front of this addiction",
-    tribeName: "NAME OF TRIBE",
-  },
-];
+import CustomMenu from "../../components/CustomMenu";
+import { useGetCultures } from "../../hooks/useGetCultures";
+import { useGetLanguages } from "../../hooks/useGetLanguages";
 
 export function Learn() {
   const [tab, setTab] = useState(0);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { cultures } = useGetCultures({});
+  const { languages } = useGetLanguages({});
   const handleClick = (event) => {
     setOpen(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
   return (
     <>
+      {open && (
+        <CustomMenu
+          open={open}
+          setOpen={setOpen}
+          title="Add Tribe"
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+          sx={{ marginTop: 2 }}
+        >
+          <TribeForm />
+        </CustomMenu>
+      )}
       <Grid
         container
         justifyContent="space-between"
@@ -128,35 +62,23 @@ export function Learn() {
             className="contained-button"
             sx={{ position: "relative" }}
             onClick={handleClick}
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
           >
             {" "}
             Add
           </Button>
-          {open && (
-            <AlertDialog
-              open={open}
-              setOpen={setOpen}
-              title="Add Tribe"
-              message={<TribeForm />}
-            />
-          )}
         </Grid>
       </Grid>
       {tab === 0 && (
         <CustomList
-          list={cultureList}
-          icon={tab === 0 ? icons.peopleIcon : icons.languageIcon}
+          list={cultures}
+          icon={icons.peopleIcon}
           Actions={CultureActions}
         />
       )}
       {tab === 1 && (
         <CustomList
-          // list={list}
-          icon={tab === 0 ? icons.peopleIcon : icons.languageIcon}
+          list={languages}
+          icon={icons.languageIcon}
           // Actions={Actions}
         />
       )}
