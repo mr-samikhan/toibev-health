@@ -1,8 +1,16 @@
 .card-listing {
   max-height: 285px;
-  min-height: 285px;
+  // min-height: 285px;
   overflow-y: auto;
   padding: 0px 20px;
+  .search-field {
+    & input {
+      padding: 16px;
+      @media screen and (max-width: 600px) {
+        padding: 10px 14px;
+      }
+    }
+  }
   .card-list-item {
     .title {
       font-weight: 500;
