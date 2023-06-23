@@ -1,37 +1,44 @@
 import React from "react";
-import { Grid, Typography, Box, Menu } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../components/CustomTextfield";
 import { ReactComponent as PeopleIcon } from "../../../../assets/icons/people.svg";
 import CustomButton from "../../../../components/CustomButton";
 import useTribeForm from "../../hook/useTribeForm";
-import icons from "../../../../assets/index";
 import AlertDialog from "../../../../components/AlertDialog";
 import CultureForm from "../Forms/CultureForm";
-export default function TribeForm({ isEdit, data }) {
+
+export default function TribeForm({ isEdit, initialState, setOpen }) {
   const {
     control,
     handleSubmit,
     onSubmit,
     openCultureForm,
     setOpenCultureForm,
+    isLoading,
+    handleDelete,
+    isLoadingDelete,
   } = useTribeForm({
     isEdit,
-    data,
+    initialState,
+    setOpen,
   });
+
   return (
     <>
-      <AlertDialog
-        title="Edit Culture 1"
-        open={openCultureForm}
-        setOpen={setOpenCultureForm}
-        message={<CultureForm />}
-      />
+      {openCultureForm && (
+        <AlertDialog
+          title="Edit Culture 1"
+          open={openCultureForm}
+          setOpen={setOpenCultureForm}
+          message={<CultureForm />}
+        />
+      )}
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs={12} mb={4} mt={2}>
             <Controller
-              name="tribeName"
+              name="title"
               control={control}
               render={({ field }) => (
                 <CustomTextfield
@@ -45,13 +52,13 @@ export default function TribeForm({ isEdit, data }) {
           </Grid>
           <Grid item xs={12} mb={isEdit && 2}>
             <CustomButton variant="contained" type="submit">
-              Save Tribe
+              {isLoading ? "Saving..." : "Save Tribe"}
             </CustomButton>
           </Grid>
           {isEdit && (
             <Grid item xs={12}>
-              <CustomButton variant="outlined" type="submit">
-                Delete Tribe
+              <CustomButton variant="outlined" onClick={handleDelete}>
+                {isLoadingDelete ? "Deleting..." : "Delete Tribe"}
               </CustomButton>
             </Grid>
           )}
