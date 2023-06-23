@@ -65,10 +65,11 @@ export const updateQuestion = async (data) => {
   }
 };
 export const addCondition = async (data) => {
+  console.log(data);
   try {
     const docRef = await addDoc(
-      collection(firestore, "Assessments", data.id, "conditions"),
-      data.data
+      collection(firestore, "Assessments", data.assessmentId, "conditions"),
+      data
     );
     return docRef;
   } catch (error) {
@@ -81,8 +82,14 @@ export const addCondition = async (data) => {
 export const updateCondition = async (data) => {
   try {
     const docRef = await updateDoc(
-      doc(firestore, "Assessments", data.id, "conditions", data.conditionId),
-      data.data
+      doc(
+        firestore,
+        "Assessments",
+        data.assessmentId,
+        "conditions",
+        data.conditionId
+      ),
+      data
     );
     return docRef;
   } catch (e) {
