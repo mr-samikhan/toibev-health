@@ -5,36 +5,36 @@ import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
 import useConditionForm from "../../../hooks/useConditionForm";
 
-export default function AddConditionForm() {
+export default function AddConditionForm(props) {
   const {
     control,
     handleSubmit,
     onSubmit,
     correctPercentageOptions,
-    correctPercentage,
+    conditionType,
     isLoading,
-  } = useConditionForm({});
+    displayInfoOptions,
+  } = useConditionForm(props);
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
           <Controller
-            name="correctPercentage"
+            name="conditionType"
             control={control}
             render={({ field }) => (
               <CustomTextfield
                 label="Correct %"
                 placeholder="% Range"
                 select
-                defaultValue="range"
                 options={correctPercentageOptions}
                 {...field}
               />
             )}
           />
         </Grid>
-        {correctPercentage === "range" ? (
+        {conditionType === "range" ? (
           <Grid item container xs={12} mb={3} spacing={2}>
             <Grid item xs={6}>
               <Controller
@@ -63,10 +63,10 @@ export default function AddConditionForm() {
               />
             </Grid>
           </Grid>
-        ) : correctPercentage === "lesser" ? (
+        ) : conditionType === "lesser" ? (
           <Grid item xs={12} mb={3}>
             <Controller
-              name="underCertainPercentage"
+              name="lesserThan"
               control={control}
               render={({ field }) => (
                 <CustomTextfield label="%" placeholder="Eg. 10%" {...field} />
@@ -76,7 +76,7 @@ export default function AddConditionForm() {
         ) : (
           <Grid item xs={12} mb={3}>
             <Controller
-              name="aboveCertainPercentage"
+              name="greaterThan"
               control={control}
               render={({ field }) => (
                 <CustomTextfield label="%" placeholder="Eg. 10%" {...field} />
@@ -94,10 +94,7 @@ export default function AddConditionForm() {
                 label="Display"
                 placeholder="Select Info to be display"
                 select
-                options={[
-                  { label: "Yes", value: "yes" },
-                  { label: "No", value: "no" },
-                ]}
+                options={displayInfoOptions}
                 {...field}
               />
             )}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
-import { addQuestion, updateAssessment, updateQuestion } from "../actions";
+import { addCondition, updateCondition } from "../actions";
 import { useLocation } from "react-router-dom";
 
 const correctPercentageOptions = [
@@ -10,18 +10,29 @@ const correctPercentageOptions = [
   { label: "Above Certain %", value: "greater" },
 ];
 
+const displayInfo = [
+  { label: "Show Url", value: "Show Url" },
+  { label: "Show Phone Number", value: "Show Phone Number" },
+  { label: "Show Nothing", value: "Show Nothing" },
+];
+
 export default function useConditionForm({ isEdit, setOpen, initialState }) {
   const queryClient = useQueryClient();
   const { state: assessment } = useLocation();
-  const { control, handleSubmit, watch } = useForm();
-  const correctPercentage = watch("correctPercentage");
+  const { control, handleSubmit, watch } = useForm({
+    defaultValues: {
+      conditionType: "range",
+      ...initialState,
+    },
+  });
+  const conditionType = watch("conditionType");
 
   const { isLoading, mutate } = useMutation(
-    isEdit ? updateQuestion : addQuestion,
+    isEdit ? updateCondition : addCondition,
     {
       onSuccess: (success) => {
         setOpen(false);
-        queryClient.invalidateQueries("get-assessment-questions");
+        queryClient.invalidateQueries("get-assessment-conditions");
       },
       onError: (error) => {
         console.log(error);
@@ -30,13 +41,31 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
   );
 
   const onSubmit = (data) => {
-    console.log(data);
-    // const body = {
-    //   data: { question: data.question},
-    //   id: assessment?.id,
-    // };
+    let body = {};
+    if (conditionType === "range")
+      body = {
+        display: data?.display,
+        conditionType: data?.conditionType,
+        startRange: data?.startRange,
+        endRange: data?.endRange,
+        assessmentId: assessment?.id,
+      };
+    else if (conditionType === "lesser")
+      body = {
+        display: data?.display,
+        conditionType: data?.conditionType,
+        lesserThan: data?.lesserThan,
+        assessmentId: assessment?.id,
+      };
+    else
+      body = {
+        display: data?.display,
+        conditionType: data?.conditionType,
+        greaterThan: data?.greaterThan,
+        assessmentId: assessment?.id,
+      };
 
-    // mutate(isEdit ? { ...body, questionId: initialState?.id } : body);
+    mutate(isEdit ? { ...body, conditionId: initialState?.id } : body);
   };
 
   return {
@@ -44,6 +73,8 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
     handleSubmit,
     onSubmit,
     correctPercentageOptions,
-    correctPercentage,
+    conditionType,
+    isLoading,
+    displayInfoOptions: displayInfo,
   };
 }
