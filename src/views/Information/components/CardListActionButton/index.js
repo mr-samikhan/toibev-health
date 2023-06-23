@@ -5,7 +5,7 @@ import ServiceForm from "../Forms/ServiceForm";
 import icons from "../../../../assets";
 import ClinicForm from "../Forms/ClinicForm";
 
-export default function CardActionButton({ data }) {
+export default function CardActionButton({ data, clinics }) {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
@@ -17,7 +17,14 @@ export default function CardActionButton({ data }) {
           open={open}
           title="Edit Service"
           setOpen={setOpen}
-          message={<ServiceForm setOpen={setOpen} initialState={data} isEdit />}
+          message={
+            <ServiceForm
+              setOpen={setOpen}
+              initialState={data}
+              isEdit
+              clinics={clinics}
+            />
+          }
         />
       )}
       <IconButton onClick={handleClick}>

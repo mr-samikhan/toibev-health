@@ -12,7 +12,7 @@ export function useInformation() {
   const { clinics, isLoadingClinics, isFetchingClinics, urls } = useGetClinics(
     {}
   );
-  console.log(services);
+
   return {
     urls,
     description,

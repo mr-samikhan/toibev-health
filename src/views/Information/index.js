@@ -19,6 +19,7 @@ import CardActionButton, {
   ClinicCardActionButton,
 } from "./components/CardListActionButton";
 import "./style.scss";
+import SocialMediaForm from "./components/Forms/SocialMediaForm.js";
 
 export function Information() {
   const {
@@ -55,7 +56,7 @@ export function Information() {
           open={open}
           title="Add Service"
           setOpen={setOpen}
-          message={<ServiceForm setOpen={setOpen} />}
+          message={<ServiceForm setOpen={setOpen} clinics={clinics} />}
         />
       )}
       {openClinicForm && (
@@ -124,7 +125,12 @@ export function Information() {
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <CustomCard isLoading={isLoadingServices ?? isFetchingServices}>
-            <CardListing list={services} CardActionButton={CardActionButton} />
+            <CardListing
+              list={services}
+              CardActionButton={({ data }) => (
+                <CardActionButton data={data} clinics={clinics} />
+              )}
+            />
           </CustomCard>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
@@ -144,30 +150,7 @@ export function Information() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <CustomCard heading="Toiyabe Social" noSearch>
-            <Grid container flexDirection="column" px={2} flexGrow={1}>
-              <Grid item mb={4}>
-                <CustomTextfield
-                  placeholder="Facebook URL"
-                  label="Facebook URL"
-                  value={urls?.facebook}
-                />
-              </Grid>
-              <Grid item mb={4}>
-                {" "}
-                <CustomTextfield
-                  placeholder="LinkedIn URL"
-                  label="LinkedIn URL"
-                  value={urls?.linkedIn}
-                />
-              </Grid>
-              <Grid item container flexGrow={1}>
-                <Grid item xs={12} alignSelf="flex-end">
-                  <CustomButton variant="contained" fullWidth color="primary">
-                    SAVE
-                  </CustomButton>
-                </Grid>
-              </Grid>
-            </Grid>
+            <SocialMediaForm urls={urls} />
           </CustomCard>
         </Grid>
       </Grid>
