@@ -170,3 +170,12 @@ export const deleteClinic = async (id) => {
     throw error;
   }
 };
+
+export const updateSocialLinks = async (data) => {
+  try {
+    await updateDoc(doc(firestore, "Information", "clinics"), data);
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    throw error;
+  }
+};
