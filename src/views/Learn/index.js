@@ -1,34 +1,39 @@
-import React, { useState } from "react";
-import { Button, Grid } from "@mui/material";
+import React from "react";
+import { Button, Grid, CircularProgress } from "@mui/material";
 import { CustomList } from "../../components/List";
 import { CustomTabs } from "../../components/Tabs";
 import AddIcon from "@mui/icons-material/Add";
 import icons from "../../assets/index";
 import { ListItem } from "../../components/ListItem";
 import { ListTitle } from "../../components/ListTitile";
-import { CultureActions } from "./components/ActionButtons";
+import { CultureActions, LanguageActions } from "./components/ActionButtons";
 import TribeForm from "./components/TribeForm";
 import CustomMenu from "../../components/CustomMenu";
-import { useGetCultures } from "../../hooks/useGetCultures";
-import { useGetLanguages } from "../../hooks/useGetLanguages";
+import { useLearn } from "./useLearn";
+import LangugaeForm from "./components/Forms/LanguageForm";
+import HistoryForm from "./components/Forms/HistoryForm";
+import AlertDialog from "../../components/AlertDialog";
 
 export function Learn() {
-  const [tab, setTab] = useState(0);
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { cultures } = useGetCultures({});
-  const { languages } = useGetLanguages({});
-  const handleClick = (event) => {
-    setOpen(true);
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpen(false);
-  };
+  const {
+    tab,
+    setTab,
+    open,
+    setOpen,
+    anchorEl,
+    cultures,
+    languages,
+    handleClick,
+    handleClose,
+    isLoadingCultures,
+    isFetchingCultures,
+    isLoadingLanguages,
+    isFetchingLanguages,
+  } = useLearn();
+
   return (
     <>
-      {open && (
+      {tab === 0 && open && (
         <CustomMenu
           open={open}
           setOpen={setOpen}
@@ -37,8 +42,38 @@ export function Learn() {
           handleClose={handleClose}
           sx={{ marginTop: 2 }}
         >
-          <TribeForm />
+          <TribeForm setOpen={setOpen} />
         </CustomMenu>
+      )}
+      {tab === 1 && open && (
+        <CustomMenu
+          open={open}
+          setOpen={setOpen}
+          title="Add Language"
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+          sx={{ marginTop: 2 }}
+        >
+          <LangugaeForm setOpen={setOpen} />
+        </CustomMenu>
+      )}
+      {tab === 2 && open && (
+        // <CustomMenu
+        //   open={open}
+        //   setOpen={setOpen}
+        //   title="Add Language"
+        //   anchorEl={anchorEl}
+        //   handleClose={handleClose}
+        //   sx={{ marginTop: 2 }}
+        // >
+        //   <LangugaeForm setOpen={setOpen} />
+        // </CustomMenu>
+        <AlertDialog
+          open={open}
+          setOpen={setOpen}
+          title="Add History"
+          message={<HistoryForm setOpen={setOpen} />}
+        />
       )}
       <Grid
         container
@@ -68,62 +103,75 @@ export function Learn() {
           </Button>
         </Grid>
       </Grid>
-      {tab === 0 && (
-        <CustomList
-          list={cultures}
-          icon={icons.peopleIcon}
-          Actions={CultureActions}
-        />
-      )}
-      {tab === 1 && (
-        <CustomList
-          list={languages}
-          icon={icons.languageIcon}
-          // Actions={Actions}
-        />
-      )}
-      {tab === 2 && (
+
+      {isLoadingCultures ||
+      isFetchingCultures ||
+      isFetchingLanguages ||
+      isLoadingLanguages ? (
+        <Grid container justifyContent="center">
+          {" "}
+          <CircularProgress />
+        </Grid>
+      ) : (
         <>
-          {[1, 2, 3].map((i) => (
-            <Grid container>
-              <Grid item sm={12} sx={{ margin: "40px 0px" }}>
-                <ListItem
-                  title={"History Sub-Categories"}
-                  startIcon={icons.clockIcon}
-                  endIcon={icons.editIcon}
-                />
-              </Grid>
-              <Grid item sm={12} sx={{ marginBottom: "24px" }}>
-                {" "}
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    {" "}
-                    <ListTitle
-                      title="History Sub-Categories"
-                      icon={icons.documentIcon}
+          {tab === 0 && (
+            <CustomList
+              list={cultures}
+              icon={icons.peopleIcon}
+              Actions={CultureActions}
+            />
+          )}
+          {tab === 1 && (
+            <CustomList
+              list={languages}
+              icon={icons.languageIcon}
+              Actions={LanguageActions}
+            />
+          )}
+          {tab === 2 && (
+            <>
+              {[1, 2, 3].map((i) => (
+                <Grid container>
+                  <Grid item sm={12} sx={{ margin: "40px 0px" }}>
+                    <ListItem
+                      title={"History Sub-Categories"}
+                      startIcon={icons.clockIcon}
+                      endIcon={icons.editIcon}
                     />
                   </Grid>
-                  <Grid item>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="contained-button"
-                      startIcon={<AddIcon />}
-                    >
-                      Add Additional Resources
-                    </Button>
+                  <Grid item sm={12} sx={{ marginBottom: "24px" }}>
+                    {" "}
+                    <Grid container justifyContent="space-between">
+                      <Grid item>
+                        {" "}
+                        <ListTitle
+                          title="History Sub-Categories"
+                          icon={icons.documentIcon}
+                        />
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className="contained-button"
+                          startIcon={<AddIcon />}
+                        >
+                          Add Additional Resources
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item sm={12}>
+                    <CustomList
+                      icon={icons.clipboardIcon}
+                      // Actions={Actions}
+                      // list={list}
+                    />
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item sm={12}>
-                <CustomList
-                  icon={icons.clipboardIcon}
-                  // Actions={Actions}
-                  // list={list}
-                />
-              </Grid>
-            </Grid>
-          ))}
+              ))}
+            </>
+          )}
         </>
       )}
     </>
