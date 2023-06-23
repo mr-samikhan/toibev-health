@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Grid,
-  Typography,
-  Paper,
-  List,
-  ListItem,
-  TextField,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
@@ -19,7 +11,12 @@ import { ReactComponent as ClipboardIcon } from "../../../../../assets/icons/cli
 import { ReactComponent as ServiceIcon } from "../../../../../assets/icons/heart-edit.svg";
 import { ReactComponent as StartIcon } from "../../../../../assets/icons/ranking.svg";
 
-export default function ServiceForm({ initialState, isEdit, setOpen }) {
+export default function ServiceForm({
+  initialState,
+  isEdit,
+  setOpen,
+  clinics,
+}) {
   const {
     errors,
     handleSubmit,
@@ -36,8 +33,8 @@ export default function ServiceForm({ initialState, isEdit, setOpen }) {
     setServices,
     mutateDelete,
     isLoadingDelete,
-  } = useServiceForm({ initialState, isEdit, setOpen });
-
+    clinicOptions,
+  } = useServiceForm({ initialState, isEdit, setOpen, clinics });
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
@@ -72,7 +69,7 @@ export default function ServiceForm({ initialState, isEdit, setOpen }) {
                 error={errors.clinic}
                 errorMessage={errors?.clinic?.message}
                 select
-                options={[{ label: "a", value: "b" }]}
+                options={clinicOptions}
                 {...field}
               />
             )}

@@ -3,7 +3,17 @@ import { useMutation, useQueryClient } from "react-query";
 import { useForm } from "react-hook-form";
 import { addService, deleteService, updateService } from "../actions";
 
-export default function useServiceForm({ initialState, isEdit, setOpen }) {
+export default function useServiceForm({
+  initialState,
+  isEdit,
+  setOpen,
+  clinics,
+}) {
+  const clinicOptions = clinics.map((clinic) => ({
+    label: clinic?.title,
+    value: clinic?.title,
+  }));
+
   const queryClient = useQueryClient();
   const [selectedImageOne, setSelectedImageOne] = useState({
     fileUrl: initialState?.images[0] || "",
@@ -14,6 +24,7 @@ export default function useServiceForm({ initialState, isEdit, setOpen }) {
   const [acheivements, setAcheivements] = useState(
     initialState?.acheivements ?? []
   );
+
   const [services, setServices] = useState(initialState?.services ?? []);
   const {
     control,
@@ -75,5 +86,6 @@ export default function useServiceForm({ initialState, isEdit, setOpen }) {
     isLoading,
     mutateDelete,
     isLoadingDelete,
+    clinicOptions,
   };
 }
