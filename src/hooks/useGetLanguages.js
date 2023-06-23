@@ -7,10 +7,8 @@ const fetchInfo = async () => {
     const querySnapshot = await getDocs(collection(firestore, "Languages"));
 
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
       let language = {
         id: doc.id,
-        subtitle: doc.data().description,
         ...doc.data(),
       };
       languageData.push(language);
@@ -43,12 +41,12 @@ const fetchInfo = async () => {
 };
 
 export const useGetLanguages = ({ enabled = true }) => {
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, isFetching } = useQuery(
     ["get-all-languages"],
     fetchInfo,
     {
       enabled,
     }
   );
-  return { isLoading, error, languages: data };
+  return { isLoading, error, languages: data, isFetching };
 };
