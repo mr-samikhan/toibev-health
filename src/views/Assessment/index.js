@@ -3,11 +3,16 @@ import { Grid, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import AlertDialog from "../../components/AlertDialog";
 import { CustomList } from "../../components/List";
-import AddAssessmentForm from "./components/AddAssessmentForm";
+import AssessmentForm from "./components/Forms/AssessmentForm";
 import { Actions } from "./components/ActionButtons";
+import { useGetAssessments } from "../../hooks/useGetAssessments";
+import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 export function Assessment() {
   const [open, setOpen] = useState(false);
+  const { assessments, isLoading, isFetching } = useGetAssessments({});
+  const navigate = useNavigate();
   return (
     <>
       {open && (
@@ -15,7 +20,7 @@ export function Assessment() {
           open={open}
           title="Add Assessment"
           setOpen={setOpen}
-          message={<AddAssessmentForm />}
+          message={<AssessmentForm setOpen={setOpen} />}
         />
       )}
       <Grid
@@ -37,7 +42,20 @@ export function Assessment() {
           </Button>
         </Grid>
       </Grid>
-      <CustomList Actions={Actions} />
+      {isLoading || isFetching ? (
+        <Grid container justifyContent="center">
+          {" "}
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <CustomList
+          Actions={Actions}
+          list={assessments}
+          onRowClick={(row) => {
+            navigate(`/assesment/${row.id}`, { state: row });
+          }}
+        />
+      )}
     </>
   );
 }

@@ -8,7 +8,10 @@ import ConditionForm from "../components/Forms/ConditionForm";
 import { useLocation } from "react-router-dom";
 import { CustomList } from "../../../components/List";
 import { useGetSingleAssessment } from "../../../hooks/useGetAssessmentQuestions";
-import { SingleAssessmentActionButtons } from "../components/ActionButtons";
+import {
+  SingleAssessmentActionButtons,
+  ConditionActionButtons,
+} from "../components/ActionButtons";
 import useSingleAssessment from "../hooks/useSingleAssessment";
 
 export default function SingleAssessment() {
@@ -20,9 +23,13 @@ export default function SingleAssessment() {
     setOpenCondition,
     isLoading,
     isFetching,
+    conditions,
+    isLoadingConditions,
+    isFetchingConditions,
   } = useSingleAssessment({});
 
-  if (isLoading || isFetching) return <div>Loading...</div>;
+  if (isLoading || isFetching || isFetchingConditions || isLoadingConditions)
+    return <div>Loading...</div>;
 
   return (
     <>
@@ -44,7 +51,7 @@ export default function SingleAssessment() {
           open={openCondition}
           setOpen={setOpenCondition}
           title="Add Condition"
-          message={<ConditionForm />}
+          message={<ConditionForm setOpen={setOpenCondition} />}
         />
       )}
 
@@ -110,6 +117,13 @@ export default function SingleAssessment() {
                 </Button>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item>
+            <CustomList
+              indexed
+              list={conditions ?? []}
+              Actions={ConditionActionButtons}
+            />
           </Grid>
         </Grid>
       </Grid>
