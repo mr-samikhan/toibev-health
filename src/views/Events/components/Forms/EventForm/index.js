@@ -77,7 +77,7 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             )}
           />
         </Grid>
-        <Grid container item xs={12} mb={3}>
+        <Grid container item xs={12} mb={3} spacing={1}>
           <Grid item xs={12} sm={6} mb={{ xs: 3, sm: 0 }}>
             <Controller
               name="date"

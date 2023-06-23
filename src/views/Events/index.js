@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button, useMediaQuery } from "@mui/material";
+import { Grid, Button, useMediaQuery, CircularProgress } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Actions } from "./components/ActionButtons";
 import { CustomList } from "../../components/List";
@@ -12,7 +12,11 @@ export function Events() {
   const mobile = useMediaQuery("(max-width: 600px)");
 
   if (isLoading || isFetching) {
-    return <div>Loading...</div>;
+    return (
+      <Grid container alignItems="center" justifyContent="center">
+        <CircularProgress />
+      </Grid>
+    );
   }
 
   return (
