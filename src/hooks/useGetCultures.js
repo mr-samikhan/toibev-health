@@ -7,7 +7,6 @@ const fetchInfo = async () => {
     const querySnapshot = await getDocs(collection(firestore, "Culture"));
 
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
       let culture = {
         id: doc.id,
         ...doc.data(),
@@ -15,26 +14,6 @@ const fetchInfo = async () => {
       cultureData.push(culture);
     });
 
-    // if (querySnapshot && querySnapshot.size > 0) {
-    //   for (const culDoc of querySnapshot.docs) {
-    // let culture = {
-    //   id: culDoc.id,
-    //   ...culDoc.data(),
-    // };
-    // const coursesSnap = await CULTURE_COLLECTION.doc(culDoc.id)
-    //   .collection("courses")
-    //   .get();
-    // let courses = [];
-    // coursesSnap.forEach((courseDoc) => {
-    //   courses.push({
-    //     id: courseDoc.id,
-    //     ...courseDoc.data(),
-    //   });
-    // });
-    // culture.courses = courses;
-    // cultureData.push(culture);
-    //   }
-    // }
     return cultureData;
   } catch (error) {
     return error;
@@ -42,8 +21,13 @@ const fetchInfo = async () => {
 };
 
 export const useGetCultures = ({ enabled = true }) => {
-  const { data, isLoading, error } = useQuery(["get-all-cultures"], fetchInfo, {
-    enabled,
-  });
-  return { isLoading, error, cultures: data };
+  const { data, isLoading, error, isFetching } = useQuery(
+    ["get-all-cultures"],
+    fetchInfo,
+    {
+      enabled,
+      refetchOnWindowFocus: false,
+    }
+  );
+  return { isLoading, error, cultures: data, isFetching };
 };
