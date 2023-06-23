@@ -8,12 +8,13 @@ const fetchInfo = async (id) => {
     const querySnapshot = await getDocs(
       collection(firestore, "Assessments", `${id}`, "questions")
     );
-
+    let count = 0;
     querySnapshot.forEach((document) => {
       let question = {
         id: document.id,
         title: document.data().question,
         subtitle: <MultipleAnswers data={document.data().answers} />,
+        text: ++count,
         ...document.data(),
       };
       questions.push(question);
