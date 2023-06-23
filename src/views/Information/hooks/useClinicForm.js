@@ -25,7 +25,7 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
   const { isLoading, mutate } = useMutation(isEdit ? updateClinic : addClinic, {
     onSuccess: (success) => {
       setOpen(false);
-      queryClient.invalidateQueries("get-all-services");
+      queryClient.invalidateQueries("get-all-clinics");
     },
     onError: (error) => {
       console.log(error);
@@ -37,7 +37,7 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
     {
       onSuccess: (success) => {
         setOpen(false);
-        queryClient.invalidateQueries("get-all-services");
+        queryClient.invalidateQueries("get-all-clinics");
       },
       onError: (error) => {
         console.log(error);

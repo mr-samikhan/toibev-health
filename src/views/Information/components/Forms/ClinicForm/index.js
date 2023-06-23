@@ -26,8 +26,9 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
     departments,
     addDepartment,
     handleChange,
+    isLoadingDelete,
+    mutateDelete,
   } = useClinicForm({ setOpen, initialState, isEdit });
-
   return (
     <Box
       component="form"
@@ -176,6 +177,16 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
             {isLoading ? "Loading" : isEdit ? "Edit Clinic" : "Add Clinic"}
           </CustomButton>
         </Grid>
+        {isEdit && (
+          <Grid item xs={12} mt={2}>
+            <CustomButton
+              variant="outlined"
+              onClick={() => mutateDelete(initialState?.id)}
+            >
+              {isLoadingDelete ? "Loading" : "Delete Clinic"}
+            </CustomButton>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );
