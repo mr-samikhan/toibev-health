@@ -6,6 +6,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
+  deleteUser,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -18,8 +22,10 @@ import {
   deleteDoc,
   query,
   collectionGroup,
+  setDoc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useDispatch } from "react-redux";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDs771dG0s9SeCr5Sk-ef1HyaDCQxtSoqM",
@@ -45,6 +51,7 @@ const firestore = getFirestore(app);
 const storage = getStorage(app);
 
 onAuthStateChanged(auth, (user) => {
+  const dispatch = useDispatch();
   if (user) {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
@@ -53,6 +60,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     // User is signed out
     // ...
+    dispatch({ type: "LOGOUT" });
   }
 });
 
@@ -76,4 +84,9 @@ export {
   ref,
   uploadBytes,
   getDownloadURL,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  verifyPasswordResetCode,
+  deleteUser,
+  setDoc,
 };

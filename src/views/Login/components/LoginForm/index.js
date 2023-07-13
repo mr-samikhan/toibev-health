@@ -10,7 +10,7 @@ import useLoginForm from "../../hooks/useLoginForm";
 import "./style.scss";
 
 export default function LoginForm() {
-  const { control, onSubmit, handleSubmit } = useLoginForm({});
+  const { control, onSubmit, handleSubmit, isLoading } = useLoginForm({});
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container className="login-form">
@@ -53,7 +53,7 @@ export default function LoginForm() {
             </Grid>
             <Grid item xs={6} container alignSelf={"center"}>
               <CustomButton variant="contained" type="submit">
-                Login
+                {isLoading ? "Loading.." : " Login"}
               </CustomButton>
             </Grid>
           </Grid>

@@ -3,11 +3,29 @@ import {
   Avatar,
   Grid,
   Typography,
-  Button,
   useMediaQuery,
   Divider,
 } from "@mui/material";
 import { Actions } from "../ActionButtons";
+
+const tableHeaders = [
+  {
+    label: "Username",
+    key: "username",
+  },
+  {
+    label: "Email Address",
+    key: "email",
+  },
+  {
+    label: "Permission Level",
+    key: "permissionLevel",
+  },
+  {
+    label: "",
+    key: "actions",
+  },
+];
 
 function SingleAdminSmall({
   name = "Chop Dawg",
@@ -55,7 +73,7 @@ function SingleAdminSmall({
 function SingleAdmin({ admin }) {
   const { username, email, permissionLevel } = admin;
   return (
-    <Grid container className="row" sx={{ minWidth: "1105px" }}>
+    <Grid container className="row">
       <Grid
         item
         container
@@ -64,42 +82,28 @@ function SingleAdmin({ admin }) {
         className="wrapper"
         sx={{ flexWrap: "nowrap" }}
       >
-        <Grid
-          item
-          sm={3}
-          sx={{
-            minWidth: "200px",
-          }}
-        >
-          <Grid container alignItems="center">
+        <Grid item sm={3} pr={1}>
+          <Grid container alignItems="center" flexWrap="nowrap">
             <Grid item>
               <Avatar className={"avatar"} />
             </Grid>
-            <Grid item>
-              <Typography className={"text"}>{username}</Typography>
+            <Grid item sx={{ overflow: "hidden" }}>
+              <Typography className={"text text-overflow"}>
+                {username}
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
-        <Grid
-          item
-          sm={3}
-          sx={{
-            minWidth: "200px",
-          }}
-        >
-          <Typography className="text">{email}</Typography>
+        <Grid item sm={3} pr={1}>
+          <Typography className="text text-overflow">{email}</Typography>
         </Grid>
-        <Grid
-          item
-          sm={3}
-          sx={{
-            minWidth: "200px",
-          }}
-        >
-          <Typography className="text">{permissionLevel}</Typography>
+        <Grid item sm={3} pr={1}>
+          <Typography className="text text-overflow">
+            {permissionLevel}
+          </Typography>
         </Grid>
 
-        <Grid item sm={3} sx={{ minWidth: "200px" }}>
+        <Grid item sm={3}>
           <Actions
             data={{
               permissionLevel: {
@@ -124,7 +128,7 @@ export default function AdminsTable({ admins }) {
   return matches ? (
     admins?.map((admin) => <SingleAdminSmall admin={admin} />)
   ) : (
-    <Grid sx={{ overflowX: "scroll" }}>
+    <Grid>
       <Grid
         item
         xs={12}
@@ -133,21 +137,22 @@ export default function AdminsTable({ admins }) {
         justifyContent="space-between"
         sx={{ flexWrap: "nowrap" }}
       >
-        <Grid item className="item" xs={3} sx={{ minWidth: "200px" }}>
-          <Typography sx={{ marginLeft: "76px" }}>Username</Typography>
-        </Grid>
-        <Grid item className="item" xs={3} sx={{ minWidth: "200px" }}>
-          <Typography>Email Address</Typography>
-        </Grid>
-        <Grid item className="item" xs={3} sx={{ minWidth: "200px" }}>
-          <Typography>Permission Level</Typography>
-        </Grid>
-        <Grid item className="item" xs={3} sx={{ minWidth: "200px" }}></Grid>
+        {tableHeaders?.map((header) => (
+          <Grid item className="item" key={header.key} xs={3} pr={1}>
+            <Typography
+              ml={header?.key === "username" ? 8.5 : 0}
+              className="text-overflow"
+            >
+              {header.label}
+            </Typography>
+          </Grid>
+        ))}
       </Grid>
-
-      {admins?.map((admin) => (
-        <SingleAdmin admin={admin} />
-      ))}
+      <Grid container mt={2.5}>
+        {admins?.map((admin) => (
+          <SingleAdmin admin={admin} />
+        ))}
+      </Grid>
     </Grid>
   );
 }

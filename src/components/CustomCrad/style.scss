@@ -2,7 +2,7 @@
   .card-heading {
     font-weight: 400;
     font-size: 18px;
-    line-height: 23px;
+    line-height: 38px;
     color: #000000;
   }
   .card-container {
@@ -14,15 +14,6 @@
       border-radius: 16px;
       padding: 16px 0px;
       padding: 20px 0px;
-      .search-field {
-        padding: 0px 20px;
-        & input {
-          padding: 16px;
-          @media screen and (max-width: 600px) {
-            padding: 10px 14px;
-          }
-        }
-      }
     }
   }
 }

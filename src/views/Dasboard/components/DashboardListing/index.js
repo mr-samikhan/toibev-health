@@ -33,7 +33,10 @@ export default function DashboardListing({ list, tabs }) {
   return (
     <Grid className="card">
       <Grid container className="dashboard-listing">
-        {tabs}
+        <Grid item xs={12} mb={2}>
+          {tabs}
+        </Grid>
+
         {list.map((item, index) => (
           <Grid item xs={12} className="dashboard-list-item" key={index}>
             <ListItem item={item} />

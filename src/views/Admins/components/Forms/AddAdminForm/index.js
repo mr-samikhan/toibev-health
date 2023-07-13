@@ -14,12 +14,21 @@ import {
 } from "../../../../../utils/validators";
 
 export default function AddAdminForm({ isEdit, data, setOpen }) {
-  const { control, handleSubmit, onSubmit, radioOptions, isLoading, errors } =
-    useAddAdmin({
-      isEdit,
-      data,
-      setOpen,
-    });
+  const {
+    control,
+    handleSubmit,
+    onSubmit,
+    radioOptions,
+    isLoading,
+    errors,
+    isLoadingResetPassword,
+    mutateResetPassword,
+    email,
+  } = useAddAdmin({
+    isEdit,
+    data,
+    setOpen,
+  });
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -46,8 +55,13 @@ export default function AddAdminForm({ isEdit, data, setOpen }) {
         </Grid>
         {!!isEdit && (
           <Grid item xs={12} mb={3}>
-            <CustomButton variant="outlined">
-              Send Password Reset URL
+            <CustomButton
+              variant="outlined"
+              onClick={() => mutateResetPassword(email)}
+            >
+              {isLoadingResetPassword
+                ? "Sending..."
+                : "Send Password Reset URL"}
             </CustomButton>
           </Grid>
         )}

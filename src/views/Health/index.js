@@ -3,8 +3,10 @@ import { Grid, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Actions } from "./components/Actions";
 import { CustomList } from "../../components/List";
+import { useGetProviders } from "../../hooks/useGetProviders";
 
 export function Health() {
+  const { providers } = useGetProviders({});
   return (
     <>
       <Grid
@@ -25,7 +27,7 @@ export function Health() {
           </Button>
         </Grid>
       </Grid>
-      <CustomList Actions={Actions} />
+      <CustomList Actions={Actions} list={providers} />
     </>
   );
 }

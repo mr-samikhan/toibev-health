@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { firestore, collection, getDocs, getDoc, doc } from "../firebase";
+import { firestore, collection, getDocs } from "../firebase";
 
 const fetchInfo = async () => {
   let adminsData = [];
@@ -29,6 +29,8 @@ export const useGetAdmins = ({ enabled = true }) => {
       refetchOnWindowFocus: false,
     }
   );
+
+  console.log(data);
 
   return { isLoading, error, admins: data, isFetching };
 };

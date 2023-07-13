@@ -49,7 +49,7 @@ export default function CustomCard({
       <Grid item className="card-container">
         {" "}
         <Grid container className="card-wrapper">
-          {!noSearch && (
+          {/* {!noSearch && (
             <Grid
               item
               xs={12}
@@ -69,7 +69,7 @@ export default function CustomCard({
                 }}
               ></TextField>
             </Grid>
-          )}
+          )} */}
           {!!isLoading ? (
             <Grid container alignItems="center" justifyContent="center">
               <CircularProgress />

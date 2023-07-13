@@ -11,12 +11,16 @@ import Settings from "../views/Setttings";
 import SingleAssessment from "../views/Assessment/SingleAssessment";
 import Login from "../views/Login";
 import { Dashboard } from "../views/Dasboard/Dashboard";
+import ResetPassword from "../views/ResetPassword";
+import { useLocation } from "react-router-dom";
 
 export function Router() {
+  const { search } = useLocation();
   return (
     <>
       <Routes>
         <Route path="/login" exact element={<Login />}></Route>
+        <Route path={`/reset-password`} element={<ResetPassword />}></Route>
       </Routes>
       <ProtectedRoutes>
         <Routes>
@@ -28,11 +32,7 @@ export function Router() {
             <Route path="/information" exact element={<Information />} />
             <Route path="/assesment">
               <Route path="/assesment" exact element={<Assessment />} />
-              <Route
-                path="/assesment/single-assessment"
-                exact
-                element={<SingleAssessment />}
-              />
+              <Route path="/assesment/:id" element={<SingleAssessment />} />
             </Route>
             <Route path="/admins" exact element={<Admins />} />
             <Route path="/account-settings" exact element={<Settings />} />

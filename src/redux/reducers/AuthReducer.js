@@ -4,6 +4,7 @@ const initialstate = {
   isAuthenticated: false,
   user: null,
   userToken: null,
+  isLoading: false,
 };
 
 const LoginReducer = produce((state = initialstate, action) => {

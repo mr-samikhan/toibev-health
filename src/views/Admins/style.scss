@@ -3,7 +3,7 @@
   border-radius: 12px;
   padding: 8px 12px;
   margin-bottom: 20px;
-  min-width: 1105px;
+
   .item {
     font-weight: 500;
     font-size: 14px;
@@ -12,6 +12,11 @@
   }
 }
 
+.text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .row {
   background: #ffffff;
   box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);

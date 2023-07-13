@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "../../../firebase";
+import { auth, signInWithEmailAndPassword } from "../../../firebase";
 import { useDispatch } from "react-redux";
-import {
-  resetAuthValues,
-  setAuthValues,
-} from "../../../redux/actions/loginActions";
+import { setAuthValues } from "../../../redux/actions/loginActions";
 import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../utils";
 
 export default function useLoginForm({ isEdit, data }) {
   const { control, handleSubmit, reset } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = (data) => {
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((data) => {
         dispatch(setAuthValues(data));
         navigate("/dashboard");
+        setIsLoading(false);
         return data;
       })
       .catch((error) => {
         //Alert Error Message
-        const err = getErrorMessage();
+        const err = getErrorMessage(error);
       });
   };
 
@@ -41,5 +34,6 @@ export default function useLoginForm({ isEdit, data }) {
     control,
     handleSubmit,
     onSubmit,
+    isLoading,
   };
 }

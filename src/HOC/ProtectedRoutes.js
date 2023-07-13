@@ -1,10 +1,12 @@
 import React, { useEffect, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 const ProtectedRoutes = ({ children }) => {
-  const { userToken, isAuthenticated } =
+  const { search } = useLocation();
+
+  const { userToken, isAuthenticated, isLoading } =
     useSelector((state) => state?.Auth) ?? {};
   const navigate = useNavigate();
   useLayoutEffect(() => {
@@ -12,17 +14,28 @@ const ProtectedRoutes = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
     } else {
       delete axios.defaults.headers.common["Authorization"];
+      search.includes("mode=resetPassword")
+        ? navigate(`/reset-password${search}`)
+        : navigate("/login");
     }
     // eslint-disable-next-line
   }, [location, isAuthenticated, userToken]);
 
   useEffect(() => {
     if (!userToken || !isAuthenticated) {
-      navigate("/login");
+      search.includes("mode=resetPassword")
+        ? navigate(`/reset-password${search}`)
+        : navigate("/login");
     }
   }, []);
 
-  return (userToken && isAuthenticated) || true ? <>{children}</> : <></>;
+  return isLoading ? (
+    "LOADING..."
+  ) : userToken && isAuthenticated ? (
+    <>{children}</>
+  ) : (
+    <></>
+  );
 };
 
 export default ProtectedRoutes;

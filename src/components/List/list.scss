@@ -9,12 +9,23 @@
     @media (max-width: 600px) {
       padding: 12px;
     }
+    .text-avatar {
+      background-color: rgba(242, 106, 71, 0.08);
+      border-radius: 10px;
+    }
+    .text {
+      font-family: "DM Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 150%;
+      color: #f26a47;
+    }
     .avatar {
       width: 50px;
       height: 50px;
       background-color: rgba(242, 106, 71, 0.08);
       border-radius: 10px;
-      margin-right: 16px;
       @media (max-width: 600px) {
         margin-right: 10px;
       }

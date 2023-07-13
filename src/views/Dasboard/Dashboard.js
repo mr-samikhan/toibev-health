@@ -5,6 +5,7 @@ import icons from "../../assets/index";
 import DashboardListing from "./components/DashboardListing";
 import CustomCarousel from "../../components/Carousel";
 import { CustomTabs } from "../../components/Tabs";
+import { useDashboard } from "./useDashboard";
 
 const list1 = [
   { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
@@ -20,7 +21,7 @@ const list1 = [
 ];
 
 export function Dashboard() {
-  const [tab, setTab] = useState(0);
+  const { tab, setTab } = useDashboard({});
   return (
     <Grid className="dashboard">
       <Grid container flexDirection="column" className="section" mb={3}>

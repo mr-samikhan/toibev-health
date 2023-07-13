@@ -1,7 +1,6 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { addAdmin, updateAdmin } from "../actions";
+import { addAdmin, updateAdmin, sendResetPasswordEmail } from "../actions";
 
 const radioOptions = [
   { value: "administrator", label: "Administrator" },
@@ -16,6 +15,7 @@ export default function useAddAdmin({ isEdit, data, setOpen }) {
     handleSubmit,
     setError,
     formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       email: data?.email,
@@ -23,6 +23,8 @@ export default function useAddAdmin({ isEdit, data, setOpen }) {
       ...data,
     },
   });
+
+  const { email } = watch();
 
   const { isLoading, mutate } = useMutation(isEdit ? updateAdmin : addAdmin, {
     onSuccess: (success) => {
@@ -36,6 +38,17 @@ export default function useAddAdmin({ isEdit, data, setOpen }) {
     },
   });
 
+  const { isLoading: isLoadingResetPassword, mutate: mutateResetPassword } =
+    useMutation(sendResetPasswordEmail, {
+      onSuccess: (success) => {
+        setOpen(false);
+        queryClient.invalidateQueries("get-all-admins");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+
   const onSubmit = (data) => {
     const passwordsMatch = data.password === data.confirmPassword;
     if (!passwordsMatch) {
@@ -45,5 +58,15 @@ export default function useAddAdmin({ isEdit, data, setOpen }) {
     isEdit ? mutate({ ...data, id: data.id }) : mutate({ ...data });
   };
 
-  return { control, handleSubmit, onSubmit, radioOptions, isLoading, errors };
+  return {
+    control,
+    handleSubmit,
+    onSubmit,
+    radioOptions,
+    isLoading,
+    errors,
+    isLoadingResetPassword,
+    mutateResetPassword,
+    email,
+  };
 }
