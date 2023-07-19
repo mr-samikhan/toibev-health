@@ -3,17 +3,18 @@ import { Grid, Typography, Box, Menu } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
-import useMedicationForm from "../../../hooks/useMedicationForm";
+import useProviderForm from "../../../hooks/useProvidersForm";
 
 export const ProviderForm = (props) => {
-  const { onSubmit, handleSubmit, control } = useMedicationForm({});
+  const { onSubmit, handleSubmit, control, isLoading, isEdit } =
+    useProviderForm(props);
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="providerName"
+            name="name"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -63,7 +64,7 @@ export const ProviderForm = (props) => {
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="facebook"
+            name="socialLinks.facebook"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -78,7 +79,7 @@ export const ProviderForm = (props) => {
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="linkedIn"
+            name="socialLinks.linkedIn"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -92,7 +93,7 @@ export const ProviderForm = (props) => {
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="twitter"
+            name="socialLinks.twitter"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -106,7 +107,7 @@ export const ProviderForm = (props) => {
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="instagram"
+            name="socialLinks.instagram"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -119,7 +120,11 @@ export const ProviderForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            Add Medication
+            {isLoading
+              ? "Loading..."
+              : isEdit
+              ? "Edit Provider"
+              : "Add Provider"}
           </CustomButton>
         </Grid>
       </Grid>
