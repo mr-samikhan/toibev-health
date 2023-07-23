@@ -6,14 +6,15 @@ import CustomButton from "../../../../../components/CustomButton";
 import useTreatmentForm from "../../../hooks/useTreatmentForm";
 
 export const TreatmentForm = (props) => {
-  const { onSubmit, handleSubmit, control } = useTreatmentForm({});
+  const { onSubmit, handleSubmit, control, isEdit, isLoading } =
+    useTreatmentForm(props);
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="treatmentName"
+            name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -26,12 +27,7 @@ export const TreatmentForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            Add Treatment
-          </CustomButton>
-        </Grid>
-        <Grid item xs={12} mt={3}>
-          <CustomButton variant="outlined" type="submit">
-            Delete Treatment
+            {isLoading ? "Adding..." : "Add Treatment"}
           </CustomButton>
         </Grid>
       </Grid>

@@ -6,14 +6,22 @@ import CustomButton from "../../../../../components/CustomButton";
 import useMedicationForm from "../../../hooks/useMedicationForm";
 
 export const MedicationForm = (props) => {
-  const { onSubmit, handleSubmit, control } = useMedicationForm({});
+  const {
+    onSubmit,
+    handleSubmit,
+    control,
+    isLoading,
+    onDelete,
+    isEdit,
+    isLoadingDelete,
+  } = useMedicationForm(props);
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="medicationName"
+            name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -27,7 +35,7 @@ export const MedicationForm = (props) => {
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="medicationUrl"
+            name="url"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -40,9 +48,16 @@ export const MedicationForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            Add Medication
+            {isLoading ? "Adding..." : "Add Medication"}
           </CustomButton>
         </Grid>
+        {isEdit && (
+          <Grid item xs={12} mt={3}>
+            <CustomButton variant="outlined" onClick={onDelete}>
+              {isLoadingDelete ? "Deleting..." : "Delete Group Session"}
+            </CustomButton>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

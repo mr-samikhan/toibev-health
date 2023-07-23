@@ -6,14 +6,22 @@ import CustomButton from "../../../../../components/CustomButton";
 import useGroupSessionForm from "../../../hooks/useGroupSessionForm";
 
 export const GroupSessionForm = (props) => {
-  const { onSubmit, handleSubmit, control } = useGroupSessionForm({});
+  const {
+    onSubmit,
+    handleSubmit,
+    control,
+    isEdit,
+    isLoading,
+    onDelete,
+    isLoadingDelete,
+  } = useGroupSessionForm(props);
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
-            name="groupSessionName"
+            name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
@@ -86,12 +94,16 @@ export const GroupSessionForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            Add Group Session
+            {isLoading ? "Adding..." : "Add Group Session"}
           </CustomButton>
         </Grid>
-        <Grid item xs={12} mt={3}>
-          <CustomButton variant="outlined">Delete Group Session</CustomButton>
-        </Grid>
+        {isEdit && (
+          <Grid item xs={12} mt={3}>
+            <CustomButton variant="outlined" onClick={onDelete}>
+              {isLoadingDelete ? "Deleting..." : "Delete Group Session"}
+            </CustomButton>
+          </Grid>
+        )}
       </Grid>
     </Box>
   );

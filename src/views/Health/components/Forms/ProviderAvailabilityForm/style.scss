@@ -1,0 +1,75 @@
+.responsive-calendar {
+  width: 100% !important;
+  .Calendar__weekDay {
+    color: #468d8d;
+    text-align: center;
+    font-family: DM Sans;
+    font-size: 17.936px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .Calendar__monthYear button {
+    color: #272727;
+    text-align: center;
+    font-family: DM Sans;
+    font-size: 17.936px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  //   .Calendar__day {
+  //     width: 37px !important;
+  //     height: 37px;
+  //     margin: 0px 11px;
+  //   }
+  .Calendar__day.-selected,
+  .Calendar__day.-selectedStart,
+  .Calendar__day.-selectedEnd {
+    width: 37px !important;
+    height: 37px;
+    margin: 0px 11px;
+    background-color: #f26a47;
+    font-weight: 500;
+  }
+}
+
+.time {
+  color: #000 !important;
+  text-align: center;
+  font-family: "DM Sans";
+  font-size: 14px !important;
+  font-style: normal;
+  font-weight: 500 !important;
+  line-height: normal;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: 0px 6px 20px 0px rgba(36, 41, 41, 0.1) !important;
+  padding: 14px 24px !important;
+  text-transform: lowercase !important;
+  margin-right: 12px !important;
+}
+.time:hover {
+  color: #fff !important;
+  background: #f26a47 !important;
+}
+.time.selected {
+  background: #f26a47 !important;
+  color: #fff !important;
+}
+
+.available__times {
+  max-width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+  padding: 24px 8px;
+}
+
+.availability_title {
+  color: #000;
+  font-family: DM Sans;
+  font-size: 18.248px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
