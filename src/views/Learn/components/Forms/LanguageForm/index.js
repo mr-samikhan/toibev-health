@@ -5,6 +5,8 @@ import CustomTextfield from "../../../../../components/CustomTextfield";
 import { ReactComponent as PeopleIcon } from "../../../../../assets/icons/people.svg";
 import CustomButton from "../../../../../components/CustomButton";
 import useLanguageForm from "../../../hook/useLanguageForm";
+import LanguageDetailForm from "../LanguageDetailForm";
+import AlertDialog from "../../../../../components/AlertDialog";
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
@@ -14,6 +16,15 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     isLoading,
     handleDelete,
     isLoadingDelete,
+    description,
+    setDescription,
+    selectedImage,
+    setSelectedImage,
+    onSubmitLanguage,
+    openLanguageDetailForm,
+    setOpenLanguageDetailForm,
+    tribes,
+    handleDeleteTribe,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -22,6 +33,24 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
 
   return (
     <>
+      {openLanguageDetailForm && (
+        <AlertDialog
+          title="Add Language"
+          open={openLanguageDetailForm}
+          setOpen={setOpenLanguageDetailForm}
+          message={
+            <LanguageDetailForm
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              onSubmit={onSubmitLanguage}
+              description={description}
+              setDescription={setDescription}
+              tribes={tribes}
+              onHandleDeleteTribe={handleDeleteTribe}
+            />
+          }
+        />
+      )}
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs={12} mb={4} mt={2}>

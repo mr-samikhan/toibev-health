@@ -4,17 +4,23 @@ import { useMutation, useQueryClient } from "react-query";
 import { addCulture, deleteCulture, updateCulture } from "../actions";
 
 export default function useTribeForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, watch } = useForm({
     defaultValues: { ...initialState },
+  });
+  const title = watch("title");
+  const [description, setDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState({
+    fileUrl: initialState?.image || "",
   });
   const [openCultureForm, setOpenCultureForm] = useState(false);
   const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useMutation(
-    isEdit ? updateCulture : addCulture,
+    isEdit ? (data) => updateCulture({ ...data, title }) : addCulture,
     {
       onSuccess: (success) => {
         setOpen(false);
+
         queryClient.invalidateQueries("get-all-cultures");
       },
       onError: (error) => {
@@ -39,7 +45,17 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
     mutateDelete(initialState.id);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
+    setOpenCultureForm(true);
+  };
+
+  const onSubmitCulture = () => {
+    const data = {
+      title,
+      description,
+      cover_img: selectedImage,
+    };
+
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data);
   };
 
@@ -51,5 +67,11 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
     isLoading,
     handleDelete,
     isLoadingDelete,
+    selectedImage,
+    setSelectedImage,
+    onSubmitCulture,
+    description,
+    setDescription,
+    setOpenCultureForm,
   };
 }

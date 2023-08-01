@@ -1,28 +1,43 @@
 import React from "react";
-import { Grid, Typography, Box, Menu } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { Grid, Typography, Box } from "@mui/material";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
-import { ReactComponent as MicrofoneIcon } from "../../../../../assets/icons/microphone.svg";
-import useCultureForm from "../../../hook/useCultureForm";
-import MediaCard from "../../../../../components/MediaCard";
 import ImageUploader from "../../../../../components/MediaUpload";
+import { CustomChip } from "../../../../../components/CustomChip";
 
-export default function CultureForm({
+export default function LanguageDetailForm({
   selectedImage,
   setSelectedImage,
   onSubmit,
   description,
   setDescription,
+  tribes,
+  onHandleDeleteTribe,
 }) {
   return (
     <Box component="form">
       <Grid container>
         <Grid item xs={12} mb={3}>
+          <Typography>
+            Add/edit tribes that should be shown under this language
+          </Typography>
+        </Grid>
+        <Grid item container columnGap={1.5} mb={3}>
+          {tribes.map((tribe, index) => (
+            <Grid item>
+              <CustomChip
+                title={tribe}
+                index={index}
+                handleDelete={onHandleDeleteTribe}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        <Grid item xs={12} mb={3}>
           {" "}
           <CustomTextfield
-            label="Culture Description"
-            placeholder="Culture Description"
+            label="Language Description"
+            placeholder="Language Description"
             multiline
             rows={6}
             value={description}
@@ -49,13 +64,6 @@ export default function CultureForm({
                 sx={{ gap: "16px" }}
                 flexWrap="nowrap"
               >
-                {/* <Grid item xs={6}>
-                  <MediaCard
-                    title="Audio File"
-                    icon={<MicrofoneIcon />}
-                    fileSize="2.5mb"
-                  />
-                </Grid> */}
                 <Grid item xs={6}>
                   <ImageUploader
                     fileType="image"

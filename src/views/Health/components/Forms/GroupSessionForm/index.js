@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
 import useGroupSessionForm from "../../../hooks/useGroupSessionForm";
+import { BasicDatePicker } from "../../../../../components/DatePicker";
 
 export const GroupSessionForm = (props) => {
   const {
@@ -39,11 +40,15 @@ export const GroupSessionForm = (props) => {
               name="date"
               control={control}
               render={({ field }) => (
-                <CustomTextfield
-                  label="Date"
-                  placeholder="Enter Date"
-                  {...field}
-                />
+                <>
+                  <CustomTextfield
+                    label="Date"
+                    placeholder="Enter Date"
+                    {...field}
+                  />
+
+                  <BasicDatePicker />
+                </>
               )}
             />
           </Grid>

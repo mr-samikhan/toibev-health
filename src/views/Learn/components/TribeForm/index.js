@@ -18,6 +18,11 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
     isLoading,
     handleDelete,
     isLoadingDelete,
+    selectedImage,
+    setSelectedImage,
+    onSubmitCulture,
+    description,
+    setDescription,
   } = useTribeForm({
     isEdit,
     initialState,
@@ -28,10 +33,18 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
     <>
       {openCultureForm && (
         <AlertDialog
-          title="Edit Culture 1"
+          title="Add Culture"
           open={openCultureForm}
           setOpen={setOpenCultureForm}
-          message={<CultureForm />}
+          message={
+            <CultureForm
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+              onSubmit={onSubmitCulture}
+              description={description}
+              setDescription={setDescription}
+            />
+          }
         />
       )}
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
