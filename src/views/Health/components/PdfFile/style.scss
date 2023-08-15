@@ -1,0 +1,33 @@
+.container {
+  background: #ffffff;
+  box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+  border-radius: 16px;
+
+  .file {
+    background: rgba(153, 153, 153, 0.08);
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+  }
+  .file-name {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: #000000;
+  }
+  .file-size {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #292d32;
+  }
+  .remove-file {
+    border: 1px solid #f3617c;
+    padding: 12px;
+  }
+}

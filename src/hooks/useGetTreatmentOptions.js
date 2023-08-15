@@ -1,17 +1,16 @@
 import { useQuery } from "react-query";
 import { firestore, collection, getDocs } from "../firebase";
 
-const fetchInfo = async () => {
+const fetchInfo = async (id) => {
   let data = [];
   try {
     const querySnapshot = await getDocs(
-      collection(firestore, "Treatment", "general", "list")
+      collection(firestore, "Treatment", "general", "list", id, "options")
     );
 
     querySnapshot.forEach((document) => {
       let treatment = {
         id: document.id,
-        title: document.data().title,
         ...document.data(),
       };
       data.push(treatment);
@@ -23,10 +22,10 @@ const fetchInfo = async () => {
   }
 };
 
-export const useGetTreatments = ({ enabled = true }) => {
+export const useGetTreatmentOptions = ({ enabled = true, id }) => {
   const { data, isLoading, error, isFetching } = useQuery(
-    ["get-all-treatments"],
-    fetchInfo,
+    ["get-all-treatment-options"],
+    () => fetchInfo(id),
     {
       enabled,
       refetchOnWindowFocus: false,

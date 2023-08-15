@@ -6,6 +6,9 @@ import { ProviderForm } from "../Forms/ProviderForm";
 import { useActions } from "../../hooks/useActions";
 import { ProviderAvailabilityForm } from "../Forms/ProviderAvailabilityForm";
 import { TreatmentForm } from "../Forms/TreatmentForm";
+import { Add } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import TreatmentResourceForm from "../Forms/TreatmentResourceForm";
 
 export function Actions({ data }) {
   const { open, setOpen, setOpenAvailability, openAvalability } = useActions(
@@ -55,8 +58,9 @@ export function Actions({ data }) {
     </>
   );
 }
-export function TreatmentActions({ data }) {
+export function TreatmentActions({ data, expanded }) {
   const [open, setOpen] = useState(false);
+  const [openResourceForm, setOpenResourceForm] = useState(false);
 
   return (
     <>
@@ -64,21 +68,86 @@ export function TreatmentActions({ data }) {
         <AlertDialog
           open={open}
           setOpen={setOpen}
-          title={"Add Medication"}
+          title={"Edit Treatment"}
           message={
             <TreatmentForm initialState={data} isEdit setOpen={setOpen} />
           }
         />
       )}
+      {openResourceForm && (
+        <AlertDialog
+          open={openResourceForm}
+          setOpen={setOpenResourceForm}
+          title={"Add Treatment Resource"}
+          message={
+            <TreatmentResourceForm data={data} setOpen={setOpenResourceForm} />
+          }
+        />
+      )}
 
-      <Grid container>
-        <Grid item>
-          {" "}
-          <IconButton edge="end" onClick={() => setOpen(true)}>
-            <img src={icons.editIcon} />
-          </IconButton>
-        </Grid>
+      <Grid container alignItems="center" columnSpacing={2}>
+        {!expanded ? (
+          <Grid item>
+            <IconButton edge="end">
+              <img src={icons.editIcon} />
+            </IconButton>
+          </Grid>
+        ) : (
+          <>
+            <Grid item>
+              <IconButton edge="end" onClick={() => setOpen(true)}>
+                <img src={icons.editIcon} />
+              </IconButton>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                onClick={() => setOpenResourceForm(true)}
+                sx={{
+                  p: 0,
+                  minWidth: "0px",
+                  width: "44px",
+                  height: "44px",
+                  borderRadius: "10px",
+                  background: "#468D8D",
+                  "& span": {
+                    m: 0,
+                  },
+                }}
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
+    </>
+  );
+}
+
+export function TreatmentResourceActions({ treatment, expanded, resource }) {
+  const [openResourceForm, setOpenResourceForm] = useState(false);
+
+  return (
+    <>
+      {openResourceForm && (
+        <AlertDialog
+          open={openResourceForm}
+          setOpen={setOpenResourceForm}
+          title={"Edit Treatment Resource"}
+          message={
+            <TreatmentResourceForm
+              isEdit
+              data={treatment}
+              initialState={resource}
+              setOpen={setOpenResourceForm}
+            />
+          }
+        />
+      )}
+
+      <IconButton edge="end" onClick={() => setOpenResourceForm(true)}>
+        <img src={icons.editIcon} />
+      </IconButton>
     </>
   );
 }

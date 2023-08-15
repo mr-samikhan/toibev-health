@@ -13,12 +13,12 @@ import CustomCard from "../../components/CustomCrad";
 import { useHealth } from "./useHealth";
 import CardListing from "../../components/CardListing";
 import icons from "../../assets";
-import CustomButton from "../../components/CustomButton";
 import CustomTextfield from "../../components/CustomTextfield";
 import GroupSessionCardActionButton, {
   MedicationCardActionButton,
 } from "./components/CardListActionButton";
-import { Group } from "@mui/icons-material";
+import { TreatmentList } from "./components/TreatmentList";
+import { TreatmentResourceActions } from "./components/Actions";
 
 export function Health() {
   const {
@@ -184,7 +184,6 @@ export function Health() {
                 </Button>
               </Grid>
               <Grid container>
-                {/* <CustomCard isLoading={isLoadingServices ?? isFetchingServices}> */}
                 <CustomCard>
                   <CardListing
                     list={medication}
@@ -218,7 +217,8 @@ export function Health() {
           <Grid item container>
             <CustomTextfield multiline rows={3} label="Treatment Description" />
           </Grid>
-          <CustomList
+          <TreatmentList
+            ResourceActions={TreatmentResourceActions}
             Actions={TreatmentActions}
             list={treatments}
             icon={icons.peopleIcon}

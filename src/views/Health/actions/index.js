@@ -65,7 +65,57 @@ export const deleteGroupSession = async (id) => {
 
 export const addTreatment = async (data) => {
   try {
-    const docRef = await addDoc(collection(firestore, "Treatment"), data);
+    const docRef = await addDoc(
+      collection(firestore, "Treatment", "general", "list"),
+      data
+    );
+    return docRef;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    throw errorCode;
+  }
+};
+export const addTreatmentResource = async (data) => {
+  try {
+    const docRef = await addDoc(
+      collection(
+        firestore,
+        "Treatment",
+        "general",
+        "list",
+        data?.id,
+        "options"
+      ),
+      data
+    );
+    return docRef;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    throw errorCode;
+  }
+};
+export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
+  try {
+    const docRef = await updateDoc(
+      doc(firestore, "Treatment", "general", "list", dataId, "options", id),
+      { ...rest }
+    );
+    return docRef;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    throw errorCode;
+  }
+};
+
+export const deleteTreatmentResource = async ({ id, dataId }) => {
+  console.log(id, dataId);
+  try {
+    const docRef = await deleteDoc(
+      doc(firestore, "Treatment", "general", "list", dataId, "options", id)
+    );
     return docRef;
   } catch (error) {
     const errorCode = error.code;
@@ -76,7 +126,10 @@ export const addTreatment = async (data) => {
 
 export const updateTreatment = async (data) => {
   try {
-    const docRef = await updateDoc(doc(firestore, "Treatment", data?.id), data);
+    const docRef = await updateDoc(
+      doc(firestore, "Treatment", "general", "list", data?.id),
+      data
+    );
     return docRef;
   } catch (error) {
     const errorCode = error.code;
