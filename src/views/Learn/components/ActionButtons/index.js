@@ -2,36 +2,29 @@ import { Grid, IconButton } from "@mui/material";
 import icons from "../../../../assets";
 import React, { useState } from "react";
 import TribeForm from "../TribeForm";
-import CustomMenu from "../../../../components/CustomMenu";
 import LangugaeForm from "../Forms/LanguageForm";
+import AlertDialog from "../../../../components/AlertDialog";
 
 export function CultureActions({ data }) {
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <>
       {open && (
-        <CustomMenu
-          title="Edit Tribe"
-          handleClose={handleClose}
+        <AlertDialog
+          title="Edit Culture"
           open={open}
-          anchorEl={anchorEl}
-        >
-          <TribeForm initialState={data} isEdit setOpen={setOpen} />
-        </CustomMenu>
+          setOpen={setOpen}
+          message={<TribeForm setOpen={setOpen} isEdit initialState={data} />}
+        />
       )}
       <Grid container>
         <Grid item>
           {" "}
           <IconButton
             edge="end"
-            aria-label="delete"
             onClick={(event) => {
               setOpen(true);
-              setAnchorEl(event.currentTarget);
             }}
           >
             <img src={icons.editIcon} />
@@ -43,31 +36,25 @@ export function CultureActions({ data }) {
 }
 export function LanguageActions({ data }) {
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       {open && (
-        <CustomMenu
+        <AlertDialog
           title="Edit Language"
-          handleClose={handleClose}
           open={open}
-          anchorEl={anchorEl}
-        >
-          <LangugaeForm initialState={data} isEdit setOpen={setOpen} />
-        </CustomMenu>
+          setOpen={setOpen}
+          message={
+            <LangugaeForm initialState={data} isEdit setOpen={setOpen} />
+          }
+        />
       )}
       <Grid container>
         <Grid item>
           {" "}
           <IconButton
             edge="end"
-            aria-label="delete"
             onClick={(event) => {
               setOpen(true);
-              setAnchorEl(event.currentTarget);
             }}
           >
             <img src={icons.editIcon} />

@@ -1,12 +1,10 @@
 import React from "react";
 import { Grid, Typography, Box, Menu } from "@mui/material";
-import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
-import { ReactComponent as MicrofoneIcon } from "../../../../../assets/icons/microphone.svg";
-import useCultureForm from "../../../hook/useCultureForm";
-import MediaCard from "../../../../../components/MediaCard";
 import ImageUploader from "../../../../../components/MediaUpload";
+import { ReactComponent as PeopleIcon } from "../../../../../assets/icons/people.svg";
+import { Controller } from "react-hook-form";
 
 export default function CultureForm({
   selectedImage,
@@ -18,6 +16,32 @@ export default function CultureForm({
   return (
     <Box component="form">
       <Grid container>
+        <Grid item xs={12} mb={4} mt={2}>
+          <Controller
+            name="title"
+            render={({ field }) => (
+              <CustomTextfield
+                label="Tribe Name"
+                placeholder="Tribe in title"
+                EndIcon={PeopleIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={4} mt={2}>
+          <Controller
+            name="link"
+            render={({ field }) => (
+              <CustomTextfield
+                label="Tribe Link"
+                placeholder="Tribe in title"
+                EndIcon={PeopleIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
         <Grid item xs={12} mb={3}>
           {" "}
           <CustomTextfield

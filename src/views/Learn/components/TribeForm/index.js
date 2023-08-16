@@ -1,28 +1,22 @@
 import React from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../components/CustomTextfield";
-import { ReactComponent as PeopleIcon } from "../../../../assets/icons/people.svg";
+import ImageUploader from "../../../../components/MediaUpload";
 import CustomButton from "../../../../components/CustomButton";
+import { ReactComponent as PeopleIcon } from "../../../../assets/icons/people.svg";
 import useTribeForm from "../../hook/useTribeForm";
-import AlertDialog from "../../../../components/AlertDialog";
-import CultureForm from "../Forms/CultureForm";
 
 export default function TribeForm({ isEdit, initialState, setOpen }) {
   const {
     control,
-    handleSubmit,
     onSubmit,
-    openCultureForm,
-    setOpenCultureForm,
-    isLoading,
-    handleDelete,
-    isLoadingDelete,
     selectedImage,
     setSelectedImage,
-    onSubmitCulture,
-    description,
-    setDescription,
+    onDelete,
+    isLoading,
+    isLoadingDelete,
+    handleSubmit,
   } = useTribeForm({
     isEdit,
     initialState,
@@ -30,53 +24,103 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
   });
 
   return (
-    <>
-      {openCultureForm && (
-        <AlertDialog
-          title="Add Culture"
-          open={openCultureForm}
-          setOpen={setOpenCultureForm}
-          message={
-            <CultureForm
-              selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
-              onSubmit={onSubmitCulture}
-              description={description}
-              setDescription={setDescription}
-            />
-          }
-        />
-      )}
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Grid container>
-          <Grid item xs={12} mb={4} mt={2}>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <CustomTextfield
-                  label="Tribe Name"
-                  placeholder="Tribe in title"
-                  EndIcon={PeopleIcon}
-                  {...field}
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Grid container>
+        <Grid item xs={12} mb={3} mt={2}>
+          <Controller
+            name="title"
+            control={control}
+            render={({ field }) => (
+              <CustomTextfield
+                label="Tribe Name"
+                placeholder="Enter Tribe Name"
+                EndIcon={PeopleIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Controller
+            name="link"
+            control={control}
+            render={({ field }) => (
+              <CustomTextfield
+                label="Tribe Link"
+                placeholder="Enter Tribe Link"
+                EndIcon={PeopleIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          {" "}
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <CustomTextfield
+                label="Culture Description"
+                placeholder="Culture Description"
+                multiline
+                rows={6}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Grid container>
+            <Grid item xs={12} mb={2}>
+              <Typography
+                fontWeight={500}
+                fontSize={18}
+                sx={{
+                  color: "#000000",
+                }}
+              >
+                File Upload
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid
+                container
+                justifyContent={"space-between"}
+                sx={{ gap: "16px" }}
+                flexWrap="nowrap"
+              >
+                {/* <Grid item xs={6}>
+                <MediaCard
+                  title="Audio File"
+                  icon={<MicrofoneIcon />}
+                  fileSize="2.5mb"
                 />
-              )}
-            />
+              </Grid> */}
+                <Grid item xs={6}>
+                  <ImageUploader
+                    fileType="image"
+                    selectedFile={selectedImage}
+                    setSelectedFile={setSelectedImage}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} mb={isEdit && 2}>
-            <CustomButton variant="contained" type="submit">
-              {isLoading ? "Saving..." : "Save Tribe"}
+        </Grid>
+        <Grid item xs={12}>
+          <CustomButton variant="contained" type="submit">
+            {isLoading ? "Saving" : "Save Culture"}
+          </CustomButton>
+        </Grid>
+        {isEdit && (
+          <Grid item xs={12} mt={3}>
+            <CustomButton variant="outlined" onClick={onDelete}>
+              {isLoadingDelete ? "Deleting..." : "Delete Culture"}
             </CustomButton>
           </Grid>
-          {isEdit && (
-            <Grid item xs={12}>
-              <CustomButton variant="outlined" onClick={handleDelete}>
-                {isLoadingDelete ? "Deleting..." : "Delete Tribe"}
-              </CustomButton>
-            </Grid>
-          )}
-        </Grid>
-      </Box>
-    </>
+        )}
+      </Grid>
+    </Box>
   );
 }
