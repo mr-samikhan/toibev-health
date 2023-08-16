@@ -4,15 +4,12 @@ import { useMutation, useQueryClient } from "react-query";
 import { addLanguage, deleteLanguage, updateLanguage } from "../actions";
 
 export default function useLanguageForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit, watch } = useForm({
-    defaultValues: { title: initialState?.title },
+  const { control, handleSubmit } = useForm({
+    defaultValues: { ...initialState },
   });
-  const title = watch("title");
-  const [openLanguageDetailForm, setOpenLanguageDetailForm] = useState(false);
-  const [tribes, setTribes] = useState(["Tribes 1", "Tribe 2", "Tribe 3"]);
-  const [description, setDescription] = useState("");
+
   const [selectedImage, setSelectedImage] = useState({
-    fileUrl: initialState?.image || "",
+    fileUrl: initialState?.cover_img || "",
   });
   const queryClient = useQueryClient();
 
@@ -45,22 +42,12 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     mutateDelete(initialState.id);
   };
 
-  const onSubmit = () => {
-    setOpenLanguageDetailForm(true);
-  };
-
-  const onSubmitLanguage = () => {
+  const onSubmit = (formData) => {
     const data = {
-      title,
-      tribes,
-      description,
+      ...formData,
       cover_img: selectedImage,
     };
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data);
-  };
-
-  const handleDeleteTribe = (index) => {
-    console.log(index);
   };
 
   return {
@@ -70,15 +57,7 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     isLoading,
     handleDelete,
     isLoadingDelete,
-    description,
-    setDescription,
     selectedImage,
     setSelectedImage,
-    onSubmitLanguage,
-    openLanguageDetailForm,
-    setOpenLanguageDetailForm,
-    tribes,
-    setTribes,
-    handleDeleteTribe,
   };
 }

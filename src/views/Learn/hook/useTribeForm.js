@@ -8,11 +8,10 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
     defaultValues: { ...initialState },
   });
   const title = watch("title");
-  const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState({
-    fileUrl: initialState?.image || "",
+    fileUrl: initialState?.cover_img || "",
   });
-  const [openCultureForm, setOpenCultureForm] = useState(false);
+
   const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useMutation(
@@ -45,14 +44,13 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
     mutateDelete(initialState.id);
   };
 
-  const onSubmit = () => {
-    setOpenCultureForm(true);
+  const onDelete = () => {
+    handleDelete();
   };
 
-  const onSubmitCulture = () => {
+  const onSubmit = (formData) => {
     const data = {
-      title,
-      description,
+      ...formData,
       cover_img: selectedImage,
     };
 
@@ -62,16 +60,12 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
   return {
     control,
     handleSubmit,
-    onSubmit,
-    openCultureForm,
     isLoading,
     handleDelete,
     isLoadingDelete,
     selectedImage,
     setSelectedImage,
-    onSubmitCulture,
-    description,
-    setDescription,
-    setOpenCultureForm,
+    onSubmit,
+    onDelete,
   };
 }

@@ -1,12 +1,11 @@
 import React from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import { ReactComponent as PeopleIcon } from "../../../../../assets/icons/people.svg";
 import CustomButton from "../../../../../components/CustomButton";
 import useLanguageForm from "../../../hook/useLanguageForm";
-import LanguageDetailForm from "../LanguageDetailForm";
-import AlertDialog from "../../../../../components/AlertDialog";
+import ImageUploader from "../../../../../components/MediaUpload";
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
@@ -16,15 +15,8 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     isLoading,
     handleDelete,
     isLoadingDelete,
-    description,
-    setDescription,
     selectedImage,
     setSelectedImage,
-    onSubmitLanguage,
-    openLanguageDetailForm,
-    setOpenLanguageDetailForm,
-    tribes,
-    handleDeleteTribe,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -32,55 +24,82 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   });
 
   return (
-    <>
-      {openLanguageDetailForm && (
-        <AlertDialog
-          title="Add Language"
-          open={openLanguageDetailForm}
-          setOpen={setOpenLanguageDetailForm}
-          message={
-            <LanguageDetailForm
-              selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
-              onSubmit={onSubmitLanguage}
-              description={description}
-              setDescription={setDescription}
-              tribes={tribes}
-              onHandleDeleteTribe={handleDeleteTribe}
-            />
-          }
-        />
-      )}
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Grid container>
-          <Grid item xs={12} mb={4} mt={2}>
-            <Controller
-              name="title"
-              control={control}
-              render={({ field }) => (
-                <CustomTextfield
-                  label="Language Name"
-                  placeholder="Type in title"
-                  EndIcon={PeopleIcon}
-                  {...field}
-                />
-              )}
-            />
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Grid container>
+        <Grid item xs={12} mb={4} mt={2}>
+          <Controller
+            name="title"
+            control={control}
+            render={({ field }) => (
+              <CustomTextfield
+                label="Language Name"
+                placeholder="Type in title"
+                EndIcon={PeopleIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          {" "}
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => (
+              <CustomTextfield
+                label="Language Description"
+                placeholder="Language Description"
+                multiline
+                rows={6}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Grid container>
+            <Grid item xs={12} mb={2}>
+              <Typography
+                fontWeight={500}
+                fontSize={18}
+                sx={{
+                  color: "#000000",
+                }}
+              >
+                File Upload
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid
+                container
+                justifyContent={"space-between"}
+                sx={{ gap: "16px" }}
+                flexWrap="nowrap"
+              >
+                <Grid item xs={6}>
+                  <ImageUploader
+                    fileType="image"
+                    selectedFile={selectedImage}
+                    setSelectedFile={setSelectedImage}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} mb={isEdit && 2}>
-            <CustomButton variant="contained" type="submit">
-              {isLoading ? "Saving..." : "Save Language"}
+        </Grid>
+        <Grid item xs={12} mb={isEdit && 2}>
+          <CustomButton variant="contained" type="submit">
+            {isLoading ? "Saving..." : "Save Language"}
+          </CustomButton>
+        </Grid>
+        {isEdit && (
+          <Grid item xs={12}>
+            <CustomButton variant="outlined" onClick={handleDelete}>
+              {isLoadingDelete ? "Deleting..." : "Delete Language"}
             </CustomButton>
           </Grid>
-          {isEdit && (
-            <Grid item xs={12}>
-              <CustomButton variant="outlined" onClick={handleDelete}>
-                {isLoadingDelete ? "Deleting..." : "Delete Language"}
-              </CustomButton>
-            </Grid>
-          )}
-        </Grid>
-      </Box>
-    </>
+        )}
+      </Grid>
+    </Box>
   );
 }
