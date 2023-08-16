@@ -24,6 +24,7 @@ export function CustomList({
   listing,
   onRowClick,
   indexed,
+  noData,
 }) {
   const removeOnClick = (event) => {
     event.stopPropagation();
@@ -36,7 +37,7 @@ export function CustomList({
           <Paper>
             {list?.length === 0 ? (
               <Alert sx={{ mt: 2 }} severity="error">
-                No data found!
+                {noData ?? "No data found!"}
               </Alert>
             ) : (
               <List dense={false} className="listing">
