@@ -29,6 +29,7 @@ export const useGetProviders = ({ enabled = true }) => {
     fetchInfo,
     {
       enabled,
+      refetchOnWindowFocus: false,
     }
   );
 

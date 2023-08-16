@@ -14,26 +14,6 @@ const fetchInfo = async () => {
       languageData.push(language);
     });
 
-    // if (querySnapshot && querySnapshot.size > 0) {
-    //   for (const culDoc of querySnapshot.docs) {
-    // let culture = {
-    //   id: culDoc.id,
-    //   ...culDoc.data(),
-    // };
-    // const coursesSnap = await CULTURE_COLLECTION.doc(culDoc.id)
-    //   .collection("courses")
-    //   .get();
-    // let courses = [];
-    // coursesSnap.forEach((courseDoc) => {
-    //   courses.push({
-    //     id: courseDoc.id,
-    //     ...courseDoc.data(),
-    //   });
-    // });
-    // culture.courses = courses;
-    // cultureData.push(culture);
-    //   }
-    // }
     return languageData;
   } catch (error) {
     return error;
@@ -46,6 +26,7 @@ export const useGetLanguages = ({ enabled = true }) => {
     fetchInfo,
     {
       enabled,
+      refetchOnWindowFocus: false,
     }
   );
   return { isLoading, error, languages: data, isFetching };
