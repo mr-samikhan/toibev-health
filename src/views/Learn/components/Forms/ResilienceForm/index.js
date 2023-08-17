@@ -4,21 +4,14 @@ import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import { ReactComponent as PeopleIcon } from "../../../../../assets/icons/people.svg";
 import CustomButton from "../../../../../components/CustomButton";
-import useLanguageForm from "../../../hook/useLanguageForm";
+import useResilienceForm from "../../../hook/useResilienceForm";
 
 export default function ResilienceForm({ isEdit, initialState, setOpen }) {
-  //   const {
-  //     control,
-  //     handleSubmit,
-  //     onSubmit,
-  //     isLoading,
-  //     handleDelete,
-  //     isLoadingDelete,
-  //   } = useLanguageForm({
-  //     isEdit,
-  //     initialState,
-  //     setOpen,
-  //   });
+  const { control, handleSubmit, onSubmit, isLoading } = useResilienceForm({
+    isEdit,
+    initialState,
+    setOpen,
+  });
 
   return (
     <>
@@ -40,16 +33,9 @@ export default function ResilienceForm({ isEdit, initialState, setOpen }) {
           </Grid>
           <Grid item xs={12} mb={isEdit && 2}>
             <CustomButton variant="contained" type="submit">
-              {isLoading ? "Saving..." : "Save Language"}
+              {isLoading ? "Saving..." : "Save"}
             </CustomButton>
           </Grid>
-          {isEdit && (
-            <Grid item xs={12}>
-              <CustomButton variant="outlined" onClick={handleDelete}>
-                {isLoadingDelete ? "Deleting..." : "Delete Language"}
-              </CustomButton>
-            </Grid>
-          )}
         </Grid>
       </Box>
     </>

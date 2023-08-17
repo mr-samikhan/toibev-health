@@ -4,7 +4,7 @@ import CustomButton from "../../../../components/CustomButton";
 import icons from "../../../../assets";
 import "./style.scss";
 
-export const PdfFile = () => {
+export const PdfFile = ({ pdf, handleRemoveFile }) => {
   return (
     <Grid
       container
@@ -28,10 +28,10 @@ export const PdfFile = () => {
           <Grid item>
             <Grid container flexDirection="column">
               <Grid item mb={0.5}>
-                <Typography className="file-name">BHOUITUS.pdf</Typography>
+                <Typography className="file-name">{pdf?.fileName}</Typography>
               </Grid>
               <Grid item>
-                <Typography className="file-size">2.5MB</Typography>
+                <Typography className="file-size">{pdf?.fileSize}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -43,6 +43,7 @@ export const PdfFile = () => {
           startIcon={<img src={icons.clearIcon} />}
           className="remove-file"
           sx={{ color: "#f3617c" }}
+          onClick={handleRemoveFile}
         >
           Remove
         </CustomButton>
