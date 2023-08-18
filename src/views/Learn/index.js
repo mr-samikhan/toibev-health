@@ -8,11 +8,11 @@ import { ListItem } from "../../components/ListItem";
 import { ListTitle } from "../../components/ListTitile";
 import { CultureActions, LanguageActions } from "./components/ActionButtons";
 import TribeForm from "./components/TribeForm";
-import CustomMenu from "../../components/CustomMenu";
 import { useLearn } from "./useLearn";
 import LangugaeForm from "./components/Forms/LanguageForm";
-import HistoryForm from "./components/Forms/HistoryForm";
 import AlertDialog from "../../components/AlertDialog";
+import ResilienceForm from "./components/Forms/ResilienceForm";
+import ResiliencyItem from "./components/ResiliencyItem";
 
 export function Learn() {
   const {
@@ -20,59 +20,45 @@ export function Learn() {
     setTab,
     open,
     setOpen,
-    anchorEl,
     cultures,
     languages,
     handleClick,
-    handleClose,
     isLoadingCultures,
     isFetchingCultures,
     isLoadingLanguages,
     isFetchingLanguages,
+    reseliency,
+    isLoadingReseliency,
+    isFetchingReseliency,
   } = useLearn();
 
   return (
     <>
       {tab === 0 && open && (
-        <CustomMenu
+        <AlertDialog
+          title="Add Culture"
           open={open}
           setOpen={setOpen}
-          title="Add Tribe"
-          anchorEl={anchorEl}
-          handleClose={handleClose}
-          sx={{ marginTop: 2 }}
-        >
-          <TribeForm setOpen={setOpen} />
-        </CustomMenu>
+          message={<TribeForm setOpen={setOpen} />}
+        />
       )}
+
       {tab === 1 && open && (
-        <CustomMenu
+        <AlertDialog
+          title="Add Language"
           open={open}
           setOpen={setOpen}
-          title="Add Language"
-          anchorEl={anchorEl}
-          handleClose={handleClose}
-          sx={{ marginTop: 2 }}
-        >
-          <LangugaeForm setOpen={setOpen} />
-        </CustomMenu>
+          message={<LangugaeForm setOpen={setOpen} />}
+        />
       )}
       {tab === 2 && open && (
-        // <CustomMenu
-        //   open={open}
-        //   setOpen={setOpen}
-        //   title="Add Language"
-        //   anchorEl={anchorEl}
-        //   handleClose={handleClose}
-        //   sx={{ marginTop: 2 }}
-        // >
-        //   <LangugaeForm setOpen={setOpen} />
-        // </CustomMenu>
         <AlertDialog
+          title="Add Resilience"
           open={open}
           setOpen={setOpen}
-          title="Add History"
-          message={<HistoryForm setOpen={setOpen} />}
+          message={
+            <ResilienceForm setOpen={setOpen} initialState={reseliency[0]} />
+          }
         />
       )}
       <Grid
@@ -107,7 +93,9 @@ export function Learn() {
       {isLoadingCultures ||
       isFetchingCultures ||
       isFetchingLanguages ||
-      isLoadingLanguages ? (
+      isLoadingLanguages ||
+      isLoadingReseliency ||
+      isFetchingReseliency ? (
         <Grid container justifyContent="center">
           {" "}
           <CircularProgress />
@@ -130,45 +118,8 @@ export function Learn() {
           )}
           {tab === 2 && (
             <>
-              {[1, 2, 3].map((i) => (
-                <Grid container>
-                  <Grid item sm={12} sx={{ margin: "40px 0px" }}>
-                    <ListItem
-                      title={"History Sub-Categories"}
-                      startIcon={icons.clockIcon}
-                      endIcon={icons.editIcon}
-                    />
-                  </Grid>
-                  <Grid item sm={12} sx={{ marginBottom: "24px" }}>
-                    {" "}
-                    <Grid container justifyContent="space-between">
-                      <Grid item>
-                        {" "}
-                        <ListTitle
-                          title="History Sub-Categories"
-                          icon={icons.documentIcon}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          className="contained-button"
-                          startIcon={<AddIcon />}
-                        >
-                          Add Additional Resources
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item sm={12}>
-                    <CustomList
-                      icon={icons.clipboardIcon}
-                      // Actions={Actions}
-                      // list={list}
-                    />
-                  </Grid>
-                </Grid>
+              {reseliency[0]?.menu?.map((item) => (
+                <ResiliencyItem data={item} />
               ))}
             </>
           )}

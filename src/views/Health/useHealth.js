@@ -3,6 +3,7 @@ import { useGetProviders } from "../../hooks/useGetProviders";
 import { useGetGroupSessions } from "../../hooks/useGetGroupSessions";
 import { useGetMedication } from "../../hooks/useGetMedication";
 import { useGetTreatments } from "../../hooks/useGetTreatments";
+import { useGetTreatmentOptions } from "../../hooks/useGetTreatmentOptions";
 
 export const useHealth = () => {
   const [tab, setTab] = useState(0);
@@ -31,6 +32,12 @@ export const useHealth = () => {
     data: treatments,
     error: treatmentError,
   } = useGetTreatments({});
+  const {
+    isLoading: isLoadingTreatmentOptions,
+    isFetching: isFetchingTreatmentOptions,
+    data: treatmentOptions,
+    error: treatmentErrorOptions,
+  } = useGetTreatmentOptions({});
 
   const handleClick = () => {
     return tab === 1 ? setOpenAddProvider(true) : "";
@@ -59,5 +66,8 @@ export const useHealth = () => {
     groupSessions,
     medication,
     treatments,
+    treatmentOptions,
+    isLoadingTreatmentOptions,
+    isFetchingTreatmentOptions,
   };
 };

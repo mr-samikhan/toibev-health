@@ -46,7 +46,7 @@ export const addEvent = async (data) => {
     if (data.pdf?.file) {
       pdfUrl = await uploadFile(
         data.pdf.file,
-        `pdfs//events/${data.pdf?.fileName}`
+        `pdfs/events/${data.pdf?.fileName}`
       );
     }
 

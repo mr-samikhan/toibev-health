@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGetCultures } from "../../hooks/useGetCultures";
 import { useGetLanguages } from "../../hooks/useGetLanguages";
+import { useGetReseliency } from "../../hooks/useGetReseliency";
 
 export const useLearn = () => {
   const [tab, setTab] = useState(0);
@@ -11,14 +12,20 @@ export const useLearn = () => {
     cultures,
     isLoading: isLoadingCultures,
     isFetching: isFetchingCultures,
-  } = useGetCultures({});
+  } = useGetCultures({ enabled: tab === 0 });
 
   const {
     languages,
     isLoading: isLoadingLanguages,
     isFetching: isFetchingLanguages,
-  } = useGetLanguages({});
+  } = useGetLanguages({ enabled: tab === 1 });
 
+  const {
+    reseliency,
+    isLoading: isLoadingReseliency,
+    isFetching: isFetchingReseliency,
+  } = useGetReseliency({ enabled: tab === 2 });
+  console.log(reseliency);
   const handleClick = (event) => {
     setOpen(true);
     setAnchorEl(event.currentTarget);
@@ -44,5 +51,8 @@ export const useLearn = () => {
     isFetchingCultures,
     isLoadingLanguages,
     isFetchingLanguages,
+    reseliency,
+    isLoadingReseliency,
+    isFetchingReseliency,
   };
 };
