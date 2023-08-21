@@ -15,14 +15,17 @@ export default function ResiliencyItem({ data }) {
     open,
     setOpen,
     data: subCats,
-  } = useResiliencyCatrgory({ cat: data?.title });
+    isFetching,
+    isLoading,
+  } = useResiliencyCatrgory({ cat: data?.value });
+
   return (
     <>
       <AlertDialog
         open={open}
         setOpen={setOpen}
         title="Add Sub-Category"
-        message={<ResiliencySubCatForm setOpen={setOpen} cat={data?.title} />}
+        message={<ResiliencySubCatForm setOpen={setOpen} cat={data?.value} />}
       />
       <Grid container>
         <Grid item sm={12} sx={{ margin: "40px 0px" }}>
@@ -55,14 +58,18 @@ export default function ResiliencyItem({ data }) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sm={12}>
-          <CustomList
-            icon={icons.clipboardIcon}
-            noData="No History Sub-Categories Added"
-            Actions={ResilienceySubCatActions}
-            list={subCats}
-          />
-        </Grid>
+        {isFetching || isLoading ? (
+          "Loading..."
+        ) : (
+          <Grid item sm={12}>
+            <CustomList
+              icon={icons.clipboardIcon}
+              noData="No History Sub-Categories Added"
+              Actions={ResilienceySubCatActions}
+              list={subCats}
+            />
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -9,6 +9,8 @@ const fetchInfo = async () => {
     querySnapshot.forEach((doc) => {
       let culture = {
         id: doc.id,
+        value: doc.id,
+        label: doc.data().title,
         ...doc.data(),
       };
       cultureData.push(culture);

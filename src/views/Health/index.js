@@ -113,7 +113,7 @@ export function Health() {
             tab={tab}
           />
         </Grid>
-        {!tab === 0 && (
+        {tab === 1 && (
           <Grid item>
             <Button
               color="primary"

@@ -160,3 +160,17 @@ export const updateResiliencySubCat = async (data) => {
     throw errorCode;
   }
 };
+
+export const updateDescription = async (data) => {
+  try {
+    const docRef = await updateDoc(
+      doc(firestore, "Resiliency", "general"),
+      data
+    );
+    return docRef;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    throw errorCode;
+  }
+};

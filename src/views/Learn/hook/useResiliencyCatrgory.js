@@ -4,7 +4,7 @@ import { useGetResiliencyCategory } from "../../../hooks/useGetResiliencyCategor
 export const useResiliencyCatrgory = ({ cat }) => {
   const [open, setOpen] = useState(false);
 
-  const { data } = useGetResiliencyCategory({ cat });
+  const { data, isFetching, isLoading } = useGetResiliencyCategory({ cat });
 
-  return { open, setOpen, data };
+  return { open, setOpen, data, isFetching, isLoading };
 };

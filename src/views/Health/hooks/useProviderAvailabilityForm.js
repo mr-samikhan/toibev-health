@@ -141,14 +141,14 @@ export const useProviderAvailabilityForm = (props) => {
       .map((hour) => hour.label);
 
     const availabilities = [].concat(
-      ...days.map((day) => {
-        return hours.map((hour) => {
-          return { day, hour };
+      ...days.map((date) => {
+        return hours.map((time) => {
+          return { date, time };
         });
       })
     );
 
-    mutate({ ...availabilities, id: initialState.id });
+    mutate({ availabilities, id: initialState.id });
   };
 
   useEffect(() => {

@@ -4,8 +4,6 @@ import { CustomList } from "../../components/List";
 import { CustomTabs } from "../../components/Tabs";
 import AddIcon from "@mui/icons-material/Add";
 import icons from "../../assets/index";
-import { ListItem } from "../../components/ListItem";
-import { ListTitle } from "../../components/ListTitile";
 import { CultureActions, LanguageActions } from "./components/ActionButtons";
 import TribeForm from "./components/TribeForm";
 import { useLearn } from "./useLearn";
@@ -13,6 +11,7 @@ import LangugaeForm from "./components/Forms/LanguageForm";
 import AlertDialog from "../../components/AlertDialog";
 import ResilienceForm from "./components/Forms/ResilienceForm";
 import ResiliencyItem from "./components/ResiliencyItem";
+import CustomTextfield from "../../components/CustomTextfield";
 
 export function Learn() {
   const {
@@ -30,6 +29,7 @@ export function Learn() {
     reseliency,
     isLoadingReseliency,
     isFetchingReseliency,
+    mutate,
   } = useLearn();
 
   return (
@@ -116,8 +116,20 @@ export function Learn() {
               Actions={LanguageActions}
             />
           )}
+
           {tab === 2 && (
             <>
+              <CustomTextfield
+                multiline
+                rows={3}
+                label="Resiliency Description"
+                // value={reseliency[0]?.description}
+                onChange={(e) => {
+                  mutate({
+                    description: e.target.value,
+                  });
+                }}
+              />
               {reseliency[0]?.menu?.map((item) => (
                 <ResiliencyItem data={item} />
               ))}

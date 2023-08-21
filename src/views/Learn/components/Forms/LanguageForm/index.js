@@ -17,6 +17,11 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     isLoadingDelete,
     selectedImage,
     setSelectedImage,
+    isLoadingCultures,
+    isFetchingCultures,
+    cultures,
+    selectedTribes,
+    setSelectedTribes,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -38,6 +43,24 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                 {...field}
               />
             )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <CustomTextfield
+            label="Select Tribes"
+            placeholder="Select Tribe"
+            select
+            options={cultures}
+            isLoading={isLoadingCultures || isFetchingCultures}
+            onChange={(e) => {
+              const { label, value } = cultures.filter(
+                (culture) => culture.id === e.target.value
+              )[0];
+              setSelectedTribes([
+                ...selectedTribes,
+                { title: label, id: value },
+              ]);
+            }}
           />
         </Grid>
         <Grid item xs={12} mb={3}>

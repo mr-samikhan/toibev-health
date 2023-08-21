@@ -4,8 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { addResiliency, deleteLanguage, updateLanguage } from "../actions";
 
 export default function useResilienceForm({ isEdit, initialState, setOpen }) {
-  console.log(initialState);
-  const { control, handleSubmit, watch } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: { title: initialState?.title },
   });
   const queryClient = useQueryClient();
@@ -26,7 +25,13 @@ export default function useResilienceForm({ isEdit, initialState, setOpen }) {
   const onSubmit = (formData) => {
     const data = {
       ...initialState,
-      menu: [...(initialState?.menu || []), { title: formData.title }],
+      menu: [
+        ...(initialState?.menu || []),
+        {
+          title: formData.title,
+          value: formData.title?.split(" ").join("_").toLowerCase(),
+        },
+      ],
     };
     if (isEdit) {
       mutate({ ...data, id: initialState.id });

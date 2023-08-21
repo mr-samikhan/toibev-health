@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useGetCultures } from "../../hooks/useGetCultures";
 import { useGetLanguages } from "../../hooks/useGetLanguages";
 import { useGetReseliency } from "../../hooks/useGetReseliency";
+import { useMutation, useQueryClient } from "react-query";
+import { updateDescription } from "./actions";
 
 export const useLearn = () => {
   const [tab, setTab] = useState(0);
@@ -25,7 +27,16 @@ export const useLearn = () => {
     isLoading: isLoadingReseliency,
     isFetching: isFetchingReseliency,
   } = useGetReseliency({ enabled: tab === 2 });
-  console.log(reseliency);
+
+  const queryClient = useQueryClient();
+
+  const { isLoading, mutate } = useMutation(updateDescription, {
+    onSuccess: (success) => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const handleClick = (event) => {
     setOpen(true);
     setAnchorEl(event.currentTarget);
@@ -54,5 +65,7 @@ export const useLearn = () => {
     reseliency,
     isLoadingReseliency,
     isFetchingReseliency,
+    isLoading,
+    mutate,
   };
 };
