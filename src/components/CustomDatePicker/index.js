@@ -56,9 +56,7 @@ const CustomTextField = styled((props) => <TextField focused {...props} />)(
   })
 );
 
-export default function CustomDatePicker() {
-  const [selectedDay, setSelectedDay] = useState(null);
-
+export default function CustomDatePicker({ date, setDate }) {
   const renderCustomInput = ({ ref }) => (
     <CustomTextField
       disabled
@@ -66,11 +64,7 @@ export default function CustomDatePicker() {
       label="Date"
       placeholder="Select date"
       inputRef={ref}
-      value={
-        selectedDay
-          ? `${selectedDay.year}/${selectedDay.month}/${selectedDay.day}`
-          : ""
-      }
+      value={date ? `${date.year}/${date.month}/${date.day}` : ""}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -85,8 +79,8 @@ export default function CustomDatePicker() {
 
   return (
     <DatePicker
-      value={selectedDay}
-      onChange={setSelectedDay}
+      value={date}
+      onChange={setDate}
       inputPlaceholder="Select a day"
       shouldHighlightWeekends
       renderInput={renderCustomInput}
