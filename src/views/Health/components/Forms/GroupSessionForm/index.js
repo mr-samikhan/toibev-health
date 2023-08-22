@@ -1,10 +1,22 @@
-import React from "react";
-import { Grid, Typography, Box, Menu } from "@mui/material";
+import React, { useState, useRef } from "react";
+import {
+  Grid,
+  Typography,
+  Box,
+  Menu,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
 import useGroupSessionForm from "../../../hooks/useGroupSessionForm";
 import { BasicDatePicker } from "../../../../../components/DatePicker";
+import { ReactComponent as CalenderIcon } from "../../../../../assets/icons/calendar.svg";
+import { ReactComponent as ClockIcon } from "../../../../../assets/icons/clock.svg";
+import DatePicker from "../../../../../components/CustomDatePicker";
 
 export const GroupSessionForm = (props) => {
   const {
@@ -15,7 +27,17 @@ export const GroupSessionForm = (props) => {
     isLoading,
     onDelete,
     isLoadingDelete,
+    date,
+    setDate,
   } = useGroupSessionForm(props);
+
+  const timeInputRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleIconClick = () => {
+    setIsOpen(true);
+    timeInputRef.current.focus();
+  };
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
@@ -36,22 +58,9 @@ export const GroupSessionForm = (props) => {
         <Grid item container spacing={1}>
           <Grid item xs={6} mb={3}>
             {" "}
-            <Controller
-              name="date"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <CustomTextfield
-                    label="Date"
-                    placeholder="Enter Date"
-                    {...field}
-                  />
-
-                  <BasicDatePicker />
-                </>
-              )}
-            />
+            <DatePicker date={date} setDate={setDate} />
           </Grid>
+
           <Grid item xs={6} mb={3}>
             {" "}
             <Controller
@@ -59,6 +68,7 @@ export const GroupSessionForm = (props) => {
               control={control}
               render={({ field }) => (
                 <CustomTextfield
+                  type="time"
                   label="Time"
                   placeholder="Enter Time"
                   {...field}
