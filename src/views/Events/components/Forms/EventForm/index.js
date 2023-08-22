@@ -13,6 +13,7 @@ import { ReactComponent as LinkIcon } from "../../../../../assets/icons/link.svg
 import useEventForm from "../../../hooks/useEventForm";
 import RecurringPeriod from "../../RecurringPeriod";
 import CustomSwitch from "../../../../../components/CustomSwitch";
+import DatePicker from "../../../../../components/CustomDatePicker";
 
 export default function EventForm({ isEdit, data, open, setOpen }) {
   const {
@@ -32,6 +33,8 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     isLoading,
     mutateDelete,
     isLoadingDelete,
+    date,
+    setDate,
   } = useEventForm({ initialState: data, open, setOpen, isEdit });
 
   return (
@@ -77,36 +80,22 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             )}
           />
         </Grid>
-        <Grid container item xs={12} mb={3} spacing={1}>
-          <Grid item xs={12} sm={6} mb={{ xs: 3, sm: 0 }}>
-            <Controller
-              name="date"
-              control={control}
-              rules={{ required: "Date is required" }}
-              render={({ field }) => (
-                <CustomTextfield
-                  label="Date"
-                  placeholder="Enter Date of event"
-                  error={errors.date}
-                  errorMessage={errors?.date?.message}
-                  EndIcon={CalenderIcon}
-                  {...field}
-                />
-              )}
-            />
+        <Grid item container spacing={1}>
+          <Grid item xs={6} mb={3}>
+            {" "}
+            <DatePicker date={date} setDate={setDate} />
           </Grid>
-          <Grid item xs={12} sm={6}>
+
+          <Grid item xs={6} mb={3}>
+            {" "}
             <Controller
               name="time"
               control={control}
-              rules={{ required: "Time is required" }}
               render={({ field }) => (
                 <CustomTextfield
+                  type="time"
                   label="Time"
-                  placeholder="Enter Time of event"
-                  error={errors.time}
-                  errorMessage={errors?.time?.message}
-                  EndIcon={ClockIcon}
+                  placeholder="Enter Time"
                   {...field}
                 />
               )}

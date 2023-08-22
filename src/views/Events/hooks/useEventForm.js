@@ -2,6 +2,8 @@ import React, { useState, useId } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { addEvent, updateEvent, deleteEvent } from "../actions";
+import moment from "moment";
+import { Timestamp } from "../../../firebase";
 
 const recurrenceOptions = [
   { label: "Hourly", value: "hourly" },
@@ -21,6 +23,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   const [selectedVideo, setSelectedVideo] = useState({
     fileUrl: initialState?.video || "",
   });
+  const [date, setDate] = useState(null);
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.image || "",
   });
@@ -59,17 +62,23 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   );
 
   const onSubmit = (data) => {
+    const dateString = moment(`${date.year}-${date.month}-${date.day}`).format(
+      "YYYY-MM-DD"
+    );
+    const dateTimeString = `${dateString} ${data.time}`;
+    const dateTime = moment(dateTimeString).format("YYYY-MM-DD HH:mm:ss");
+    const isoDate = moment(dateTime).toISOString();
+
     const body = {
       title: data.title,
       description: data.description,
       webLink: data.webLink,
       location: data.location,
-      date: data.date,
-      time: data.time,
       image: selectedImage,
       video: selectedVideo,
       pdf: selectedPdf,
       isRecurring,
+      datetime: Timestamp.fromDate(new Date(isoDate)),
     };
 
     mutate(isEdit ? { ...body, id: initialState?.id } : body);
@@ -92,5 +101,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     isLoading,
     mutateDelete,
     isLoadingDelete,
+    date,
+    setDate,
   };
 }
