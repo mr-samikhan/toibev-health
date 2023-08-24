@@ -47,6 +47,10 @@ export const useLearn = () => {
     setOpen(false);
   };
 
+  const handleChange = (e) => {
+    mutate({ description: e.target.value });
+  };
+
   return {
     tab,
     setTab,
@@ -66,6 +70,6 @@ export const useLearn = () => {
     isLoadingReseliency,
     isFetchingReseliency,
     isLoading,
-    mutate,
+    handleChange,
   };
 };

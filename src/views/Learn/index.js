@@ -29,7 +29,8 @@ export function Learn() {
     reseliency,
     isLoadingReseliency,
     isFetchingReseliency,
-    mutate,
+
+    handleChange,
   } = useLearn();
 
   return (
@@ -124,11 +125,7 @@ export function Learn() {
                 rows={3}
                 label="Resiliency Description"
                 // value={reseliency[0]?.description}
-                onChange={(e) => {
-                  mutate({
-                    description: e.target.value,
-                  });
-                }}
+                onChange={handleChange}
               />
               {reseliency[0]?.menu?.map((item) => (
                 <ResiliencyItem data={item} />
