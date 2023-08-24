@@ -34,10 +34,6 @@ export const GroupSessionForm = (props) => {
   const timeInputRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleIconClick = () => {
-    setIsOpen(true);
-    timeInputRef.current.focus();
-  };
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
