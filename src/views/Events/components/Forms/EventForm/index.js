@@ -36,7 +36,6 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     date,
     setDate,
   } = useEventForm({ initialState: data, open, setOpen, isEdit });
-
   return (
     <Box
       component="form"

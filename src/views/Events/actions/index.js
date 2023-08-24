@@ -25,42 +25,37 @@ const uploadFile = async (file, path) => {
 
 export const addEvent = async (data) => {
   try {
-    let image = "";
-    let video = "";
-    let pdfUrl = "";
+    const { image, video, pdf, ...otherData } = data;
 
-    if (data.image?.file) {
-      image = await uploadFile(
-        data.image.file,
-        `images/events/${data.image?.fileName}`
+    const docRef = await addDoc(collection(firestore, "Events"), otherData);
+
+    if (image?.file) {
+      const imageName = `${docRef.id}_${image.fileName}`;
+      const imageUrl = await uploadFile(
+        image.file,
+        `images/events/${imageName}`
       );
+      await updateDoc(doc(firestore, "Events", docRef.id), { image: imageUrl });
     }
-
-    if (data.video?.file) {
-      video = await uploadFile(
-        data.video.file,
-        `videos/events/${data.video?.fileName}`
+    if (video?.file) {
+      const videoName = `${docRef.id}_${video.fileName}`;
+      const videoUrl = await uploadFile(
+        video.file,
+        `videos/events/${videoName}`
       );
+      await updateDoc(doc(firestore, "Events", docRef.id), { video: videoUrl });
     }
-
-    if (data.pdf?.file) {
-      pdfUrl = await uploadFile(
-        data.pdf.file,
-        `pdfs/events/${data.pdf?.fileName}`
-      );
+    if (pdf?.file) {
+      const pdfName = `${docRef.id}_${pdf.fileName}`;
+      const pdfUrl = await uploadFile(pdf.file, `pdfs/events/${pdfName}`);
+      await updateDoc(doc(firestore, "Events", docRef.id), {
+        pdf: {
+          fileUrl: pdfUrl,
+          fileName: pdf.fileName || "",
+          fileSize: pdf.fileSize || "",
+        },
+      });
     }
-
-    const eventData = {
-      ...data,
-      image,
-      video,
-      pdf: {
-        fileUrl: pdfUrl,
-        fileName: data.pdf?.fileName ?? "",
-        fileSize: data.pdf?.fileSize ?? "",
-      },
-    };
-    const docRef = await addDoc(collection(firestore, "Events"), eventData);
 
     return docRef;
   } catch (error) {
@@ -71,46 +66,40 @@ export const addEvent = async (data) => {
 
 export const updateEvent = async (data) => {
   try {
-    let image = "";
-    let video = "";
-    let pdfUrl = "";
-
-    if (data.image?.fileUrl) {
-      image = await uploadFile(
-        data.image.file,
-        `images/events/${data.image?.fileName}`
-      );
-    }
-
-    if (data.video?.fileUrl) {
-      video = await uploadFile(
-        data.video.file,
-        `videos/events/${data.video?.fileName}`
-      );
-    }
-
-    if (data.pdf?.fileUrl) {
-      pdfUrl = await uploadFile(
-        data.pdf.file,
-        `pdfs/events/${data.pdf?.fileName}`
-      );
-    }
-
-    const eventData = {
-      ...data,
-      image: data.image?.fileUrl ? data.image?.fileUrl : image,
-      video: data.video?.fileUrl ? data.video?.fileUrl : video,
-      pdf: {
-        fileUrl: data.pdf?.fileUrl ? data?.pdf?.fileUrl : pdfUrl,
-        fileName: data.pdf?.fileName ?? "",
-        fileSize: data.pdf?.fileSize ?? "",
-      },
-    };
+    const { image, video, pdf, ...otherData } = data;
 
     const docRef = await updateDoc(
       doc(firestore, "Events", data.id),
-      eventData
+      otherData
     );
+
+    if (image?.file) {
+      const imageName = `${data.id}_${image.fileName}`;
+      const imageUrl = await uploadFile(
+        image.file,
+        `images/events/${imageName}`
+      );
+      await updateDoc(doc(firestore, "Events", data.id), { image: imageUrl });
+    }
+    if (video?.file) {
+      const videoName = `${data.id}_${video.fileName}`;
+      const videoUrl = await uploadFile(
+        video.file,
+        `videos/events/${videoName}`
+      );
+      await updateDoc(doc(firestore, "Events", data.id), { video: videoUrl });
+    }
+    if (pdf?.file) {
+      const pdfName = `${data.id}_${pdf.fileName}`;
+      const pdfUrl = await uploadFile(pdf.file, `pdfs/events/${pdfName}`);
+      await updateDoc(doc(firestore, "Events", data.id), {
+        pdf: {
+          fileUrl: pdfUrl,
+          fileName: pdf.fileName || "",
+          fileSize: pdf.fileSize || "",
+        },
+      });
+    }
 
     return docRef;
   } catch (error) {

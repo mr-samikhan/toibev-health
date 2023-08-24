@@ -23,7 +23,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   const [selectedVideo, setSelectedVideo] = useState({
     fileUrl: initialState?.video || "",
   });
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(getDate() ?? null);
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.image || "",
   });
@@ -32,11 +32,30 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   });
   const [isRecurring, setIsRecurring] = useState(false);
 
+  function getDate() {
+    if (!initialState?.datetime?.seconds) return "";
+    const date = new Date(initialState.datetime.seconds * 1000)
+      .toLocaleDateString()
+      .split("/");
+
+    const day = date[0];
+    const month = date[1];
+    const year = date[2];
+    return { day, month, year };
+  }
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { ...initialState } });
+  } = useForm({
+    defaultValues: {
+      ...initialState,
+      time: !!initialState?.datetime?.seconds
+        ? new Date(initialState?.datetime?.seconds * 1000)?.toLocaleTimeString()
+        : "",
+    },
+  });
 
   const { isLoading, mutate } = useMutation(isEdit ? updateEvent : addEvent, {
     onSuccess: (success) => {
@@ -62,6 +81,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   );
 
   const onSubmit = (data) => {
+    console.log(data);
     const dateString = moment(`${date.year}-${date.month}-${date.day}`).format(
       "YYYY-MM-DD"
     );
