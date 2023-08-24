@@ -12,7 +12,6 @@ import CustomCard from "../../components/CustomCrad";
 import CardListing from "../../components/CardListing";
 import { useInformation } from "./useInformation";
 import CustomTextfield from "../../components/CustomTextfield";
-import CustomButton from "../../components/CustomButton";
 import ServiceForm from "./components/Forms/ServiceForm";
 import ClinicForm from "./components/Forms/ClinicForm";
 import CardActionButton, {
@@ -35,6 +34,7 @@ export function Information() {
     setOpen,
     openClinicForm,
     setOpenClinicForm,
+    handleChange,
   } = useInformation();
   const mobile = useMediaQuery("(max-width:600px)");
   if (
@@ -49,6 +49,7 @@ export function Information() {
       </Grid>
     );
   }
+
   return (
     <>
       {open && (
@@ -67,12 +68,7 @@ export function Information() {
           message={<ClinicForm setOpen={setOpenClinicForm} />}
         />
       )}
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ marginBottom: "16px" }}
-      >
+      <Grid container justifyContent="space-between" alignItems="center" mb={3}>
         <Grid item>
           <Typography className="information-title">Services</Typography>
         </Grid>
@@ -120,6 +116,7 @@ export function Information() {
               }}
               label="Services Description"
               value={description}
+              onChange={handleChange}
             />
           )}
         </Grid>
