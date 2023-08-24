@@ -16,10 +16,27 @@ export default function useGroupSessionForm({
   initialState,
 }) {
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: { ...initialState },
+    defaultValues: {
+      ...initialState,
+      time: !!initialState?.datetime?.seconds
+        ? new Date(initialState?.datetime?.seconds * 1000)?.toLocaleTimeString()
+        : "",
+    },
   });
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(getDate() ?? null);
   const queryClient = useQueryClient();
+
+  function getDate() {
+    if (!initialState?.datetime?.seconds) return "";
+    const date = new Date(initialState?.datetime?.seconds * 1000)
+      .toLocaleDateString()
+      .split("/");
+
+    const day = date[0];
+    const month = date[1];
+    const year = date[2];
+    return { day, month, year };
+  }
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateGroupSession : addGroupSession,

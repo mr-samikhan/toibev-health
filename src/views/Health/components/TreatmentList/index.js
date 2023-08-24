@@ -40,6 +40,11 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                     expanded={expanded === `panel${index + 1}`}
                     onChange={handleChange(`panel${index + 1}`)}
                     className="listing-item"
+                    sx={{
+                      "&.MuiAccordion-root:before": {
+                        display: "none",
+                      },
+                    }}
                   >
                     <AccordionSummary
                       sx={{

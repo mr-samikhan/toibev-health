@@ -5,6 +5,7 @@ import {
   collection,
   firestore,
   deleteDoc,
+  setDoc,
 } from "../../../firebase";
 
 export const addProvider = async (data) => {
