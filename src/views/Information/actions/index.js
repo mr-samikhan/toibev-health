@@ -179,3 +179,12 @@ export const updateSocialLinks = async (data) => {
     throw error;
   }
 };
+
+export const updateDescription = async (data) => {
+  try {
+    await updateDoc(doc(firestore, "Information", "services"), data);
+  } catch (error) {
+    console.error("Error deleting document:", error);
+    throw error;
+  }
+};

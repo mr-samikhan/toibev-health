@@ -11,8 +11,18 @@ const SocialMediaForm = ({ urls }) => {
       urls,
     });
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Grid container flexDirection="column" px={2} flexGrow={1}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{ minHeight: "360px" }}
+    >
+      <Grid
+        container
+        flexDirection="column"
+        px={2}
+        flexGrow={1}
+        sx={{ minHeight: "360px" }}
+      >
         <Grid item mb={4}>
           <Controller
             control={control}

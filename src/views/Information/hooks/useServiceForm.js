@@ -70,6 +70,10 @@ export default function useServiceForm({
     mutate(isEdit ? { ...body, id: initialState?.id } : body);
   };
 
+  const checkKeyDown = (e) => {
+    // if (e.key === "Enter") e.preventDefault();
+  };
+
   return {
     errors,
     control,
@@ -87,5 +91,6 @@ export default function useServiceForm({
     mutateDelete,
     isLoadingDelete,
     clinicOptions,
+    checkKeyDown,
   };
 }

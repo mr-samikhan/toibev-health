@@ -34,9 +34,15 @@ export default function ServiceForm({
     mutateDelete,
     isLoadingDelete,
     clinicOptions,
+    checkKeyDown,
   } = useServiceForm({ initialState, isEdit, setOpen, clinics });
+
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={checkKeyDown}
+    >
       <Grid container>
         <Grid item xs={12} mb={3}>
           {" "}
