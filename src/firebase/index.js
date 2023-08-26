@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -11,6 +10,7 @@ import {
   verifyPasswordResetCode,
   deleteUser,
 } from "firebase/auth";
+
 import {
   getFirestore,
   collection,
@@ -23,7 +23,9 @@ import {
   query,
   collectionGroup,
   setDoc,
+  Timestamp,
 } from "firebase/firestore";
+
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useDispatch } from "react-redux";
 
@@ -37,29 +39,19 @@ const firebaseConfig = {
   measurementId: "G-PELKG23W2Q",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 
-// Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-// Initialize Cloud Firestore and get a reference to the service
 const firestore = getFirestore(app);
 
-// Initialize Cloud Storage and get a reference to the service
 const storage = getStorage(app);
 
 onAuthStateChanged(auth, (user) => {
   const dispatch = useDispatch();
   if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid;
-    // ...
   } else {
-    // User is signed out
-    // ...
     dispatch({ type: "LOGOUT" });
   }
 });
@@ -89,4 +81,5 @@ export {
   verifyPasswordResetCode,
   deleteUser,
   setDoc,
+  Timestamp,
 };

@@ -26,8 +26,14 @@ export default function CardListing({ list, CardActionButton }) {
   }, [searchValue]);
 
   return (
-    <Grid container className="card-listing">
-      <Grid item xs={12} sx={{ mb: { xs: 3, sm: 2 } }} className="search-field">
+    <Grid container>
+      <Grid
+        item
+        xs={12}
+        sx={{ mb: { xs: 3, sm: 2 } }}
+        className="search-field"
+        px={2.5}
+      >
         {" "}
         <TextField
           fullWidth
@@ -43,11 +49,13 @@ export default function CardListing({ list, CardActionButton }) {
           }}
         ></TextField>
       </Grid>
-      {data?.map((item, index) => (
-        <Grid item xs={12} className="card-list-item" key={index}>
-          <ListItem item={item} CardActionButton={CardActionButton} />
-        </Grid>
-      ))}
+      <Grid container className="card-listing">
+        {data?.map((item, index) => (
+          <Grid item xs={12} className="card-list-item" key={index}>
+            <ListItem item={item} CardActionButton={CardActionButton} />
+          </Grid>
+        ))}
+      </Grid>
     </Grid>
   );
 }

@@ -57,7 +57,7 @@ export default function SingleAssessment() {
 
       <Grid container flexDirection="column">
         <Grid item>
-          <Grid container>
+          <Grid container mb={1}>
             <Grid
               item
               container
@@ -92,7 +92,7 @@ export default function SingleAssessment() {
           </Grid>
         </Grid>
         <Grid item>
-          <Grid container>
+          <Grid container mb={1}>
             <Grid
               item
               container

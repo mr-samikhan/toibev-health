@@ -42,6 +42,7 @@ const InputList = ({
     if (event.key === "Enter" && item.trim() !== "") {
       setList((prev) => [...prev, item]);
       setItem("");
+      event.preventDefault();
     }
   };
 

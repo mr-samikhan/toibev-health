@@ -41,6 +41,25 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
             )}
           />
         </Grid>
+        <Grid item xs={12} mb={3}>
+          <Controller
+            name="description"
+            control={control}
+            rules={{
+              required: { value: true, message: "Description is required" },
+            }}
+            render={({ field }) => (
+              <CustomTextfield
+                error={!!errors?.description}
+                errorMessage={errors?.description?.message}
+                label="Assessment Description"
+                placeholder="Enter Description"
+                EndIcon={NotesIcon}
+                {...field}
+              />
+            )}
+          />
+        </Grid>
         <Grid item xs={12} mb={2}>
           <CustomButton variant="contained" type="submit">
             {isLoading ? "Loading" : "Save assessment"}

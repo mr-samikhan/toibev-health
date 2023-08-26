@@ -2,7 +2,6 @@ import React from "react";
 import { TextField, IconButton, Typography, Grid } from "@mui/material";
 import { ReactComponent as CalenderIcon } from "../../assets/icons/calendar.svg";
 import "./datepicker.scss";
-
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";

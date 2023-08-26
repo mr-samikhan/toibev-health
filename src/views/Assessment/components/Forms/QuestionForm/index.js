@@ -11,7 +11,7 @@ import { useGetSingleAssessment } from "../../../../../hooks/useGetAssessmentQue
 
 const Actions = ({ handleCheck, handleRemove, idx, checked }) => {
   return (
-    <Grid container>
+    <Grid container flexWrap="nowrap">
       <Grid item mr={1}>
         <IconButton
           onClick={() => handleCheck(idx)}

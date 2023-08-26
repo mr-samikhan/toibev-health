@@ -18,6 +18,7 @@ const fetchInfo = async () => {
 
       servicesData.push(service);
     });
+
     return { servicesData, description: docSnap.data().description };
   } catch (error) {
     console.log(error);
@@ -34,7 +35,7 @@ export const useGetServices = ({ enabled = true }) => {
       refetchOnWindowFocus: false,
     }
   );
-  console.log(data);
+
   return {
     isLoadingServices: isLoading,
     error,

@@ -34,7 +34,7 @@ const NavItem = (props) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   useEffect(() => {
     highlightActiveTab();
-  }, []);
+  }, [location.pathname]);
   const highlightActiveTab = () => {
     let pathname = location.pathname.split("/");
     let activeTab = pathname[pathname.length - 1];

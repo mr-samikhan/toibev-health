@@ -10,6 +10,7 @@ const fetchInfo = async () => {
       let admin = {
         id: document.id,
         ...document.data(),
+        subtitle: document.data().description,
       };
       assessmentsData.push(admin);
     });
