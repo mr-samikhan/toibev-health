@@ -11,33 +11,35 @@ export const useHealth = () => {
   const [openGroupSessionForm, setOpenGroupSessionForm] = useState(false);
   const [openMedicationForm, setOpenMedicationForm] = useState(false);
   const [openTreatmentForm, setOpenTreatmentForm] = useState(false);
-  const { providers, isLoading, isFetching } = useGetProviders({});
+  const { providers, isLoading, isFetching } = useGetProviders({
+    enabled: tab === 1,
+  });
   const {
     isLoading: isLoadingGroupSessions,
     isFetching: isFetchingGroupSessions,
     data: groupSessions,
     error: groupSessionsError,
-  } = useGetGroupSessions({});
+  } = useGetGroupSessions({ enabled: tab === 0 });
 
   const {
     isLoading: isLoadingMedication,
     isFetching: isFetchingMedication,
     data: medication,
     error: medicationError,
-  } = useGetMedication({});
+  } = useGetMedication({ enabled: tab === 0 });
 
   const {
     isLoading: isLoadingTreatment,
     isFetching: isFetchingTreatment,
     data: treatments,
     error: treatmentError,
-  } = useGetTreatments({});
+  } = useGetTreatments({ enabled: tab === 0 });
   const {
     isLoading: isLoadingTreatmentOptions,
     isFetching: isFetchingTreatmentOptions,
     data: treatmentOptions,
     error: treatmentErrorOptions,
-  } = useGetTreatmentOptions({});
+  } = useGetTreatmentOptions({ enabled: tab === 0 });
 
   const handleClick = () => {
     return tab === 1 ? setOpenAddProvider(true) : "";
