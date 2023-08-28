@@ -18,6 +18,16 @@ const recurrenceOptions = [
   { label: "Custom", value: "custom" },
 ];
 
+const weekdays = [
+  { label: "Monday", value: "monday" },
+  { label: "Tuesday", value: "tuesday" },
+  { label: "Wednesday", value: "wednesday" },
+  { label: "Thursday", value: "thursday" },
+  { label: "Friday", value: "friday" },
+  { label: "Saturday", value: "saturday" },
+  { label: "Sunday", value: "sunday" },
+];
+
 export default function useEventForm({ initialState, setOpen, isEdit }) {
   const queryClient = useQueryClient();
   const [selectedVideo, setSelectedVideo] = useState({
@@ -123,5 +133,6 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     isLoadingDelete,
     date,
     setDate,
+    weekdays,
   };
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Checkbox, Grid, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
@@ -14,6 +14,8 @@ import useEventForm from "../../../hooks/useEventForm";
 import RecurringPeriod from "../../RecurringPeriod";
 import CustomSwitch from "../../../../../components/CustomSwitch";
 import DatePicker from "../../../../../components/CustomDatePicker";
+import { CheckBox } from "@mui/icons-material";
+import { weekdays } from "moment";
 
 export default function EventForm({ isEdit, data, open, setOpen }) {
   const {
@@ -35,6 +37,7 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     isLoadingDelete,
     date,
     setDate,
+    weekdays,
   } = useEventForm({ initialState: data, open, setOpen, isEdit });
   return (
     <Box
@@ -128,6 +131,34 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             />
           </Grid>
         )}
+        <Grid
+          container
+          p={2}
+          mb={3}
+          sx={{ border: "1px solid #DCDCDC", borderRadius: "16px" }}
+        >
+          {weekdays?.map((day, index) => (
+            <Grid xs={12} item>
+              <Grid
+                container
+                alignItems={"center"}
+                justifyContent={"space-between"}
+              >
+                <Grid item>
+                  <Typography>{day?.label}</Typography>
+                </Grid>
+                <Grid item>
+                  <Checkbox
+                    sx={{
+                      color: "#71757B",
+                      borderRadius: 3,
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          ))}
+        </Grid>
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller
