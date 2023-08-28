@@ -8,20 +8,60 @@ import { CustomTabs } from "../../components/Tabs";
 import { useDashboard } from "./useDashboard";
 
 const list1 = [
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
-  { title: "Road Run 2020", count: "Road Run 2020", img: icons.statsUsersIcon },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
+  {
+    title: "Road Run 2020",
+    count: "Road Run 2020",
+    image: icons.statsUsersIcon,
+  },
 ];
 
 export function Dashboard() {
-  const { tab, setTab } = useDashboard({});
+  const { tab, setTab, events } = useDashboard({});
   return (
     <Grid className="dashboard">
       <Grid container flexDirection="column" className="section" mb={3}>
@@ -67,7 +107,7 @@ export function Dashboard() {
             </Grid>
             <Grid item>
               {" "}
-              <DashboardListing list={list1} />
+              <DashboardListing list={events} />
             </Grid>
           </Grid>
         </Grid>
