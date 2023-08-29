@@ -2,7 +2,7 @@ import { Avatar, Grid, Typography } from "@mui/material";
 import React from "react";
 import "../../style.scss";
 
-export default function StatsCard({ title, count, icon }) {
+export default function StatsCard({ title = "ABC", count = "10", icon = "" }) {
   return (
     <Grid container flexWrap={"nowrap"} className="stats-card">
       <Grid item>

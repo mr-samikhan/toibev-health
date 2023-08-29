@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetEvents } from "../../hooks/useGetEvents";
+import { useGetReseliency } from "../../hooks/useGetReseliency";
+import { useGetAssessments } from "../../hooks/useGetAssessments";
 
 export const useDashboard = () => {
   const [tab, setTab] = useState(0);
@@ -8,5 +10,17 @@ export const useDashboard = () => {
     isLoading: isLoadingEvents,
     isFetching: isFetchingEvents,
   } = useGetEvents({});
-  return { tab, setTab, events, isLoadingEvents, isFetchingEvents };
+
+  const { reseliency } = useGetReseliency({});
+  const { assessmentOptions } = useGetAssessments({});
+
+  return {
+    tab,
+    setTab,
+    events,
+    isLoadingEvents,
+    isFetchingEvents,
+    reseliency,
+    assessmentOptions,
+  };
 };
