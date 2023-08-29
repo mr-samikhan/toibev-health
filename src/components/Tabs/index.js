@@ -10,6 +10,12 @@ const StyledTabs = styled((props) => (
     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
   />
 ))({
+  "& .MuiTabs-scroller": {
+    overflowX: "scroll !important",
+  },
+  "& .MuiTabs-scroller::-webkit-scrollbar": {
+    display: "none",
+  },
   "& .MuiTabs-indicator": {
     display: "flex",
     justifyContent: "start",
