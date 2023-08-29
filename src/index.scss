@@ -98,3 +98,23 @@ body {
     }
   }
 }
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
+input[type="time"] {
+  z-index: 0;
+  position: relative;
+}
+
+input[type="time"]:after {
+  content: "";
+  background-image: url("./assets/icons/time-clock.png");
+  height: 32px;
+  width: 32px;
+  background-size: contain;
+  z-index: -1;
+  position: absolute;
+  right: 16px;
+}
