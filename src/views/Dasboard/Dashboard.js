@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid, Typography } from "@mui/material";
 import StatsCard from "./components/StatsCard";
 import icons from "../../assets/index";
@@ -61,7 +61,10 @@ const list1 = [
 ];
 
 export function Dashboard() {
-  const { tab, setTab, events } = useDashboard({});
+  const { tab, setTab, events, reseliency, assessmentOptions } = useDashboard(
+    {}
+  );
+
   return (
     <Grid className="dashboard">
       <Grid container flexDirection="column" className="section" mb={3}>
@@ -107,7 +110,7 @@ export function Dashboard() {
             </Grid>
             <Grid item>
               {" "}
-              <DashboardListing list={events} />
+              <DashboardListing list={events} listing={"events"} />
             </Grid>
           </Grid>
         </Grid>
@@ -119,7 +122,7 @@ export function Dashboard() {
               <Typography className="heading">Resources</Typography>
             </Grid>
             <Grid item>
-              <DashboardListing list={list1} />
+              <DashboardListing list={reseliency && reseliency[0]?.menu} />
             </Grid>
           </Grid>
         </Grid>
@@ -139,15 +142,16 @@ export function Dashboard() {
           {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
             {" "}
-            <Grid item mb={1}>
+            <Grid item mb={1} sx={{ maxWidth: "100%" }}>
               <Typography className="heading">Surveys</Typography>
             </Grid>
-            <Grid item>
+            <Grid item sx={{ maxWidth: "100%" }}>
               <DashboardListing
                 list={list1}
+                listing="surveys"
                 tabs={
                   <CustomTabs
-                    options={["Culture", "Language", "Resiliency"]}
+                    options={assessmentOptions ?? []}
                     setTab={setTab}
                     tab={tab}
                   />
