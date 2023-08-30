@@ -4,11 +4,13 @@ import { useGetLanguages } from "../../hooks/useGetLanguages";
 import { useGetReseliency } from "../../hooks/useGetReseliency";
 import { useMutation, useQueryClient } from "react-query";
 import { updateDescription } from "./actions";
+import { useBreakpints } from "../../common/helpers";
 
 export const useLearn = () => {
   const [tab, setTab] = useState(0);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { mobileMode } = useBreakpints();
 
   const {
     cultures,
@@ -71,5 +73,6 @@ export const useLearn = () => {
     isFetchingReseliency,
     isLoading,
     handleChange,
+    mobileMode,
   };
 };

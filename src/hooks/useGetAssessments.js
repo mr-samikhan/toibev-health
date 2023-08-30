@@ -31,5 +31,7 @@ export const useGetAssessments = ({ enabled = true }) => {
     }
   );
 
-  return { isLoading, error, assessments: data, isFetching };
+  const assessmentOptions = data?.map((assessment) => assessment?.title);
+
+  return { isLoading, error, assessments: data, isFetching, assessmentOptions };
 };

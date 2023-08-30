@@ -3,6 +3,8 @@ import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import { useBreakpints } from "../../common/helpers";
+import "./style.scss";
 
 const StyledTabs = styled((props) => (
   <Tabs
@@ -53,12 +55,13 @@ export function CustomTabs({ options, setTab, tab }) {
   const handleChange = (event, newValue) => {
     setTab(newValue);
   };
+  const { mobileMode } = useBreakpints();
 
   return (
     <Box sx={{ width: "100%" }}>
       <StyledTabs value={tab} onChange={handleChange} aria-label="styled tabs">
         {options.map((tab) => (
-          <StyledTab label={tab} />
+          <StyledTab label={tab} className={mobileMode && "mobile-tabs"} />
         ))}
       </StyledTabs>
     </Box>

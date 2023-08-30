@@ -45,6 +45,7 @@ export function Health() {
     groupSessions,
     medication,
     treatments,
+    mobileMode,
   } = useHealth({});
 
   if (
@@ -123,7 +124,7 @@ export function Health() {
               onClick={handleClick}
             >
               {" "}
-              Add
+              {mobileMode ? "" : "Add"}
             </Button>
           </Grid>
         )}
@@ -131,7 +132,7 @@ export function Health() {
       {tab === 0 && (
         <Grid container>
           <Grid item container columnSpacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Grid
                 container
                 justifyContent={"space-between"}
@@ -149,7 +150,7 @@ export function Health() {
                   onClick={() => setOpenGroupSessionForm(true)}
                 >
                   {" "}
-                  Add Group Sessions
+                  {mobileMode ? "" : "Add Group Sessions"}
                 </Button>
               </Grid>
               <Grid container>
@@ -164,7 +165,7 @@ export function Health() {
                 </CustomCard>
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Grid
                 container
                 justifyContent={"space-between"}
@@ -180,7 +181,7 @@ export function Health() {
                   onClick={() => setOpenMedicationForm(true)}
                 >
                   {" "}
-                  Add Medication
+                  {mobileMode ? "" : "Add Medication"}
                 </Button>
               </Grid>
               <Grid container>
@@ -211,7 +212,7 @@ export function Health() {
               onClick={() => setOpenTreatmentForm(true)}
             >
               {" "}
-              Add Treatment
+              {mobileMode ? "" : "Add Treatment"}
             </Button>
           </Grid>
           <Grid item container>

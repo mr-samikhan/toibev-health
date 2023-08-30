@@ -29,7 +29,7 @@ export function Learn() {
     reseliency,
     isLoadingReseliency,
     isFetchingReseliency,
-
+    mobileMode,
     handleChange,
   } = useLearn();
 
@@ -86,7 +86,7 @@ export function Learn() {
             onClick={handleClick}
           >
             {" "}
-            Add
+            {mobileMode ? "" : "Add"}
           </Button>
         </Grid>
       </Grid>
@@ -128,7 +128,7 @@ export function Learn() {
                 onChange={handleChange}
               />
               {reseliency[0]?.menu?.map((item) => (
-                <ResiliencyItem data={item} />
+                <ResiliencyItem data={item} mobileMode={mobileMode} />
               ))}
             </>
           )}

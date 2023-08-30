@@ -5,17 +5,13 @@ import CustomTextfield from "../../../../../components/CustomTextfield";
 import CustomButton from "../../../../../components/CustomButton";
 import ImageUploader from "../../../../../components/MediaUpload";
 import { ReactComponent as Clipboard } from "../../../../../assets/icons/clipboard.svg";
-import { ReactComponent as CalenderIcon } from "../../../../../assets/icons/calendar.svg";
 import { ReactComponent as LocationIcon } from "../../../../../assets/icons/location.svg";
-import { ReactComponent as ClockIcon } from "../../../../../assets/icons/clock.svg";
 import { ReactComponent as TaskIcon } from "../../../../../assets/icons/task.svg";
 import { ReactComponent as LinkIcon } from "../../../../../assets/icons/link.svg";
 import useEventForm from "../../../hooks/useEventForm";
 import RecurringPeriod from "../../RecurringPeriod";
 import CustomSwitch from "../../../../../components/CustomSwitch";
 import DatePicker from "../../../../../components/CustomDatePicker";
-import { CheckBox } from "@mui/icons-material";
-import { weekdays } from "moment";
 
 export default function EventForm({ isEdit, data, open, setOpen }) {
   const {
@@ -38,7 +34,11 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     date,
     setDate,
     weekdays,
+    recurrence,
+    frequency,
+    onChecked,
   } = useEventForm({ initialState: data, open, setOpen, isEdit });
+
   return (
     <Box
       component="form"
@@ -131,34 +131,74 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             />
           </Grid>
         )}
-        <Grid
-          container
-          p={2}
-          mb={3}
-          sx={{ border: "1px solid #DCDCDC", borderRadius: "16px" }}
-        >
-          {weekdays?.map((day, index) => (
-            <Grid xs={12} item>
-              <Grid
-                container
-                alignItems={"center"}
-                justifyContent={"space-between"}
-              >
-                <Grid item>
-                  <Typography>{day?.label}</Typography>
-                </Grid>
-                <Grid item>
-                  <Checkbox
-                    sx={{
-                      color: "#71757B",
-                      borderRadius: 3,
-                    }}
+        {recurrence?.value === "custom" && (
+          <>
+            <Grid item xs={12} mb={3}>
+              <Controller
+                name="frequency"
+                control={control}
+                rules={{ required: "Field is required" }}
+                render={({ field: { value, onChange } }) => (
+                  <CustomTextfield
+                    select
+                    options={[{ label: "Weekly", value: "weekly" }]}
+                    label="Frequency"
+                    value={value}
+                    onChange={onChange}
                   />
-                </Grid>
-              </Grid>
+                )}
+              />
             </Grid>
-          ))}
-        </Grid>
+            <Grid item xs={12} mb={3}>
+              <Controller
+                name="period"
+                control={control}
+                rules={{ required: "Field is required" }}
+                render={({ field: { value, onChange } }) => (
+                  <CustomTextfield
+                    select
+                    disabled={!frequency}
+                    options={[{ label: "4 Weeks", value: "4weeks" }]}
+                    label="Period"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid
+              container
+              p={2}
+              mb={3}
+              sx={{ border: "1px solid #DCDCDC", borderRadius: "16px" }}
+            >
+              {weekdays?.map((day, index) => (
+                <Grid xs={12} item>
+                  <Grid
+                    container
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                  >
+                    <Grid item>
+                      <Typography>{day?.label}</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Checkbox
+                        sx={{
+                          color: "#71757B",
+                          borderRadius: 3,
+                        }}
+                        checked={day?.checked}
+                        onChange={(e) => onChecked(e, index)}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+
         <Grid item xs={12} mb={3}>
           {" "}
           <Controller

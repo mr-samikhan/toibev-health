@@ -4,9 +4,11 @@ import { useGetGroupSessions } from "../../hooks/useGetGroupSessions";
 import { useGetMedication } from "../../hooks/useGetMedication";
 import { useGetTreatments } from "../../hooks/useGetTreatments";
 import { useGetTreatmentOptions } from "../../hooks/useGetTreatmentOptions";
+import { useBreakpints } from "../../common/helpers";
 
 export const useHealth = () => {
   const [tab, setTab] = useState(0);
+  const { mobileMode } = useBreakpints();
   const [openAddProvider, setOpenAddProvider] = useState(false);
   const [openGroupSessionForm, setOpenGroupSessionForm] = useState(false);
   const [openMedicationForm, setOpenMedicationForm] = useState(false);
@@ -71,5 +73,6 @@ export const useHealth = () => {
     treatmentOptions,
     isLoadingTreatmentOptions,
     isFetchingTreatmentOptions,
+    mobileMode,
   };
 };

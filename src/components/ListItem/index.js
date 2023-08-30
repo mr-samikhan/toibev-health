@@ -11,21 +11,22 @@ export function ListItem({ startIcon, title, endIcon }) {
         justifyContent="space-between"
         alignItems="center"
         className="wrapper"
+        flexWrap={"nowrap"}
       >
-        <Grid item>
-          <Grid container spacing={2} alignItems="center">
+        <Grid item xs={10}>
+          <Grid container spacing={2} alignItems="center" flexWrap={"nowrap"}>
             <Grid item>
               {" "}
               <Avatar className="avatar">
                 <img src={startIcon} />
               </Avatar>
             </Grid>
-            <Grid item>
+            <Grid item flexGrow={1} sx={{ overflow: "hidden" }}>
               <Typography className="title">{title}</Typography>
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item xs={2}>
           <IconButton>
             <img src={endIcon} />
           </IconButton>

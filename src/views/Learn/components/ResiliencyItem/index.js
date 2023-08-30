@@ -10,7 +10,7 @@ import { useResiliencyCatrgory } from "../../hook/useResiliencyCatrgory";
 import ResiliencySubCatForm from "../Forms/ResiliencySubCatForm";
 import { ResilienceySubCatActions } from "../ActionButtons";
 
-export default function ResiliencyItem({ data }) {
+export default function ResiliencyItem({ data, mobileMode }) {
   const {
     open,
     setOpen,
@@ -28,17 +28,17 @@ export default function ResiliencyItem({ data }) {
         message={<ResiliencySubCatForm setOpen={setOpen} cat={data?.value} />}
       />
       <Grid container>
-        <Grid item sm={12} sx={{ margin: "40px 0px" }}>
+        <Grid item xs={12} sx={{ margin: "40px 0px" }}>
           <ListItem
             title={data?.title}
             startIcon={icons.clockIcon}
             endIcon={icons.editIcon}
           />
         </Grid>
-        <Grid item sm={12} sx={{ marginBottom: "24px" }}>
+        <Grid item xs={12} sx={{ marginBottom: "24px" }}>
           {" "}
-          <Grid container justifyContent="space-between">
-            <Grid item>
+          <Grid container justifyContent="space-between" flexWrap={"nowrap"}>
+            <Grid item flexGrow={1} xs={10}>
               {" "}
               <ListTitle
                 title={`${data?.title} Sub-Categories`}
@@ -53,7 +53,7 @@ export default function ResiliencyItem({ data }) {
                 startIcon={<AddIcon />}
                 onClick={() => setOpen(true)}
               >
-                Add Additional Resources
+                {mobileMode ? "" : "Add Additional Resources"}
               </Button>
             </Grid>
           </Grid>
@@ -61,7 +61,7 @@ export default function ResiliencyItem({ data }) {
         {isFetching || isLoading ? (
           "Loading..."
         ) : (
-          <Grid item sm={12}>
+          <Grid item xs={12}>
             <CustomList
               icon={icons.clipboardIcon}
               noData="No History Sub-Categories Added"

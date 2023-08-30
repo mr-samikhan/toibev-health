@@ -1,4 +1,4 @@
-import React, { useState, useId } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
 import { addEvent, updateEvent, deleteEvent } from "../actions";
@@ -18,14 +18,14 @@ const recurrenceOptions = [
   { label: "Custom", value: "custom" },
 ];
 
-const weekdays = [
-  { label: "Monday", value: "monday" },
-  { label: "Tuesday", value: "tuesday" },
-  { label: "Wednesday", value: "wednesday" },
-  { label: "Thursday", value: "thursday" },
-  { label: "Friday", value: "friday" },
-  { label: "Saturday", value: "saturday" },
-  { label: "Sunday", value: "sunday" },
+const days = [
+  { label: "Monday", value: "monday", checked: false },
+  { label: "Tuesday", value: "tuesday", checked: false },
+  { label: "Wednesday", value: "wednesday", checked: false },
+  { label: "Thursday", value: "thursday", checked: false },
+  { label: "Friday", value: "friday", checked: false },
+  { label: "Saturday", value: "saturday", checked: false },
+  { label: "Sunday", value: "sunday", checked: false },
 ];
 
 export default function useEventForm({ initialState, setOpen, isEdit }) {
@@ -34,6 +34,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     fileUrl: initialState?.video || "",
   });
   const [date, setDate] = useState(getDate() ?? null);
+  const [weekdays, setWeekdays] = useState(days);
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.image || "",
   });
@@ -58,6 +59,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       ...initialState,
@@ -66,6 +68,8 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
         : "",
     },
   });
+
+  const { recurrence, frequency } = watch();
 
   const { isLoading, mutate } = useMutation(isEdit ? updateEvent : addEvent, {
     onSuccess: (success) => {
@@ -89,6 +93,12 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
       },
     }
   );
+
+  const onChecked = (e, index) => {
+    const newWeekdays = [...weekdays];
+    newWeekdays[index].checked = e.target.checked;
+    setWeekdays(newWeekdays);
+  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -134,5 +144,8 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     date,
     setDate,
     weekdays,
+    recurrence,
+    frequency,
+    onChecked,
   };
 }
