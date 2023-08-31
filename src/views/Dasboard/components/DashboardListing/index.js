@@ -2,7 +2,7 @@ import React from "react";
 import { Avatar, Grid, Typography } from "@mui/material";
 
 export const ListItem = ({ item, listing }) => {
-  const { image, title, count } = item;
+  const { image, title, clicks } = item;
   return (
     <>
       <Grid container justifyContent="space-between" alignItems={"center"}>
@@ -28,7 +28,9 @@ export const ListItem = ({ item, listing }) => {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <Typography className="count">{count ?? "123 clicks"}</Typography>
+          <Typography className="count">
+            {clicks ? `${clicks} clicks` : "123 clicks"}
+          </Typography>
         </Grid>
       </Grid>
       <Grid container justifyContent={"center"} my={2}>
