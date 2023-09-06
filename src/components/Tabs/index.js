@@ -51,8 +51,9 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
-export function CustomTabs({ options, setTab, tab }) {
+export function CustomTabs({ options, setTab, tab, onClick = () => {} }) {
   const handleChange = (event, newValue) => {
+    onClick(newValue);
     setTab(newValue);
   };
   const { mobileMode } = useBreakpints();

@@ -1,5 +1,6 @@
 import React from "react";
 import { Avatar, Grid, Typography } from "@mui/material";
+import MedicineIcon from "../../../../assets/icons/medicine.svg";
 
 export const ListItem = ({ item, listing }) => {
   const { image, title, clicks } = item;
@@ -40,7 +41,7 @@ export const ListItem = ({ item, listing }) => {
   );
 };
 
-export default function DashboardListing({ list, tabs, listing }) {
+export default function DashboardListing({ list, tabs, listing, isLoading }) {
   return (
     <Grid className="card">
       <Grid container mb={2} px={3}>
@@ -60,29 +61,37 @@ export default function DashboardListing({ list, tabs, listing }) {
           justifyContent={"center"}
           columnSpacing={2}
           rowSpacing={2}
+          px={2}
           mt={1}
         >
-          {[1, 2, 3, 4].map((item, index) => (
-            <Grid item xs={5}>
-              <Grid container p={2} className="survey-card">
-                <Grid item>
-                  <Grid container className="icon-container">
-                    <Avatar variant="square" className="icon" src={""} />
-                  </Grid>
+          {isLoading
+            ? "Laoding..."
+            : list?.map((item, index) => (
+                <Grid item xs={12} sm={5}>
+                  <Grid container p={2} className="survey-card">
+                    <Grid item>
+                      <Grid container className="icon-container">
+                        <Avatar
+                          variant="square"
+                          className="icon"
+                          src={MedicineIcon}
+                          sx={{ borderRadius: "0px" }}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid item flexGrow={1} ml={2}>
+                      <Grid
+                        container
+                        justifyContent={"space-between"}
+                        alignItems={"center"}
+                      >
+                        <Typography className="title">{"351"}</Typography>
+                        <Typography className="count">{item?.text}</Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>{" "}
                 </Grid>
-                <Grid item flexGrow={1} ml={2}>
-                  <Grid
-                    container
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Typography className="title">{"351"}</Typography>
-                    <Typography className="count">{"0% - 40%"}</Typography>
-                  </Grid>
-                </Grid>
-              </Grid>{" "}
-            </Grid>
-          ))}
+              ))}
         </Grid>
       )}
     </Grid>

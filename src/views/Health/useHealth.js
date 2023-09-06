@@ -46,6 +46,7 @@ export const useHealth = () => {
   const handleClick = () => {
     return tab === 1 ? setOpenAddProvider(true) : "";
   };
+
   return {
     tab,
     setTab,

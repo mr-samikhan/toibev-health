@@ -61,9 +61,16 @@ const list1 = [
 ];
 
 export function Dashboard() {
-  const { tab, setTab, events, reseliency, assessmentOptions } = useDashboard(
-    {}
-  );
+  const {
+    tab,
+    setTab,
+    events,
+    reseliency,
+    assessmentOptions,
+    onTabClick,
+    conditions,
+    isLoadingConditions,
+  } = useDashboard({});
 
   return (
     <Grid className="dashboard">
@@ -147,13 +154,15 @@ export function Dashboard() {
             </Grid>
             <Grid item sx={{ maxWidth: "100%" }}>
               <DashboardListing
-                list={list1}
+                list={conditions}
                 listing="surveys"
+                isLoading={isLoadingConditions}
                 tabs={
                   <CustomTabs
                     options={assessmentOptions ?? []}
                     setTab={setTab}
                     tab={tab}
+                    onClick={onTabClick}
                   />
                 }
               />
