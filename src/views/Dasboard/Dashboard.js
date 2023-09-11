@@ -1,64 +1,11 @@
 import React from "react";
-import { Grid, Typography } from "@mui/material";
+import { CircularProgress, Grid, Typography } from "@mui/material";
 import StatsCard from "./components/StatsCard";
 import icons from "../../assets/index";
 import DashboardListing from "./components/DashboardListing";
 import CustomCarousel from "../../components/Carousel";
 import { CustomTabs } from "../../components/Tabs";
 import { useDashboard } from "./useDashboard";
-
-const list1 = [
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-  {
-    title: "Road Run 2020",
-    count: "Road Run 2020",
-    image: icons.statsUsersIcon,
-  },
-];
 
 export function Dashboard() {
   const {
@@ -70,7 +17,37 @@ export function Dashboard() {
     onTabClick,
     conditions,
     isLoadingConditions,
+    groupedProvidersByLocation,
+    isLoadingGeography,
+    surveyConditions,
+    isLoadingSurveyConditions,
+    users,
+    isFechingConditions,
+    isFetchingSurveyConditions,
+    isLoadingUsers,
+    isFetchingUsers,
+    isFetchingGeography,
+    isLoadingResources,
+    isFechingResources,
+    isLoadingAssessments,
+    isFetchingAssessments,
   } = useDashboard({});
+
+  if (
+    isLoadingUsers ||
+    isFetchingUsers ||
+    isFetchingGeography ||
+    isLoadingResources ||
+    isFechingResources ||
+    isLoadingAssessments ||
+    isFetchingAssessments
+  ) {
+    return (
+      <Grid container alignItems="center" justifyContent="center">
+        <CircularProgress />
+      </Grid>
+    );
+  }
 
   return (
     <Grid className="dashboard">
@@ -89,13 +66,13 @@ export function Dashboard() {
 
             <StatsCard
               title="Scheduled Calendar Events"
-              count={920}
+              count={events?.length}
               icon={icons.statsCalendarIcon}
             />
 
             <StatsCard
               title="Registered Users"
-              count={"1,240"}
+              count={users?.length}
               icon={icons.statsUsersIcon}
             />
 
@@ -108,7 +85,7 @@ export function Dashboard() {
         </Grid>
       </Grid>
       <Grid container spacing={3}>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
           {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
             {" "}
@@ -121,7 +98,7 @@ export function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
           {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
             {" "}
@@ -133,7 +110,7 @@ export function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
           {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
             {" "}
@@ -141,11 +118,14 @@ export function Dashboard() {
               <Typography className="heading">Geographic</Typography>
             </Grid>
             <Grid item>
-              <DashboardListing list={list1} />
+              <DashboardListing
+                list={groupedProvidersByLocation}
+                isLoading={isLoadingGeography}
+              />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={12} md={6}>
           {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
             {" "}
@@ -154,9 +134,14 @@ export function Dashboard() {
             </Grid>
             <Grid item sx={{ maxWidth: "100%" }}>
               <DashboardListing
-                list={conditions}
+                list={conditions ?? surveyConditions}
                 listing="surveys"
-                isLoading={isLoadingConditions}
+                isLoading={
+                  isLoadingConditions ||
+                  isLoadingSurveyConditions ||
+                  isFechingConditions ||
+                  isFetchingSurveyConditions
+                }
                 tabs={
                   <CustomTabs
                     options={assessmentOptions ?? []}

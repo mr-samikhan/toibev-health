@@ -14,6 +14,7 @@
     border-radius: 16px;
     padding: 16px 0px;
     min-height: 332px;
+    max-height: 332px;
     .survey-card {
       border: 1px solid #dcdcdc;
       border-radius: 10px;
@@ -52,7 +53,7 @@
       padding: 0px 20px;
       max-height: 300px;
 
-      overflow-y: scroll;
+      overflow-y: auto;
       .dashboard-list-item {
         .title {
           font-weight: 500;
