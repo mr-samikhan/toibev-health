@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import { firestore, collection, getDocs, getDoc, doc } from "../firebase";
+import { parseAddress } from "parse-address";
 
 const fetchInfo = async () => {
   let providersData = [];
@@ -33,5 +34,37 @@ export const useGetProviders = ({ enabled = true }) => {
     }
   );
 
-  return { isLoading, error, providers: data, isFetching };
+  let groupedProvidersByLocation = {};
+
+  if (!!data) {
+    const groupedProviders = {};
+    function extractCityAndState(address) {
+      const { city, state } = parseAddress(
+        "1005 N Gravenstein Highway Sebastopol CA 95472"
+      );
+
+      return { city, state };
+    }
+    data.forEach((provider) => {
+      if (provider.address) {
+        const { city, state } = extractCityAndState(provider.address);
+        const key = `${city} ${state}`;
+        if (!groupedProviders[key]) {
+          groupedProviders[key] = { title: key, clicks: 0 };
+        }
+        groupedProviders[key].clicks += provider.clicks || 0;
+        // groupedProviders[key].providers.push(provider);
+      }
+    });
+
+    groupedProvidersByLocation = Object.values(groupedProviders);
+  }
+
+  return {
+    isLoading,
+    error,
+    providers: data,
+    isFetching,
+    groupedProvidersByLocation,
+  };
 };
