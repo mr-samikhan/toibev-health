@@ -4,10 +4,22 @@ import { useGetReseliency } from "../../hooks/useGetReseliency";
 import { useGetAssessments } from "../../hooks/useGetAssessments";
 import { useGetAssessmentConditions } from "../../hooks/useGetAssessmentConditions";
 import { useGetProviders } from "../../hooks/useGetProviders";
+import { useGetUsers } from "../../hooks/useGetUsers";
 
 export const useDashboard = () => {
   const [tab, setTab] = useState(0);
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
+
+  const {
+    assessmentOptions,
+    assessments,
+    isLoading: isLoadingAssessments,
+    isFetching: isFetchingAssessments,
+  } = useGetAssessments({});
+
+  const [selectedAssessment, setSelectedAssessment] = useState(
+    assessments?.length ? assessments[0] : {}
+  );
 
   const {
     data: events,
@@ -15,14 +27,41 @@ export const useDashboard = () => {
     isFetching: isFetchingEvents,
   } = useGetEvents({});
 
-  const { reseliency } = useGetReseliency({});
-  const { assessmentOptions, assessments, isLoading } = useGetAssessments({});
-  const [selectedAssessment, setSelectedAssessment] = useState({});
-  const { conditions, isLoading: isLoadingConditions } =
-    useGetAssessmentConditions({
-      id: selectedAssessment?.id,
-      enabled: !toggle ?? !!toggle,
-    });
+  const {
+    users,
+    isLoading: isLoadingUsers,
+    isFetching: isFetchingUsers,
+  } = useGetUsers({});
+
+  const {
+    groupedProvidersByLocation,
+    isLoading: isLoadingGeography,
+    isFetching: isFetchingGeography,
+  } = useGetProviders({});
+
+  const {
+    reseliency,
+    isLoading: isLoadingResources,
+    isFetching: isFechingResources,
+  } = useGetReseliency({});
+
+  const {
+    conditions,
+    isLoading: isLoadingConditions,
+    isFetching: isFechingConditions,
+  } = useGetAssessmentConditions({
+    id: selectedAssessment?.id,
+    enabled: !!toggle,
+  });
+
+  const {
+    conditions: surveyConditions,
+    isLoading: isLoadingSurveyConditions,
+    isFetching: isFetchingSurveyConditions,
+  } = useGetAssessmentConditions({
+    id: selectedAssessment?.id,
+    enabled: !toggle,
+  });
 
   const onTabClick = (newValue) => {
     setToggle(!toggle);
@@ -32,9 +71,7 @@ export const useDashboard = () => {
     const assessment = assessments?.find((item) => item.title === clickedItem);
     setSelectedAssessment(assessment);
   };
-  useEffect(() => {
-    if (!isLoading) setSelectedAssessment(assessments[0]);
-  }, []);
+
   return {
     tab,
     setTab,
@@ -46,5 +83,19 @@ export const useDashboard = () => {
     onTabClick,
     conditions,
     isLoadingConditions,
+    groupedProvidersByLocation,
+    isLoadingGeography,
+    surveyConditions,
+    isLoadingSurveyConditions,
+    users,
+    isFechingConditions,
+    isFetchingSurveyConditions,
+    isLoadingUsers,
+    isFetchingUsers,
+    isFetchingGeography,
+    isLoadingResources,
+    isFechingResources,
+    isLoadingAssessments,
+    isFetchingAssessments,
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Grid, Typography } from "@mui/material";
+import { Avatar, CircularProgress, Grid, Typography } from "@mui/material";
 import MedicineIcon from "../../../../assets/icons/medicine.svg";
 
 export const ListItem = ({ item, listing }) => {
@@ -18,7 +18,7 @@ export const ListItem = ({ item, listing }) => {
               <Grid container className="icon-container">
                 <Avatar
                   variant="square"
-                  src={image}
+                  src={image ?? ""}
                   className={listing === "events" ? "image-icon" : "icon"}
                 />
               </Grid>
@@ -49,25 +49,31 @@ export default function DashboardListing({ list, tabs, listing, isLoading }) {
       </Grid>
       {listing !== "surveys" ? (
         <Grid container className="dashboard-listing">
-          {list?.map((item, index) => (
-            <Grid item xs={12} className="dashboard-list-item" key={index}>
-              <ListItem item={item} listing={listing} />
-            </Grid>
-          ))}
+          {isLoading
+            ? "Loading"
+            : list?.map((item, index) => (
+                <Grid item xs={12} className="dashboard-list-item" key={index}>
+                  <ListItem item={item} listing={listing} />
+                </Grid>
+              ))}
         </Grid>
       ) : (
-        <Grid
-          container
-          justifyContent={"center"}
-          columnSpacing={2}
-          rowSpacing={2}
-          px={2}
-          mt={1}
-        >
-          {isLoading
-            ? "Laoding..."
-            : list?.map((item, index) => (
-                <Grid item xs={12} sm={5}>
+        <Grid container justifyContent={"center"} className="dashboard-listing">
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <Grid
+              item
+              xs={11}
+              container
+              columnSpacing={2}
+              rowSpacing={2}
+              mt={1}
+              overflowY={"scroll"}
+              sx={{ maxHeight: "240px" }}
+            >
+              {list?.map((item, index) => (
+                <Grid item xs={12} sm={list?.length > 2 ? 6 : 12}>
                   <Grid container p={2} className="survey-card">
                     <Grid item>
                       <Grid container className="icon-container">
@@ -92,6 +98,8 @@ export default function DashboardListing({ list, tabs, listing, isLoading }) {
                   </Grid>{" "}
                 </Grid>
               ))}
+            </Grid>
+          )}
         </Grid>
       )}
     </Grid>
