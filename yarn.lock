@@ -9649,6 +9649,13 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
+parse-address@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/parse-address/-/parse-address-1.1.2.tgz#6c28c29de95d4c675c7ff450be6f60be49dcfe58"
+  integrity sha512-EnqetXieqyTlDzuuy+oT/pjjkWoI80MgFawDA/Z9LZBAMy+Iy6piURuX+Lr1iZNm7exD+V/B9IRjHaSj33adJw==
+  dependencies:
+    xregexp "^3.1.1"
+
 parse-json@^5.0.0, parse-json@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-5.2.0.tgz#c76fc66dee54231c962b22bcc8a72cf2f99753cd"
@@ -13178,6 +13185,11 @@ xregexp@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
   integrity sha512-xl/50/Cf32VsGq/1R8jJE5ajH1yMCQkpmoS10QbFZWl2Oor4H0Me64Pu2yxvsRWK3m6soJbmGfzSR7BYmDcWAA==
+
+xregexp@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-3.2.0.tgz#cb3601987bfe2695b584000c18f1c4a8c322878e"
+  integrity sha512-tWodXkrdYZPGadukpkmhKAbyp37CV5ZiFHacIVPhRZ4/sSt7qtOYHLv2dAqcPN0mBsViY2Qai9JkO7v2TBP6hg==
 
 xtend@^4.0.2:
   version "4.0.2"
