@@ -1,42 +1,41 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { IconButton, useMediaQuery } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import "./style.scss";
+import * as React from 'react'
+import Dialog from '@mui/material/Dialog'
+import CloseIcon from '@mui/icons-material/Close'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import { IconButton, useMediaQuery } from '@mui/material'
+
+import './style.scss'
 
 export default function AlertDialog({
   open,
-  setOpen,
-  maxWidth = "sm",
   title,
+  setOpen,
+  onClose,
   message,
   anchorEl,
+  maxWidth = 'sm',
 }) {
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
-  const mobile = useMediaQuery("(max-width:600px)");
+  const mobile = useMediaQuery('(max-width:600px)')
+
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <Dialog
       open={open}
       fullWidth={true}
-      onClose={handleClose}
+      onClose={onClose || handleClose}
       sx={{
-        "& .MuiPaper-root": {
+        '& .MuiPaper-root': {
           py: mobile ? 3 : 4,
           borderRadius: 4,
-          position: "relative",
+          position: 'relative',
         },
       }}
       anchorEl={anchorEl}
@@ -51,20 +50,23 @@ export default function AlertDialog({
         </IconButton>
       )}
       <DialogTitle
-        className={mobile ? "dialog-title dialog-title-mobile" : "dialog-title"}
+        className={mobile ? 'dialog-title dialog-title-mobile' : 'dialog-title'}
       >
-        {title}{" "}
+        {title}{' '}
         {!mobile && (
-          <IconButton className="dialog-close-button" onClick={handleClose}>
+          <IconButton
+            className="dialog-close-button"
+            onClick={onClose || handleClose}
+          >
             <CloseIcon />
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent sx={{ pt: "8px !important", px: mobile ? 3 : 7 }}>
-        {" "}
+      <DialogContent sx={{ pt: '8px !important', px: mobile ? 3 : 7 }}>
+        {' '}
         {message}
       </DialogContent>
       {/* <DialogActions></DialogActions> */}
     </Dialog>
-  );
+  )
 }
