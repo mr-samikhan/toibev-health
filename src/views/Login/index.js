@@ -1,12 +1,10 @@
-import React from "react";
-import { Grid } from "@mui/material";
-import LoginForm from "./components/LoginForm";
-import logo from "../../assets/icons/ToiyabeLogo.png";
-import backgroundImage from "../../assets/icons/background.png";
-import image1 from "../../assets/images/login1.png";
-import image2 from "../../assets/images/login2.png";
-import image3 from "../../assets/images/left-side-bar.png";
-import "./style.scss";
+import React from 'react'
+import { Grid } from '@mui/material'
+
+//imports
+import './style.scss'
+import LoginForm from './components/LoginForm'
+import image3 from '../../assets/images/left-side-bar.png'
 
 export default function Login() {
   return (
@@ -15,10 +13,10 @@ export default function Login() {
       xs={12}
       flexWrap="nowrap"
       sx={{
-        height: "100vh",
+        height: '100vh',
       }}
     >
-      <Grid item md={5}>
+      <Grid item md={5} display={{ xs: 'none', md: 'block' }}>
         {/* <Grid container className="sections">
           <Grid item className="section">
             <Grid container sx={{ gap: "14px" }}>
@@ -51,14 +49,17 @@ export default function Login() {
             </Grid>
           </Grid>
         </Grid> */}
-        <img src={image3} style={{ width: "100%", height: "100%" }} />
+        <img
+          src={image3}
+          alt="login-img"
+          style={{ width: '100%', height: '100%' }}
+        />
       </Grid>
       <Grid item className="form-section">
-        <Grid container alignItems="center" sx={{ height: "100%" }}>
-          {" "}
+        <Grid container alignItems="center" sx={{ height: '100%' }}>
           <LoginForm />
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }

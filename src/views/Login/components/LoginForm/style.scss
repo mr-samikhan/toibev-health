@@ -1,32 +1,33 @@
 .login-form {
   .title-banner {
-    background: rgba(70, 141, 141, 0.1);
-    border-radius: 0px 20px 20px 0px;
     max-width: 95%;
     min-width: 95%;
     padding: 24px 0px 24px 100px;
+    border-radius: 0px 20px 20px 0px;
+    background: rgba(70, 141, 141, 0.1);
   }
   .title {
-    font-weight: 700;
     font-size: 30px;
-    line-height: 39px;
+    font-weight: 700;
     color: #3b7d7d;
+    line-height: 39px;
   }
   .subtitle {
-    font-weight: 400;
     font-size: 20px;
-    line-height: 26px;
+    font-weight: 400;
     color: #3b7d7d;
+    line-height: 26px;
   }
   .wrapper {
-    margin: 115px 100px 0px;
+    // margin: 115px 100px 0px;
     width: 100%;
   }
   .link {
     font-weight: 500;
+    color: #3b7d7d;
+    cursor: pointer;
     font-size: 14px;
     line-height: 18px;
     text-decoration-line: underline;
-    color: #3b7d7d;
   }
 }

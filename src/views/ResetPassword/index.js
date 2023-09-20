@@ -1,20 +1,27 @@
-import React from "react";
-import { Grid, Box } from "@mui/material";
-import { Controller } from "react-hook-form";
-import useResetPassword from "./useResetPassword";
-import CustomTextfield from "../../components/CustomTextfield";
-import CustomButton from "../../components/CustomButton";
-import { ReactComponent as LockIcon } from "../../assets/icons/lock.svg";
+import React from 'react'
+import { Grid, Box } from '@mui/material'
+import { Controller } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+
+//imports
+import useResetPassword from './useResetPassword'
+import AlertDialog from '../../components/AlertDialog'
+import CustomButton from '../../components/CustomButton'
+import CustomTextfield from '../../components/CustomTextfield'
+import { ReactComponent as LockIcon } from '../../assets/icons/lock.svg'
 import {
-  emailValidator,
+  // emailValidator,
   atleastOneIntegerandOneCharacter,
-} from "../../utils/validators";
-import AlertDialog from "../../components/AlertDialog";
+} from '../../utils/validators'
 
 export default function ResetPassword() {
-  const { control, handleSubmit, onSubmit, errors } = useResetPassword();
+  const navigate = useNavigate()
+
+  const { control, handleSubmit, onSubmit, errors } = useResetPassword()
+
   return (
     <AlertDialog
+      onClose={() => navigate('/login')}
       title="Reset Password"
       open={true}
       message={
@@ -24,7 +31,7 @@ export default function ResetPassword() {
               <Controller
                 name="password"
                 rules={{
-                  required: { value: true, message: "Password is required" },
+                  required: { value: true, message: 'Password is required' },
                   pattern: atleastOneIntegerandOneCharacter(),
                 }}
                 control={control}
@@ -46,7 +53,7 @@ export default function ResetPassword() {
                 rules={{
                   required: {
                     value: true,
-                    message: "Confirm Password is required",
+                    message: 'Confirm Password is required',
                   },
                   pattern: atleastOneIntegerandOneCharacter(),
                 }}
@@ -65,12 +72,12 @@ export default function ResetPassword() {
             </Grid>
             <Grid item xs={12}>
               <CustomButton variant="contained" type="submit">
-                {"Reset Password"}
+                {'Reset Password'}
               </CustomButton>
             </Grid>
           </Grid>
         </Box>
       }
     />
-  );
+  )
 }
