@@ -1,79 +1,80 @@
+import { updateDoc, doc, deleteDoc } from '@firebase/firestore'
 import {
-  addDoc,
-  updateDoc,
-  collection,
-  doc,
-  deleteDoc,
-} from "@firebase/firestore";
-import {
-  firestore,
   auth,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  deleteUser,
   setDoc,
-} from "../../../firebase";
+  firestore,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
+} from '../../../firebase'
 
 export const addAdmin = async (data) => {
-  const { email, password, permissionLevel } = data;
-  try {
-    const createdUser = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+  const { email, password, permissionLevel } = data
+  return new Promise(async (resolve, reject) => {
+    try {
+      const createdUser = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
 
-    const user = {
-      email: createdUser.user.email,
-      uid: createdUser.user.uid,
-      permissionLevel,
-      ...createdUser.user,
-    };
+      const user = {
+        email: createdUser.user.email,
+        uid: createdUser.user.uid,
+        permissionLevel,
+        username: createdUser.user.email.split('@')[0],
+      }
 
-    const docRef = await setDoc(
-      doc(firestore, "Admins", createdUser?.user?.uid),
-      user
-    );
-    return docRef;
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+      const docRef = await setDoc(
+        doc(firestore, 'Admins', createdUser?.user?.uid),
+        { ...user }
+      )
+      resolve(docRef)
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
 
-    throw errorCode;
-  }
-};
+      reject(errorCode || errorMessage)
+    }
+  })
+}
 
 export const updateAdmin = async (data) => {
-  try {
-    const docRef = await updateDoc(doc(firestore, "Admins", data.id), data);
-    // console.log("Document written with ID: ", docRef.id);
-    return docRef;
-  } catch (e) {
-    // console.error("Error adding document: ", e);
-    return e;
-  }
-};
+  return new Promise(async (resolve, reject) => {
+    try {
+      const docRef = await updateDoc(doc(firestore, 'Admins', data.id), data)
+      // console.log("Document written with ID: ", docRef.id);
+      resolve(docRef)
+    } catch (e) {
+      // console.error("Error adding document: ", e);
+      reject(e)
+    }
+  })
+}
 
-export const deleteAdmin = async (id) => {
-  console.log(id);
-  try {
-    const del = await deleteUser(auth, id);
-    const docRef = await deleteDoc(doc(firestore, "Admins", id));
-    console.log("Document written with ID: ", docRef.id);
-    return docRef;
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    return e;
-  }
-};
+export const deleteAdmin = async (values = { id: '' }) => {
+  const { id } = values
+  return new Promise(async (resolve, reject) => {
+    try {
+      // const del = await deleteUser(auth, id)
+      const docRef = doc(firestore, 'Admins', id)
+      await deleteDoc(docRef)
+      resolve('user deleted successfully')
+    } catch (e) {
+      console.error('Error adding document: ', e)
+      reject(e)
+    }
+  })
+}
 
 export const sendResetPasswordEmail = async (email) => {
-  try {
-    const docRef = await sendPasswordResetEmail(auth, email);
-    console.log("Document written with ID: ", docRef.id);
-    return docRef;
-  } catch (e) {
-    console.error("Error adding document: ", e);
-    return e;
-  }
-};
+  return new Promise(async (resolve, reject) => {
+    try {
+      const docRef = await sendPasswordResetEmail(auth, email)
+      console.log('Document written with ID: ', docRef.id)
+      resolve(docRef)
+    } catch (e) {
+      console.error('Error adding document: ', e)
+      reject(e)
+    }
+  })
+}
