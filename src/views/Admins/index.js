@@ -1,17 +1,29 @@
-import { Grid, Button, useMediaQuery } from "@mui/material";
-import React, { useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import AdminsTable from "./components/AdmimsTable";
-import AlertDialog from "../../components/AlertDialog";
-import AddAdminForm from "./components/Forms/AddAdminForm";
-import { useGetAdmins } from "../../hooks/useGetAdmins";
-import { CircularProgress } from "@mui/material";
-import "./style.scss";
+import React, { useState } from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import { CircularProgress } from '@mui/material'
+import AdminsTable from './components/AdmimsTable'
+import { Grid, Button, useMediaQuery } from '@mui/material'
+
+//imports
+import './style.scss'
+import AlertDialog from '../../components/AlertDialog'
+import { useGetAdmins } from '../../hooks/useGetAdmins'
+import AddAdminForm from './components/Forms/AddAdminForm'
+import MuiSnackbar from '../../components/MuiSnackbar/MuiSnackbar'
 
 export function Admins() {
-  const matches = useMediaQuery("(max-width: 600px)");
-  const [open, setOpen] = useState(false);
-  const { admins, isLoading, isFetching } = useGetAdmins({});
+  const matches = useMediaQuery('(max-width: 600px)')
+
+  const [open, setOpen] = useState(false)
+  const { admins, isLoading, isFetching } = useGetAdmins({})
+
+  const [showAlert, setShowAlert] = useState({
+    open: false,
+    message: '',
+    isError: false,
+  })
+
+  const handleClose = () => setShowAlert((prev) => ({ ...prev, open: false }))
 
   return (
     <>
@@ -20,36 +32,44 @@ export function Admins() {
           open={open}
           setOpen={setOpen}
           title="Add Admin"
-          message={<AddAdminForm setOpen={setOpen} />}
+          message={
+            <AddAdminForm setOpen={setOpen} setShowAlert={setShowAlert} />
+          }
         />
       )}
       <Grid
         container
-        justifyContent="flex-end"
         alignItems="center"
-        sx={{ marginBottom: "16px" }}
+        justifyContent="flex-end"
+        sx={{ marginBottom: '16px' }}
       >
         <Grid item>
           <Button
             color="primary"
             variant="contained"
             startIcon={<AddIcon />}
-            className={matches ? "contained-icon-button" : "contained-button"}
             onClick={() => setOpen(true)}
+            className={matches ? 'contained-icon-button' : 'contained-button'}
           >
-            {" "}
-            {!matches && "Add"}
+            {!matches && 'Add'}
           </Button>
         </Grid>
       </Grid>
       {isLoading || isFetching ? (
         <Grid container justifyContent="center">
-          {" "}
           <CircularProgress />
         </Grid>
       ) : (
         <AdminsTable admins={admins} />
       )}
+      {showAlert.open && (
+        <MuiSnackbar
+          open={showAlert.open}
+          setOpen={handleClose}
+          isError={showAlert.isError}
+          message={showAlert?.message}
+        />
+      )}
     </>
-  );
+  )
 }
