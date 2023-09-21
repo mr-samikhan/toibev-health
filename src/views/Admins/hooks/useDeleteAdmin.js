@@ -1,21 +1,33 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { deleteAdmin } from "../actions";
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
 
-export default function useDeleteAdmin({ data }) {
-  const queryClient = useQueryClient();
-  const { handleSubmit } = useForm();
+//imports
+import { deleteAdmin } from '../actions'
+
+export default function useDeleteAdmin({ data, setShowAlert }) {
+  const queryClient = useQueryClient()
+  const { handleSubmit } = useForm()
 
   const { isLoading, mutate } = useMutation(deleteAdmin, {
     onSuccess: () => {
-      queryClient.invalidateQueries("get-all-admins");
+      setShowAlert({
+        open: true,
+        message: 'Admin deleted successfully',
+      })
+      setTimeout(() => {
+        queryClient.invalidateQueries('get-all-admins')
+      }, 2000)
     },
-    onError: () => {},
-  });
+    onError: () =>
+      setShowAlert({
+        open: true,
+        isError: true,
+        message: 'Something went wrong',
+      }),
+  })
 
   const onSubmit = () => {
-    mutate(data.id);
-  };
-  return { handleSubmit, onSubmit, isLoading };
+    mutate({ id: data.id })
+  }
+  return { handleSubmit, onSubmit, isLoading }
 }
