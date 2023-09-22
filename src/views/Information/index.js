@@ -1,24 +1,24 @@
-import React from "react";
+import React from 'react'
 import {
   Grid,
   Button,
   Typography,
   CircularProgress,
   useMediaQuery,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import AlertDialog from "../../components/AlertDialog";
-import CustomCard from "../../components/CustomCrad";
-import CardListing from "../../components/CardListing";
-import { useInformation } from "./useInformation";
-import CustomTextfield from "../../components/CustomTextfield";
-import ServiceForm from "./components/Forms/ServiceForm";
-import ClinicForm from "./components/Forms/ClinicForm";
+} from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import AlertDialog from '../../components/AlertDialog'
+import CustomCard from '../../components/CustomCrad'
+import CardListing from '../../components/CardListing'
+import { useInformation } from './useInformation'
+import CustomTextfield from '../../components/CustomTextfield'
+import ServiceForm from './components/Forms/ServiceForm'
+import ClinicForm from './components/Forms/ClinicForm'
 import CardActionButton, {
   ClinicCardActionButton,
-} from "./components/CardListActionButton";
-import "./style.scss";
-import SocialMediaForm from "./components/Forms/SocialMediaForm.js";
+} from './components/CardListActionButton'
+import './style.scss'
+import SocialMediaForm from './components/Forms/SocialMediaForm.js'
 
 export function Information() {
   const {
@@ -35,8 +35,8 @@ export function Information() {
     openClinicForm,
     setOpenClinicForm,
     handleChange,
-  } = useInformation();
-  const mobile = useMediaQuery("(max-width:600px)");
+  } = useInformation()
+  const mobile = useMediaQuery('(max-width:600px)')
   if (
     isLoadingClinics ||
     isFetchingClinics ||
@@ -47,7 +47,7 @@ export function Information() {
       <Grid container alignItems="center" justifyContent="center">
         <CircularProgress />
       </Grid>
-    );
+    )
   }
 
   return (
@@ -79,11 +79,11 @@ export function Information() {
             startIcon={<AddIcon />}
             className="contained-button"
             onClick={() => {
-              setOpen(true);
+              setOpen(true)
             }}
           >
-            {" "}
-            {!mobile && "Add Service"}
+            {' '}
+            {!mobile && 'Add Service'}
           </Button>
         </Grid>
       </Grid>
@@ -95,9 +95,9 @@ export function Information() {
                 <CustomTextfield
                   multiline
                   sx={{
-                    "& .MuiInputBase-input": {
-                      minHeight: "368px",
-                      padding: "16px",
+                    '& .MuiInputBase-input': {
+                      minHeight: '368px',
+                      padding: '16px',
                     },
                   }}
                   label="Services Description"
@@ -109,9 +109,9 @@ export function Information() {
             <CustomTextfield
               multiline
               sx={{
-                "& .MuiInputBase-input": {
-                  minHeight: "368px",
-                  padding: "16px",
+                '& .MuiInputBase-input': {
+                  minHeight: '368px',
+                  padding: '16px',
                 },
               }}
               label="Services Description"
@@ -136,7 +136,7 @@ export function Information() {
             isLoading={isLoadingClinics ?? isFetchingClinics}
             buttonText="Add Clinic"
             buttonAction={() => {
-              setOpenClinicForm(true);
+              setOpenClinicForm(true)
             }}
           >
             <CardListing
@@ -152,5 +152,5 @@ export function Information() {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
