@@ -1,41 +1,45 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import React from 'react'
+import Box from '@mui/material/Box'
+import { useSelector } from 'react-redux'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
 import {
   Avatar,
   Grid,
   TextField,
   Typography,
   InputAdornment,
-} from "@mui/material";
-import { ReactComponent as NotificationBadge } from "../../assets/icons/notificationbadge.svg";
-import { ReactComponent as DownArrow } from "../../assets/icons/downarrow.svg";
-import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
-import { ReactComponent as HamburgerIcon } from "../../assets/icons/hamburger.svg";
-import { ReactComponent as Logo } from "../../assets/icons/header-logo.svg";
-import { useHeader } from "./useHeader";
-
-import "../Sidebar/sidebar.scss";
-import "./header.scss";
-import { DatePicker } from "../DatePicker";
-import CustomMenu from "../CustomMenu";
-import CustomButton from "../CustomButton";
+} from '@mui/material'
+//icons
+import { ReactComponent as Logo } from '../../assets/icons/header-logo.svg'
+import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
+import { ReactComponent as DownArrow } from '../../assets/icons/downarrow.svg'
+import { ReactComponent as HamburgerIcon } from '../../assets/icons/hamburger.svg'
+//imports
+import './header.scss'
+import '../Sidebar/sidebar.scss'
+import CustomMenu from '../CustomMenu'
+import { useHeader } from './useHeader'
+import CustomButton from '../CustomButton'
+import { DatePicker } from '../DatePicker'
+import { ReactComponent as NotificationBadge } from '../../assets/icons/notificationbadge.svg'
 
 export const Header = ({ childData, handleDrawerToggle }) => {
   const {
+    open,
     title,
-    drawerWidth,
     AppBar,
-    dispatch,
     matches,
     tabMode,
-    handleOpenMenu,
-    open,
+    dispatch,
     anchorEl,
     handleClose,
     hanldeLogout,
-  } = useHeader();
+    handleOpenMenu,
+  } = useHeader()
+
+  const { user } = useSelector((state) => state?.Auth) ?? {}
+
   return (
     <>
       {open && (
@@ -49,7 +53,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
           <CustomButton
             variant="contained"
             fullWidth
-            sx={{ width: "250px" }}
+            sx={{ width: '250px' }}
             onClick={hanldeLogout}
           >
             Logout
@@ -61,16 +65,16 @@ export const Header = ({ childData, handleDrawerToggle }) => {
           position="fixed"
           className="app-bar"
           sx={{
-            background: matches ? "#fff" : "#468D8D",
+            background: matches ? '#fff' : '#468D8D',
           }}
           elevation={0}
         >
           <Toolbar
             className="toolbar"
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             {!matches ? (
@@ -84,7 +88,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                 >
                   <Grid item ml={-1}>
                     <IconButton
-                      onClick={() => dispatch({ type: "TOGGLESIDEBAR" })}
+                      onClick={() => dispatch({ type: 'TOGGLESIDEBAR' })}
                     >
                       <HamburgerIcon />
                     </IconButton>
@@ -103,7 +107,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <SearchIcon />{" "}
+                          <SearchIcon />{' '}
                         </InputAdornment>
                       ),
                     }}
@@ -117,18 +121,18 @@ export const Header = ({ childData, handleDrawerToggle }) => {
               <>
                 <Grid
                   container
-                  flexWrap={"nowrap"}
+                  flexWrap={'nowrap'}
                   alignItems="center"
                   spacing={1}
                 >
                   {tabMode && (
                     <Grid item>
                       <IconButton
-                        onClick={() => dispatch({ type: "TOGGLESIDEBAR" })}
+                        onClick={() => dispatch({ type: 'TOGGLESIDEBAR' })}
                       >
                         <HamburgerIcon
                           style={{
-                            filter: "brightness(0.3)",
+                            filter: 'brightness(0.3)',
                           }}
                         />
                       </IconButton>
@@ -137,7 +141,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                   <Grid
                     item
                     container
-                    justifyContent={"space-between"}
+                    justifyContent={'space-between'}
                     alignItems="center"
                   >
                     <Grid item>
@@ -150,9 +154,8 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                             <DatePicker />
                           </Grid>
                         )}
-                        <Grid item sx={{ margin: "0px 24px 0px 32px" }}>
+                        <Grid item sx={{ margin: '0px 24px 0px 32px' }}>
                           <IconButton>
-                            {" "}
                             <NotificationBadge />
                           </IconButton>
                         </Grid>
@@ -161,7 +164,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                         </Grid>
                         <Grid item>
                           <Typography className="username">
-                            Alfonso Gouse
+                            {user?.username}
                           </Typography>
                         </Grid>
                         <Grid item>
@@ -179,5 +182,5 @@ export const Header = ({ childData, handleDrawerToggle }) => {
         </AppBar>
       </Box>
     </>
-  );
-};
+  )
+}

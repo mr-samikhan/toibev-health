@@ -3,10 +3,13 @@ import { useMutation, useQueryClient } from 'react-query'
 
 //imports
 import { deleteAdmin } from '../actions'
+import { useSelector } from 'react-redux'
 
 export default function useDeleteAdmin({ data, setShowAlert }) {
   const queryClient = useQueryClient()
   const { handleSubmit } = useForm()
+
+  const { user } = useSelector((state) => state?.Auth) ?? {}
 
   const { isLoading, mutate } = useMutation(deleteAdmin, {
     onSuccess: () => {
@@ -18,16 +21,19 @@ export default function useDeleteAdmin({ data, setShowAlert }) {
         queryClient.invalidateQueries('get-all-admins')
       }, 2000)
     },
-    onError: () =>
+    onError: (error) =>
       setShowAlert({
         open: true,
         isError: true,
-        message: 'Something went wrong',
+        message:
+          error === 'permission-error'
+            ? 'You don`t have permission to delete Adminsitrator!'
+            : 'Something went wrong',
       }),
   })
 
   const onSubmit = () => {
-    mutate({ id: data.id })
+    mutate({ id: data.id, role: data.permissionLevel, currentUser: user })
   }
   return { handleSubmit, onSubmit, isLoading }
 }

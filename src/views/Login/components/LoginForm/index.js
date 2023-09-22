@@ -10,7 +10,7 @@ import CustomButton from '../../../../components/CustomButton'
 import CustomTextfield from '../../../../components/CustomTextfield'
 import {
   emailValidator,
-  // atleastOneIntegerandOneCharacter,
+  atleastOneIntegerandOneCharacter,
 } from '../../../../utils/validators'
 
 //images or icons
@@ -65,7 +65,7 @@ export default function LoginForm() {
                     value: true,
                     message: 'Password is required',
                   },
-                  // pattern: atleastOneIntegerandOneCharacter(),
+                  pattern: atleastOneIntegerandOneCharacter(),
                 }}
                 name="password"
                 control={control}
