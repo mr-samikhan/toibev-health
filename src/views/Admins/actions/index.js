@@ -51,14 +51,23 @@ export const updateAdmin = async (data) => {
   })
 }
 
-export const deleteAdmin = async (values = { id: '' }) => {
-  const { id } = values
+export const deleteAdmin = async (
+  values = { id: '', role: '', currentUser: '' }
+) => {
+  const { id, role, currentUser } = values
   return new Promise(async (resolve, reject) => {
     try {
-      // const del = await deleteUser(auth, id)
-      const docRef = doc(firestore, 'Admins', id)
-      await deleteDoc(docRef)
-      resolve('user deleted successfully')
+      if (
+        currentUser.permissionLevel === 'moderator' &&
+        role === 'administrator'
+      ) {
+        reject('permission-error')
+      } else {
+        // const del = await deleteUser(auth, id)
+        const docRef = doc(firestore, 'Admins', id)
+        await deleteDoc(docRef)
+        resolve('user deleted successfully')
+      }
     } catch (e) {
       console.error('Error adding document: ', e)
       reject(e)
