@@ -52,7 +52,7 @@ export default function AlertDialog({
       <DialogTitle
         className={mobile ? 'dialog-title dialog-title-mobile' : 'dialog-title'}
       >
-        {title}{' '}
+        {title}
         {!mobile && (
           <IconButton
             className="dialog-close-button"
@@ -63,7 +63,6 @@ export default function AlertDialog({
         )}
       </DialogTitle>
       <DialogContent sx={{ pt: '8px !important', px: mobile ? 3 : 7 }}>
-        {' '}
         {message}
       </DialogContent>
       {/* <DialogActions></DialogActions> */}
