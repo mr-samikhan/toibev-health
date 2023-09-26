@@ -78,9 +78,8 @@ export const deleteAdmin = async (
 export const sendResetPasswordEmail = async (email) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const docRef = await sendPasswordResetEmail(auth, email)
-      console.log('Document written with ID: ', docRef.id)
-      resolve(docRef)
+      await sendPasswordResetEmail(auth, email)
+      resolve('Password reset email sent successfully')
     } catch (e) {
       console.error('Error adding document: ', e)
       reject(e)

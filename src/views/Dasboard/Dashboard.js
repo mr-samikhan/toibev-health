@@ -1,37 +1,39 @@
-import React from "react";
-import { CircularProgress, Grid, Typography } from "@mui/material";
-import StatsCard from "./components/StatsCard";
-import icons from "../../assets/index";
-import DashboardListing from "./components/DashboardListing";
-import CustomCarousel from "../../components/Carousel";
-import { CustomTabs } from "../../components/Tabs";
-import { useDashboard } from "./useDashboard";
+import React from 'react'
+import { CircularProgress, Grid, Typography } from '@mui/material'
+
+//imports
+import icons from '../../assets/index'
+import { useDashboard } from './useDashboard'
+import StatsCard from './components/StatsCard'
+import { CustomTabs } from '../../components/Tabs'
+import CustomCarousel from '../../components/Carousel'
+import DashboardListing from './components/DashboardListing'
 
 export function Dashboard() {
   const {
     tab,
+    users,
     setTab,
     events,
     reseliency,
-    assessmentOptions,
-    onTabClick,
     conditions,
-    isLoadingConditions,
-    groupedProvidersByLocation,
-    isLoadingGeography,
-    surveyConditions,
-    isLoadingSurveyConditions,
-    users,
-    isFechingConditions,
-    isFetchingSurveyConditions,
+    onTabClick,
     isLoadingUsers,
     isFetchingUsers,
-    isFetchingGeography,
+    surveyConditions,
+    assessmentOptions,
     isLoadingResources,
+    isLoadingGeography,
     isFechingResources,
+    isFechingConditions,
+    isLoadingConditions,
+    isFetchingGeography,
     isLoadingAssessments,
     isFetchingAssessments,
-  } = useDashboard({});
+    isLoadingSurveyConditions,
+    groupedProvidersByLocation,
+    isFetchingSurveyConditions,
+  } = useDashboard({})
 
   if (
     isLoadingUsers ||
@@ -46,7 +48,7 @@ export function Dashboard() {
       <Grid container alignItems="center" justifyContent="center">
         <CircularProgress />
       </Grid>
-    );
+    )
   }
 
   return (
@@ -59,26 +61,26 @@ export function Dashboard() {
         <Grid item xs={12}>
           <CustomCarousel>
             <StatsCard
+              count={'2,000'}
               title="Scheduled Appointments"
-              count={"2,000"}
               icon={icons.statsAppointmentIcon}
             />
 
             <StatsCard
-              title="Scheduled Calendar Events"
               count={events?.length}
               icon={icons.statsCalendarIcon}
+              title="Scheduled Calendar Events"
             />
 
             <StatsCard
-              title="Registered Users"
               count={users?.length}
+              title="Registered Users"
               icon={icons.statsUsersIcon}
             />
 
             <StatsCard
               title="Views"
-              count={"3,548"}
+              count={'3,548'}
               icon={icons.statsViewsIcon}
             />
           </CustomCarousel>
@@ -86,22 +88,17 @@ export function Dashboard() {
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
-            {" "}
             <Grid item mb={1}>
               <Typography className="heading">Events</Typography>
             </Grid>
             <Grid item>
-              {" "}
-              <DashboardListing list={events} listing={"events"} />
+              <DashboardListing list={events} listing={'events'} />
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
-            {" "}
             <Grid item mb={1}>
               <Typography className="heading">Resources</Typography>
             </Grid>
@@ -111,9 +108,7 @@ export function Dashboard() {
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
-            {" "}
             <Grid item mb={1}>
               <Typography className="heading">Geographic</Typography>
             </Grid>
@@ -126,28 +121,26 @@ export function Dashboard() {
           </Grid>
         </Grid>
         <Grid item xs={12} md={6}>
-          {" "}
           <Grid container flexDirection="column" className="section" mb={3}>
-            {" "}
-            <Grid item mb={1} sx={{ maxWidth: "100%" }}>
+            <Grid item mb={1} sx={{ maxWidth: '100%' }}>
               <Typography className="heading">Surveys</Typography>
             </Grid>
-            <Grid item sx={{ maxWidth: "100%" }}>
+            <Grid item sx={{ maxWidth: '100%' }}>
               <DashboardListing
                 list={conditions ?? surveyConditions}
                 listing="surveys"
                 isLoading={
                   isLoadingConditions ||
-                  isLoadingSurveyConditions ||
                   isFechingConditions ||
-                  isFetchingSurveyConditions
+                  isFetchingSurveyConditions ||
+                  isLoadingSurveyConditions
                 }
                 tabs={
                   <CustomTabs
-                    options={assessmentOptions ?? []}
-                    setTab={setTab}
                     tab={tab}
+                    setTab={setTab}
                     onClick={onTabClick}
+                    options={assessmentOptions ?? []}
                   />
                 }
               />
@@ -156,5 +149,5 @@ export function Dashboard() {
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }
