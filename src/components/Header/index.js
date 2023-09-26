@@ -1,20 +1,22 @@
 import React from 'react'
 import Box from '@mui/material/Box'
-import { useSelector } from 'react-redux'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import {
-  Avatar,
   Grid,
+  Avatar,
   TextField,
   Typography,
   InputAdornment,
 } from '@mui/material'
+
 //icons
 import { ReactComponent as Logo } from '../../assets/icons/header-logo.svg'
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg'
 import { ReactComponent as DownArrow } from '../../assets/icons/downarrow.svg'
 import { ReactComponent as HamburgerIcon } from '../../assets/icons/hamburger.svg'
+import { ReactComponent as NotificationBadge } from '../../assets/icons/notificationbadge.svg'
+
 //imports
 import './header.scss'
 import '../Sidebar/sidebar.scss'
@@ -22,10 +24,11 @@ import CustomMenu from '../CustomMenu'
 import { useHeader } from './useHeader'
 import CustomButton from '../CustomButton'
 import { DatePicker } from '../DatePicker'
-import { ReactComponent as NotificationBadge } from '../../assets/icons/notificationbadge.svg'
+import { CustomDateRangePicker } from '../CustomDateRangePicker/CustomDateRangePicker'
 
 export const Header = ({ childData, handleDrawerToggle }) => {
   const {
+    user,
     open,
     title,
     AppBar,
@@ -33,31 +36,54 @@ export const Header = ({ childData, handleDrawerToggle }) => {
     tabMode,
     dispatch,
     anchorEl,
+    dateRange,
     handleClose,
+    setDateRange,
     hanldeLogout,
+    showDateModal,
     handleOpenMenu,
+    setShowDateModal,
+    onGotoSettingPage,
   } = useHeader()
 
-  const { user } = useSelector((state) => state?.Auth) ?? {}
+  const onToggle = () => setShowDateModal((prev) => !prev)
 
   return (
     <>
       {open && (
         <CustomMenu
-          title="Logout"
-          handleClose={handleClose}
           open={open}
-          anchorEl={anchorEl}
+          title="Logout"
           sx={{ mt: 2 }}
+          anchorEl={anchorEl}
+          handleClose={handleClose}
         >
           <CustomButton
-            variant="contained"
             fullWidth
+            variant="contained"
             sx={{ width: '250px' }}
             onClick={hanldeLogout}
           >
             Logout
           </CustomButton>
+        </CustomMenu>
+      )}
+
+      {showDateModal && (
+        <CustomMenu
+          isDate
+          isCenter
+          sx={{ mt: 2 }}
+          handleClose={onToggle}
+          open={showDateModal}
+          anchorEl={anchorEl}
+          title="Select Date Range"
+          width={{ xs: 'auto', md: '50%', sm: '50%' }}
+        >
+          <CustomDateRangePicker
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+          />
         </CustomMenu>
       )}
       <Box className="header">
@@ -96,7 +122,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                   <Grid item>
                     <Logo />
                   </Grid>
-                  <Grid item>
+                  <Grid item onClick={onGotoSettingPage}>
                     <Avatar />
                   </Grid>
                 </Grid>
@@ -107,7 +133,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <SearchIcon />{' '}
+                          <SearchIcon />
                         </InputAdornment>
                       ),
                     }}
@@ -151,7 +177,10 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                       <Grid container alignItems="center">
                         {!tabMode && (
                           <Grid item>
-                            <DatePicker />
+                            <DatePicker
+                              setOpen={onToggle}
+                              dateRange={dateRange}
+                            />
                           </Grid>
                         )}
                         <Grid item sx={{ margin: '0px 24px 0px 32px' }}>
@@ -160,7 +189,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                           </IconButton>
                         </Grid>
                         <Grid item>
-                          <Avatar />
+                          <Avatar onClick={onGotoSettingPage} />
                         </Grid>
                         <Grid item>
                           <Typography className="username">
