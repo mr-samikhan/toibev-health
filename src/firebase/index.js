@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app'
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -9,7 +9,7 @@ import {
   confirmPasswordReset,
   verifyPasswordResetCode,
   deleteUser,
-} from "firebase/auth";
+} from 'firebase/auth'
 
 import {
   getFirestore,
@@ -24,37 +24,37 @@ import {
   collectionGroup,
   setDoc,
   Timestamp,
-} from "firebase/firestore";
+} from 'firebase/firestore'
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useDispatch } from "react-redux";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { useDispatch } from 'react-redux'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDs771dG0s9SeCr5Sk-ef1HyaDCQxtSoqM",
-  authDomain: "toiyabe-v2.firebaseapp.com",
-  projectId: "toiyabe-v2",
-  storageBucket: "toiyabe-v2.appspot.com",
-  messagingSenderId: "943146264303",
-  appId: "1:943146264303:web:3c6df8c34c1927feec9d1a",
-  measurementId: "G-PELKG23W2Q",
-};
+  apiKey: 'AIzaSyDs771dG0s9SeCr5Sk-ef1HyaDCQxtSoqM',
+  authDomain: 'toiyabe-v2.firebaseapp.com',
+  projectId: 'toiyabe-v2',
+  storageBucket: 'toiyabe-v2.appspot.com',
+  messagingSenderId: '943146264303',
+  appId: '1:943146264303:web:3c6df8c34c1927feec9d1a',
+  measurementId: 'G-PELKG23W2Q',
+}
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
-const auth = getAuth(app);
+const auth = getAuth(app)
 
-const firestore = getFirestore(app);
+const firestore = getFirestore(app)
 
-const storage = getStorage(app);
+const storage = getStorage(app)
 
 onAuthStateChanged(auth, (user) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   if (user) {
-    const uid = user.uid;
+    const uid = user.uid
   } else {
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: 'LOGOUT' })
   }
-});
+})
 
 export {
   auth,
@@ -82,4 +82,4 @@ export {
   deleteUser,
   setDoc,
   Timestamp,
-};
+}
