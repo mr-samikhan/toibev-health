@@ -1,14 +1,17 @@
-import { Grid, IconButton, Typography, useMediaQuery } from "@mui/material";
-import icons from "../../../../assets";
-import React from "react";
-import AlertDialog from "../../../../components/AlertDialog";
-import useActionButtons from "../../hooks/useActionButtons";
-import EventForm from "../Forms/EventForm";
-import "./style.scss";
+import React from 'react'
+import { Grid, IconButton, Typography, useMediaQuery } from '@mui/material'
+
+import './style.scss'
+import icons from '../../../../assets'
+import EventForm from '../Forms/EventForm'
+import useActionButtons from '../../hooks/useActionButtons'
+import AlertDialog from '../../../../components/AlertDialog'
 
 export function Actions(data) {
-  const { open, setOpen } = useActionButtons();
-  const mobile = useMediaQuery("(max-width: 600px)");
+  const { open, setOpen } = useActionButtons()
+  const mobile = useMediaQuery('(max-width: 600px)')
+
+  let allClicks = data?.data?.clicks === undefined ? 0 : data?.data?.clicks
   return (
     <>
       {open && (
@@ -23,23 +26,22 @@ export function Actions(data) {
       )}
 
       <Grid container className="event-action-buttons">
-        <Grid item sx={{ marginRight: "8px", alignSelf: "center" }}>
-          {" "}
+        <Grid item sx={{ marginRight: '8px', alignSelf: 'center' }}>
           <Grid
             className="clicks-count-container"
             onClick={() => mobile && setOpen(true)}
           >
-            <Typography className="clicks-count">224 Clicks</Typography>
+            <Typography className="clicks-count">{`${allClicks} Clicks`}</Typography>
           </Grid>
         </Grid>
         {!mobile && (
           <Grid item>
             <IconButton edge="end" onClick={() => setOpen(true)}>
-              <img src={icons.editIcon} />
+              <img src={icons.editIcon} alt="edit-icon" />
             </IconButton>
           </Grid>
         )}
       </Grid>
     </>
-  );
+  )
 }
