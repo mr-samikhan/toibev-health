@@ -1,43 +1,48 @@
-import React from "react";
-import { Box, Checkbox, Grid, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import ImageUploader from "../../../../../components/MediaUpload";
-import { ReactComponent as Clipboard } from "../../../../../assets/icons/clipboard.svg";
-import { ReactComponent as LocationIcon } from "../../../../../assets/icons/location.svg";
-import { ReactComponent as TaskIcon } from "../../../../../assets/icons/task.svg";
-import { ReactComponent as LinkIcon } from "../../../../../assets/icons/link.svg";
-import useEventForm from "../../../hooks/useEventForm";
-import RecurringPeriod from "../../RecurringPeriod";
-import CustomSwitch from "../../../../../components/CustomSwitch";
-import DatePicker from "../../../../../components/CustomDatePicker";
+import React from 'react'
+import { Box, Checkbox, Grid, Typography } from '@mui/material'
+import { Controller } from 'react-hook-form'
+
+//imports
+import RecurringPeriod from '../../RecurringPeriod'
+import useEventForm from '../../../hooks/useEventForm'
+import CustomButton from '../../../../../components/CustomButton'
+import ImageUploader from '../../../../../components/MediaUpload'
+import CustomSwitch from '../../../../../components/CustomSwitch'
+import DatePicker from '../../../../../components/CustomDatePicker'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { getDayYearMonthFromDate } from '../../../../../utils/dateFormats'
+import { ReactComponent as TaskIcon } from '../../../../../assets/icons/task.svg'
+import { ReactComponent as LinkIcon } from '../../../../../assets/icons/link.svg'
+import { ReactComponent as Clipboard } from '../../../../../assets/icons/clipboard.svg'
+import { ReactComponent as LocationIcon } from '../../../../../assets/icons/location.svg'
 
 export default function EventForm({ isEdit, data, open, setOpen }) {
   const {
     errors,
-    handleSubmit,
+    endDate,
     onSubmit,
     control,
-    setSelectedImage,
-    setSelectedVideo,
-    selectedImage,
-    selectedVideo,
-    recurrenceOptions,
-    selectedPdf,
-    setSelectedPdf,
-    setIsRecurring,
-    isRecurring,
     isLoading,
-    mutateDelete,
-    isLoadingDelete,
-    date,
-    setDate,
+    startDate,
     weekdays,
-    recurrence,
     frequency,
     onChecked,
-  } = useEventForm({ initialState: data, open, setOpen, isEdit });
+    recurrence,
+    selectedPdf,
+    setEndDate,
+    isRecurring,
+    mutateDelete,
+    setStartDate,
+    handleSubmit,
+    selectedVideo,
+    selectedImage,
+    setSelectedPdf,
+    setIsRecurring,
+    isLoadingDelete,
+    setSelectedVideo,
+    setSelectedImage,
+    recurrenceOptions,
+  } = useEventForm({ initialState: data, open, setOpen, isEdit })
 
   return (
     <Box
@@ -47,11 +52,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     >
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="title"
             control={control}
-            rules={{ required: "Title is required" }}
+            rules={{ required: 'Title is required' }}
             render={({ field }) => (
               <CustomTextfield
                 label="Title"
@@ -65,11 +69,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="location"
             control={control}
-            rules={{ required: "Field is required" }}
+            rules={{ required: 'Field is required' }}
             render={({ field }) => (
               <CustomTextfield
                 label="Where"
@@ -84,19 +87,50 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
         </Grid>
         <Grid item container spacing={1}>
           <Grid item xs={6} mb={3}>
-            {" "}
-            <DatePicker date={date} setDate={setDate} />
+            <DatePicker
+              date={
+                isEdit && startDate === null
+                  ? getDayYearMonthFromDate(data?.startDate) || 'N/A'
+                  : startDate
+              }
+              setDate={setStartDate}
+              label="Start Date"
+            />
+          </Grid>
+          <Grid item xs={6} mb={3}>
+            <DatePicker
+              date={
+                isEdit && endDate === null
+                  ? getDayYearMonthFromDate(data?.endDate) || 'N/A'
+                  : endDate
+              }
+              setDate={setEndDate}
+              label="End Date"
+            />
           </Grid>
 
           <Grid item xs={6} mb={3}>
-            {" "}
             <Controller
-              name="time"
+              name="startTime"
               control={control}
               render={({ field }) => (
                 <CustomTextfield
                   type="time"
-                  label="Time"
+                  label="Start Time"
+                  placeholder="Enter Time"
+                  {...field}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6} mb={3}>
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field }) => (
+                <CustomTextfield
+                  type="time"
+                  label="End Time"
                   placeholder="Enter Time"
                   {...field}
                 />
@@ -119,7 +153,7 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             <Controller
               name="recurrence"
               control={control}
-              rules={{ required: "Field is required" }}
+              rules={{ required: 'Field is required' }}
               render={({ field: { value, onChange } }) => (
                 <RecurringPeriod
                   label="Select Period"
@@ -131,17 +165,17 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             />
           </Grid>
         )}
-        {recurrence?.value === "custom" && (
+        {recurrence?.value === 'custom' && (
           <>
             <Grid item xs={12} mb={3}>
               <Controller
                 name="frequency"
                 control={control}
-                rules={{ required: "Field is required" }}
+                rules={{ required: 'Field is required' }}
                 render={({ field: { value, onChange } }) => (
                   <CustomTextfield
                     select
-                    options={[{ label: "Weekly", value: "weekly" }]}
+                    options={[{ label: 'Weekly', value: 'weekly' }]}
                     label="Frequency"
                     value={value}
                     onChange={onChange}
@@ -153,12 +187,12 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
               <Controller
                 name="period"
                 control={control}
-                rules={{ required: "Field is required" }}
+                rules={{ required: 'Field is required' }}
                 render={({ field: { value, onChange } }) => (
                   <CustomTextfield
                     select
                     disabled={!frequency}
-                    options={[{ label: "4 Weeks", value: "4weeks" }]}
+                    options={[{ label: '4 Weeks', value: '4weeks' }]}
                     label="Period"
                     value={value}
                     onChange={onChange}
@@ -170,14 +204,14 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
               container
               p={2}
               mb={3}
-              sx={{ border: "1px solid #DCDCDC", borderRadius: "16px" }}
+              sx={{ border: '1px solid #DCDCDC', borderRadius: '16px' }}
             >
               {weekdays?.map((day, index) => (
                 <Grid xs={12} item>
                   <Grid
                     container
-                    alignItems={"center"}
-                    justifyContent={"space-between"}
+                    alignItems={'center'}
+                    justifyContent={'space-between'}
                   >
                     <Grid item>
                       <Typography>{day?.label}</Typography>
@@ -185,7 +219,7 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
                     <Grid item>
                       <Checkbox
                         sx={{
-                          color: "#71757B",
+                          color: '#71757B',
                           borderRadius: 3,
                         }}
                         checked={day?.checked}
@@ -200,11 +234,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
         )}
 
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="description"
             control={control}
-            rules={{ required: "Field is required" }}
+            rules={{ required: 'Field is required' }}
             render={({ field }) => (
               <CustomTextfield
                 multiline={true}
@@ -220,11 +253,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="webLink"
             control={control}
-            rules={{ required: "Field is required" }}
+            rules={{ required: 'Field is required' }}
             render={({ field }) => (
               <CustomTextfield
                 label="Web link"
@@ -267,21 +299,22 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
           </Grid>
         </Grid>
         <Grid item xs={12} mb={2}>
-          <CustomButton variant="contained" type="submit">
-            {isLoading ? "Loading" : isEdit ? "Edit Event" : "Add Event"}
+          <CustomButton type="submit" variant="contained" disabled={isLoading}>
+            {isLoading ? 'Loading...' : isEdit ? 'Edit Event' : 'Add Event'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12}>
             <CustomButton
               variant="outlined"
+              disabled={isLoadingDelete}
               onClick={() => mutateDelete(data?.id)}
             >
-              {isLoadingDelete ? "Loading" : "Delete Event"}
+              {isLoadingDelete ? 'Loading...' : 'Delete Event'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }

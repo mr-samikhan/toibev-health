@@ -4,6 +4,7 @@ import { Grid, Typography, Box } from '@mui/material'
 
 //imports
 import useAddAdmin from '../../../hooks/useAddAdmin'
+import { PASSWORD_INFO_TEXT } from '../../../../../constants'
 import CustomButton from '../../../../../components/CustomButton'
 import CustomRadioGroup from '../../../../../components/RadioGroup'
 import CustomTextfield from '../../../../../components/CustomTextfield'
@@ -128,8 +129,7 @@ export default function AddAdminForm({ isEdit, data, setOpen, setShowAlert }) {
                       color: '#474747',
                     }}
                   >
-                    Password must contain 8+ characters, 1 uppercase letter, 1
-                    lowercase lettter, 1 number, and 1 special symbol.
+                    {PASSWORD_INFO_TEXT}
                   </Typography>
                 </Grid>
               </Grid>

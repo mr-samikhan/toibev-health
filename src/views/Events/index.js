@@ -1,22 +1,24 @@
-import React from "react";
-import { Grid, Button, useMediaQuery, CircularProgress } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { Actions } from "./components/ActionButtons";
-import { CustomList } from "../../components/List";
-import EventForm from "./components/Forms/EventForm";
-import AlertDialog from "../../components/AlertDialog";
-import useEvent from "./useEvent";
+import React from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import { Grid, Button, useMediaQuery, CircularProgress } from '@mui/material'
+
+//imports
+import useEvent from './useEvent'
+import { CustomList } from '../../components/List'
+import { Actions } from './components/ActionButtons'
+import EventForm from './components/Forms/EventForm'
+import AlertDialog from '../../components/AlertDialog'
 
 export function Events() {
-  const { open, setOpen, data, isLoading, isFetching } = useEvent();
-  const mobile = useMediaQuery("(max-width: 600px)");
+  const { open, setOpen, data, isLoading, isFetching } = useEvent()
+  const mobile = useMediaQuery('(max-width: 600px)')
 
   if (isLoading || isFetching) {
     return (
       <Grid container alignItems="center" justifyContent="center">
         <CircularProgress />
       </Grid>
-    );
+    )
   }
 
   return (
@@ -34,7 +36,7 @@ export function Events() {
         container
         justifyContent="flex-end"
         alignItems="center"
-        sx={{ marginBottom: "16px" }}
+        sx={{ marginBottom: '16px' }}
       >
         <Grid item>
           <Button
@@ -44,12 +46,11 @@ export function Events() {
             className="contained-button"
             onClick={() => setOpen(true)}
           >
-            {" "}
-            {!mobile && "Add"}
+            {!mobile && 'Add'}
           </Button>
         </Grid>
       </Grid>
       <CustomList list={data} Actions={Actions} listing="events" />
     </>
-  );
+  )
 }
