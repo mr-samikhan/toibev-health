@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { IconButton } from "@mui/material";
-import AlertDialog from "../../../../components/AlertDialog";
-import icons from "../../../../assets";
-import { GroupSessionForm } from "../Forms/GroupSessionForm";
-import { MedicationForm } from "../Forms/MedicationForm";
+import React, { useState } from 'react'
+import { IconButton } from '@mui/material'
+
+//imports
+import icons from '../../../../assets'
+import { MedicationForm } from '../Forms/MedicationForm'
+import { GroupSessionForm } from '../Forms/GroupSessionForm'
+import AlertDialog from '../../../../components/AlertDialog'
 
 export default function GroupSessionCardActionButton({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const handleClick = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
+
   return (
     <>
       {open && (
@@ -23,16 +26,17 @@ export default function GroupSessionCardActionButton({ data }) {
         />
       )}
       <IconButton onClick={handleClick}>
-        <img src={icons.editIcon} />
+        <img src={icons.editIcon} alt="edit-icon" />
       </IconButton>
     </>
-  );
+  )
 }
+
 export function MedicationCardActionButton({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   const handleClick = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
   return (
     <>
       {open && (
@@ -46,8 +50,8 @@ export function MedicationCardActionButton({ data }) {
         />
       )}
       <IconButton onClick={handleClick}>
-        <img src={icons.editIcon} />
+        <img src={icons.editIcon} alt="edit-icon" />
       </IconButton>
     </>
-  );
+  )
 }

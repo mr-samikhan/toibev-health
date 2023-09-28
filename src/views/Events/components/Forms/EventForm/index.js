@@ -88,25 +88,13 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
         <Grid item container spacing={1}>
           <Grid item xs={6} mb={3}>
             <DatePicker
-              date={
-                isEdit && startDate === null
-                  ? getDayYearMonthFromDate(data?.startDate) || 'N/A'
-                  : startDate
-              }
+              date={startDate}
               setDate={setStartDate}
               label="Start Date"
             />
           </Grid>
           <Grid item xs={6} mb={3}>
-            <DatePicker
-              date={
-                isEdit && endDate === null
-                  ? getDayYearMonthFromDate(data?.endDate) || 'N/A'
-                  : endDate
-              }
-              setDate={setEndDate}
-              label="End Date"
-            />
+            <DatePicker date={endDate} setDate={setEndDate} label="End Date" />
           </Grid>
 
           <Grid item xs={6} mb={3}>

@@ -33,6 +33,7 @@ export function Dashboard() {
     isLoadingSurveyConditions,
     groupedProvidersByLocation,
     isFetchingSurveyConditions,
+    totalScheduledAppointments,
   } = useDashboard({})
 
   if (
@@ -50,6 +51,7 @@ export function Dashboard() {
       </Grid>
     )
   }
+  console.log(groupedProvidersByLocation, '>>>>>')
 
   return (
     <Grid className="dashboard">
@@ -61,7 +63,7 @@ export function Dashboard() {
         <Grid item xs={12}>
           <CustomCarousel>
             <StatsCard
-              count={'2,000'}
+              count={totalScheduledAppointments || 0}
               title="Scheduled Appointments"
               icon={icons.statsAppointmentIcon}
             />

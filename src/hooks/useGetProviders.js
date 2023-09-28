@@ -61,11 +61,23 @@ export const useGetProviders = ({ enabled = true }) => {
     // console.log(groupedProvidersByLocation, 'groupedProvidersByLocation')
   }
 
+  const totalScheduledAppointments = data?.reduce((accumulator, user) => {
+    if (Array.isArray(user?.availabilities)) {
+      const lengthOfScheduledItems = user?.availabilities?.filter(
+        (item) => item?.isScheduled === true
+      )?.length
+      return accumulator + lengthOfScheduledItems
+    } else {
+      return accumulator
+    }
+  }, 0)
+
   return {
-    isLoading,
     error,
-    providers: data,
+    isLoading,
     isFetching,
+    providers: data,
     groupedProvidersByLocation,
+    totalScheduledAppointments,
   }
 }
