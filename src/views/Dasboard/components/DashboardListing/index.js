@@ -4,6 +4,8 @@ import MedicineIcon from '../../../../assets/icons/medicine.svg'
 
 export const ListItem = ({ item, listing }) => {
   const { image, title, clicks } = item
+
+  let allClicks = clicks === undefined ? 0 : clicks
   return (
     <>
       <Grid container justifyContent="space-between" alignItems={'center'}>
@@ -29,9 +31,7 @@ export const ListItem = ({ item, listing }) => {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <Typography className="count">
-            {clicks ? `${clicks} clicks` : '123 clicks'}
-          </Typography>
+          <Typography className="count">{allClicks}</Typography>
         </Grid>
       </Grid>
       <Grid container justifyContent={'center'} my={2}>
