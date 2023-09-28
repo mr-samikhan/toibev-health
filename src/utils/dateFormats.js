@@ -50,3 +50,13 @@ export function convertToObjectToTimestamp(obj) {
   const timestamp = date.getTime()
   return new Date(timestamp)
 }
+
+export const getFormatedDate = (date, time) => {
+  const dateString = moment(`${date.year}-${date.month}-${date.day}`).format(
+    'YYYY-MM-DD'
+  )
+  const dateTimeString = `${dateString} ${time}`
+  const dateTime = moment(dateTimeString).format('YYYY-MM-DD HH:mm:ss')
+  const isoDate = moment(dateTime).toISOString()
+  return isoDate
+}
