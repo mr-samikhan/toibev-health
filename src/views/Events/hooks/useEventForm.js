@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 
 //imports
+import { Timestamp } from 'firebase/firestore'
 import { addEvent, updateEvent, deleteEvent } from '../actions'
-import {
-  ADD_TIME_TO_TIMESTAMP,
-  convertToObjectToTimestamp,
-} from '../../../utils/dateFormats'
+import { getFormatedDate } from '../../../utils/dateFormats'
 
 const recurrenceOptions = [
   { label: 'Hourly', value: 'hourly' },
@@ -37,8 +35,10 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   const [selectedVideo, setSelectedVideo] = useState({
     fileUrl: initialState?.video || '',
   })
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startDate, setStartDate] = useState(
+    isEdit ? getDate('startDate') : null
+  )
+  const [endDate, setEndDate] = useState(isEdit ? getDate('endDate') : null)
   const [weekdays, setWeekdays] = useState(days)
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.image || '',
@@ -48,17 +48,17 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   })
   const [isRecurring, setIsRecurring] = useState(false)
 
-  // function getDate() {
-  //   if (!initialState?.datetime?.seconds) return ''
-  //   const date = new Date(initialState.datetime.seconds * 1000)
-  //     .toLocaleDateString()
-  //     .split('/')
+  function getDate(value) {
+    if (!initialState[value]?.seconds) return ''
+    const date = new Date(initialState[value]?.seconds * 1000)
+      .toLocaleDateString()
+      .split('/')
 
-  //   const day = date[0]
-  //   const month = date[1]
-  //   const year = date[2]
-  //   return { day, month, year }
-  // }
+    const day = Number(date[0])
+    const month = Number(date[1])
+    const year = Number(date[2])
+    return { day, month, year }
+  }
 
   const {
     control,
@@ -68,15 +68,6 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   } = useForm({
     defaultValues: {
       ...initialState,
-      title: initialState?.title || '',
-      description: initialState?.description || '',
-      location: initialState?.location || '',
-      webLink: initialState?.webLink || '',
-      // startTime: initialState?.startTime || '',
-      // endTime: initialState?.endTime || '',
-      // time: !!initialState?.datetime?.seconds
-      //   ? new Date(initialState?.datetime?.seconds * 1000)?.toLocaleTimeString()
-      //   : '',
     },
   })
 
@@ -112,20 +103,6 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   }
 
   const onSubmit = (data) => {
-    // console.log(data)
-    // const dateString = moment(
-    //   `${startDate.year}-${startDate.month}-${startDate.day}`
-    // ).format('YYYY-MM-DD')
-    // const dateTimeString = `${dateString} ${data.time}`
-    // const dateTime = moment(dateTimeString).format('YYYY-MM-DD HH:mm:ss')
-    // const isoStartDate = moment(dateTime).toISOString()
-    // const dateString2 = moment(
-    //   `${startDate.year}-${startDate.month}-${startDate.day}`
-    // ).format('YYYY-MM-DD')
-    // const dateTimeString2 = `${dateString2} ${data.time}`
-    // const dateTime2 = moment(dateTimeString2).format('YYYY-MM-DD HH:mm:ss')
-    // const isoEndDate = moment(dateTime2).toISOString()
-
     const body = {
       isRecurring,
       pdf: selectedPdf,
@@ -133,22 +110,17 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
       video: selectedVideo,
       image: selectedImage,
       webLink: data.webLink,
+      endTime: data.endTime,
       location: data.location,
+      startTime: data.startTime,
       description: data.description,
-      startDate:
-        isEdit && startDate !== null
-          ? convertToObjectToTimestamp(startDate)
-          : isEdit && startDate === null
-          ? initialState.startDate
-          : ADD_TIME_TO_TIMESTAMP(startDate, data.startEnd),
-      endDate:
-        isEdit && endDate !== null
-          ? convertToObjectToTimestamp(endDate)
-          : isEdit && endDate === null
-          ? initialState.endDate
-          : ADD_TIME_TO_TIMESTAMP(endDate, data.endTime),
+      startDate: Timestamp.fromDate(
+        new Date(getFormatedDate(startDate, data.startTime))
+      ),
+      endDate: Timestamp.fromDate(
+        new Date(getFormatedDate(endDate, data.endTime))
+      ),
     }
-    console.log(body)
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
