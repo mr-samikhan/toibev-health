@@ -47,7 +47,11 @@ export const MedicationForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? 'Adding...' : 'Add Medication'}
+            {isLoading
+              ? 'Loading...'
+              : isEdit
+              ? 'Update Medication'
+              : 'Add Medication'}
           </CustomButton>
         </Grid>
         {isEdit && (
