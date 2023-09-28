@@ -1,121 +1,150 @@
-import React, { useState, useRef } from "react";
-import {
-  Grid,
-  Typography,
-  Box,
-  Menu,
-  TextField,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import useGroupSessionForm from "../../../hooks/useGroupSessionForm";
-import { BasicDatePicker } from "../../../../../components/DatePicker";
-import { ReactComponent as CalenderIcon } from "../../../../../assets/icons/calendar.svg";
-import { ReactComponent as ClockIcon } from "../../../../../assets/icons/clock.svg";
-import DatePicker from "../../../../../components/CustomDatePicker";
+import React from 'react'
+import { Grid, Box } from '@mui/material'
+import { Controller } from 'react-hook-form'
+//imports
+import CustomButton from '../../../../../components/CustomButton'
+import DatePicker from '../../../../../components/CustomDatePicker'
+import useGroupSessionForm from '../../../hooks/useGroupSessionForm'
+import CustomTextfield from '../../../../../components/CustomTextfield'
 
 export const GroupSessionForm = (props) => {
   const {
-    onSubmit,
-    handleSubmit,
-    control,
+    errors,
     isEdit,
-    isLoading,
+    control,
+    endDate,
     onDelete,
+    onSubmit,
+    isLoading,
+    startDate,
+    setEndDate,
+    setStartDate,
+    handleSubmit,
     isLoadingDelete,
-    date,
-    setDate,
-  } = useGroupSessionForm(props);
-
-  const timeInputRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+  } = useGroupSessionForm(props)
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                {...field}
                 label="Group Session Name"
                 placeholder="Enter Group Session Name"
-                {...field}
               />
             )}
           />
         </Grid>
         <Grid item container spacing={1}>
           <Grid item xs={6} mb={3}>
-            {" "}
-            <DatePicker date={date} setDate={setDate} />
+            <DatePicker
+              date={startDate}
+              label="Start Date"
+              setDate={setStartDate}
+            />
+          </Grid>
+          <Grid item xs={6} mb={3}>
+            <DatePicker date={endDate} setDate={setEndDate} label="End Date" />
           </Grid>
 
           <Grid item xs={6} mb={3}>
-            {" "}
             <Controller
-              name="time"
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Start Time is required',
+                },
+              }}
+              name="startTime"
+              control={control}
+              render={({ field }) => (
+                <CustomTextfield
+                  {...field}
+                  type="time"
+                  label="Start Time"
+                  error={errors.startTime}
+                  placeholder="Enter Time"
+                  errorMessage={errors?.startTime?.message}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={6} mb={3}>
+            <Controller
+              rules={{
+                required: {
+                  value: true,
+                  message: 'End Time is required',
+                },
+              }}
+              name="endTime"
               control={control}
               render={({ field }) => (
                 <CustomTextfield
                   type="time"
-                  label="Time"
-                  placeholder="Enter Time"
                   {...field}
+                  label="End Time"
+                  error={errors.endTime}
+                  placeholder="Enter Time"
+                  errorMessage={errors?.endTime?.message}
                 />
               )}
             />
           </Grid>
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="location"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                {...field}
                 label="Location"
                 placeholder="Enter Location"
-                {...field}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="description"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                rows={4}
+                multiline
+                {...field}
                 label="Description"
                 placeholder="Enter short bio"
-                multiline
-                rows={4}
-                {...field}
               />
             )}
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
-            {isLoading ? "Adding..." : "Add Group Session"}
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
+            {isLoading
+              ? 'Loading...'
+              : isEdit
+              ? 'Update Group Session'
+              : 'Add Group Session'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12} mt={3}>
-            <CustomButton variant="outlined" onClick={onDelete}>
-              {isLoadingDelete ? "Deleting..." : "Delete Group Session"}
+            <CustomButton
+              variant="outlined"
+              onClick={onDelete}
+              disabled={isLoadingDelete}
+            >
+              {isLoadingDelete ? 'Deleting...' : 'Delete Group Session'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
-};
+  )
+}
