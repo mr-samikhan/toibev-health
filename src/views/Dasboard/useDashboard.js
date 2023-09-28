@@ -47,6 +47,7 @@ export const useDashboard = () => {
     groupedProvidersByLocation,
     isLoading: isLoadingGeography,
     isFetching: isFetchingGeography,
+    totalScheduledAppointments,
   } = useGetProviders({})
 
   const {
@@ -107,5 +108,6 @@ export const useDashboard = () => {
     isFechingResources,
     isLoadingAssessments,
     isFetchingAssessments,
+    totalScheduledAppointments,
   }
 }
