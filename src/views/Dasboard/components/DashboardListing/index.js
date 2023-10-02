@@ -91,7 +91,9 @@ export default function DashboardListing({ list, tabs, listing, isLoading }) {
                         justifyContent={'space-between'}
                         alignItems={'center'}
                       >
-                        <Typography className="title">{'351'}</Typography>
+                        <Typography className="title">
+                          {item?.assessmentQueries || 0}
+                        </Typography>
                         <Typography className="count">{item?.text}</Typography>
                       </Grid>
                     </Grid>

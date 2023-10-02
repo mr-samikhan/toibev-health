@@ -1,13 +1,13 @@
-import { Grid, IconButton } from "@mui/material";
-import icons from "../../../../assets";
-import React, { useState } from "react";
-import TribeForm from "../TribeForm";
-import LangugaeForm from "../Forms/LanguageForm";
-import AlertDialog from "../../../../components/AlertDialog";
-import ResiliencySubCatForm from "../Forms/ResiliencySubCatForm";
+import { Grid, IconButton } from '@mui/material'
+import icons from '../../../../assets'
+import React, { useState } from 'react'
+import TribeForm from '../TribeForm'
+import AlertDialog from '../../../../components/AlertDialog'
+import ResiliencySubCatForm from '../Forms/ResiliencySubCatForm'
+import LangugaeForm from '../Forms/LanguageForm'
 
 export function CultureActions({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <>
@@ -21,11 +21,10 @@ export function CultureActions({ data }) {
       )}
       <Grid container>
         <Grid item>
-          {" "}
           <IconButton
             edge="end"
             onClick={(event) => {
-              setOpen(true);
+              setOpen(true)
             }}
           >
             <img src={icons.editIcon} />
@@ -33,10 +32,10 @@ export function CultureActions({ data }) {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 export function LanguageActions({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <>
       {open && (
@@ -51,11 +50,10 @@ export function LanguageActions({ data }) {
       )}
       <Grid container>
         <Grid item>
-          {" "}
           <IconButton
             edge="end"
             onClick={(event) => {
-              setOpen(true);
+              setOpen(true)
             }}
           >
             <img src={icons.editIcon} />
@@ -63,10 +61,10 @@ export function LanguageActions({ data }) {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 export function ResilienceySubCatActions({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
   return (
     <>
       {open && (
@@ -85,11 +83,10 @@ export function ResilienceySubCatActions({ data }) {
       )}
       <Grid container>
         <Grid item>
-          {" "}
           <IconButton
             edge="end"
             onClick={(event) => {
-              setOpen(true);
+              setOpen(true)
             }}
           >
             <img src={icons.editIcon} />
@@ -97,5 +94,5 @@ export function ResilienceySubCatActions({ data }) {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }

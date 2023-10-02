@@ -1,10 +1,10 @@
-import { Avatar, Grid, Typography } from "@mui/material";
-import React from "react";
-import "../../style.scss";
+import React from 'react'
+import '../../style.scss'
+import { Avatar, Grid, Typography } from '@mui/material'
 
-export default function StatsCard({ title = "ABC", count = "10", icon = "" }) {
+export default function StatsCard({ title = 'ABC', count = '10', icon = '' }) {
   return (
-    <Grid container flexWrap={"nowrap"} className="stats-card">
+    <Grid container flexWrap={'nowrap'} className="stats-card">
       <Grid item>
         <Grid container className="icon-container">
           <Avatar variant="square" className="icon" src={icon} />
@@ -15,5 +15,5 @@ export default function StatsCard({ title = "ABC", count = "10", icon = "" }) {
         <Typography className="count">{count}</Typography>
       </Grid>
     </Grid>
-  );
+  )
 }

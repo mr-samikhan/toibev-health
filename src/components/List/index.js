@@ -1,21 +1,22 @@
-import React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import icons from "../../assets/index";
-import "./list.scss";
-import { Alert } from "@mui/material";
+import React from 'react'
+import Box from '@mui/material/Box'
+import List from '@mui/material/List'
+import Grid from '@mui/material/Grid'
+import { Alert } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import { styled } from '@mui/material/styles'
+import ListItem from '@mui/material/ListItem'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+//imports
+import './list.scss'
+import icons from '../../assets/index'
 
-const Paper = styled("div")(({ theme }) => ({
+const Paper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-}));
+}))
 
 export function CustomList({
   list = [],
@@ -27,8 +28,8 @@ export function CustomList({
   noData,
 }) {
   const removeOnClick = (event) => {
-    event.stopPropagation();
-  };
+    event.stopPropagation()
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,7 +38,7 @@ export function CustomList({
           <Paper>
             {list?.length === 0 ? (
               <Alert sx={{ mt: 2 }} severity="error">
-                {noData ?? "No data found!"}
+                {noData ?? 'No data found!'}
               </Alert>
             ) : (
               <List dense={false} className="listing">
@@ -55,15 +56,15 @@ export function CustomList({
                         </IconButton>
                       )
                     }
-                    sx={{ cursor: onRowClick && "pointer" }}
+                    sx={{ cursor: onRowClick && 'pointer' }}
                     onClick={() => onRowClick(item)}
                   >
                     <ListItemAvatar sx={{ mr: 2 }}>
                       {indexed ? (
                         <Grid
                           container
-                          justifyContent={"center"}
-                          alignItems={"center"}
+                          justifyContent={'center'}
+                          alignItems={'center'}
                           px={3}
                           py={2}
                           className="text-avatar"
@@ -73,12 +74,12 @@ export function CustomList({
                       ) : (
                         <Avatar
                           className={
-                            listing === "events"
-                              ? "image-avatar avatar"
-                              : "avatar"
+                            listing === 'events'
+                              ? 'image-avatar avatar'
+                              : 'avatar'
                           }
                         >
-                          {" "}
+                          {' '}
                           <img src={icon ?? item.icon} />
                         </Avatar>
                       )}
@@ -91,7 +92,7 @@ export function CustomList({
                       }
                       secondary={
                         <Typography className="secondary-text">
-                          {item?.subtitle ?? ""}
+                          {item?.subtitle ?? ''}
                         </Typography>
                       }
                     />
@@ -103,5 +104,5 @@ export function CustomList({
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }
