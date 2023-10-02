@@ -51,7 +51,6 @@ export function Dashboard() {
       </Grid>
     )
   }
-  console.log(groupedProvidersByLocation, '>>>>>')
 
   return (
     <Grid className="dashboard">
