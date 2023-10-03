@@ -9,7 +9,9 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     defaultValues: { ...initialState },
   })
 
-  const [selectedTribes, setSelectedTribes] = useState([])
+  const [selectedTribes, setSelectedTribes] = useState(
+    initialState?.tribes || []
+  )
 
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.cover_img || '',
