@@ -1,77 +1,79 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
-import { addLanguage, deleteLanguage, updateLanguage } from "../actions";
-import { useGetCultures } from "../../../hooks/useGetCultures";
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import { useGetCultures } from '../../../hooks/useGetCultures'
+import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
 
 export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const { control, handleSubmit } = useForm({
     defaultValues: { ...initialState },
-  });
+  })
 
-  const [selectedTribes, setSelectedTribes] = useState([]);
+  const [selectedTribes, setSelectedTribes] = useState(
+    initialState?.tribes || []
+  )
 
   const [selectedImage, setSelectedImage] = useState({
-    fileUrl: initialState?.cover_img || "",
-  });
-  const queryClient = useQueryClient();
+    fileUrl: initialState?.cover_img || '',
+  })
+  const queryClient = useQueryClient()
   const {
     cultures,
     isLoading: isLoadingCultures,
     isFetching: isFetchingCultures,
-  } = useGetCultures({ enabled: true });
+  } = useGetCultures({ enabled: false })
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateLanguage : addLanguage,
     {
       onSuccess: (success) => {
-        setOpen(false);
-        queryClient.invalidateQueries("get-all-languages");
+        setOpen(false)
+        queryClient.invalidateQueries('get-all-languages')
       },
       onError: (error) => {
-        console.log(error);
+        console.log(error)
       },
     }
-  );
+  )
   const { isLoading: isLoadingDelete, mutate: mutateDelete } = useMutation(
     deleteLanguage,
     {
       onSuccess: (success) => {
-        setOpen(false);
-        queryClient.invalidateQueries("get-all-languages");
+        setOpen(false)
+        queryClient.invalidateQueries('get-all-languages')
       },
       onError: (error) => {
-        console.log(error);
+        console.log(error)
       },
     }
-  );
+  )
 
   const handleDelete = () => {
-    mutateDelete(initialState.id);
-  };
+    mutateDelete(initialState.id)
+  }
 
   const onSubmit = (formData) => {
     const data = {
       ...formData,
       cover_img: selectedImage,
       tribes: selectedTribes,
-    };
-    isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data);
-  };
+    }
+    isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
+  }
 
   return {
     control,
-    handleSubmit,
+    cultures,
     onSubmit,
     isLoading,
+    handleSubmit,
     handleDelete,
-    isLoadingDelete,
     selectedImage,
+    selectedTribes,
+    isLoadingDelete,
     setSelectedImage,
     isLoadingCultures,
-    isFetchingCultures,
-    cultures,
-    selectedTribes,
     setSelectedTribes,
-  };
+    isFetchingCultures,
+  }
 }

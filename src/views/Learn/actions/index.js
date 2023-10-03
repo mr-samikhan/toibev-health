@@ -33,6 +33,7 @@ export const addCulture = async (data) => {
     const culture = {
       ...data,
       cover_img,
+      createdAt: new Date(),
     }
     const docRef = await addDoc(collection(firestore, 'Culture'), culture)
     return docRef
@@ -44,9 +45,8 @@ export const addCulture = async (data) => {
 }
 
 export const updateCulture = async (data) => {
-  console.log(data)
-  let cover_img = ''
   try {
+    let cover_img = ''
     if (data.cover_img.file) {
       const { file, fileName } = data.cover_img || {}
       const url = await uploadFile(file, `images/events/${fileName}`)
@@ -54,6 +54,7 @@ export const updateCulture = async (data) => {
     }
     const docRef = await updateDoc(doc(firestore, 'Culture', data.id), {
       ...data,
+      updatedAt: new Date(),
       cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
     return docRef
@@ -86,6 +87,7 @@ export const addLanguage = async (data) => {
     }
     const language = {
       ...data,
+      createdAt: new Date(),
       cover_img,
     }
     const docRef = await addDoc(collection(firestore, 'Languages'), language)
@@ -99,8 +101,23 @@ export const addLanguage = async (data) => {
 
 export const updateLanguage = async (data) => {
   try {
-    const docRef = await updateDoc(doc(firestore, 'Languages', data.id), data)
+    let cover_img = ''
+    if (data.cover_img.file) {
+      const { file, fileName } = data.cover_img || {}
+      const url = await uploadFile(file, `images/languages/${fileName}`)
+      cover_img = url
+    }
+    const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
+      ...data,
+      updatedAt: new Date(),
+      cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
+    })
     return docRef
+    // const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
+    //   ...data,
+    //   updatedAt: new Date(),
+    // })
+    // return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
@@ -121,7 +138,10 @@ export const deleteLanguage = async (id) => {
 
 export const addResiliency = async (data) => {
   try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), data)
+    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+      ...data,
+      createdAt: new Date(),
+    })
     return docRef
   } catch (error) {
     const errorCode = error.code
@@ -162,7 +182,10 @@ export const addResiliencySubCat = async (data) => {
 }
 export const updateResiliencySubCat = async (data) => {
   try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), data)
+    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+      ...data,
+      updatedAt: new Date(),
+    })
     return docRef
   } catch (error) {
     const errorCode = error.code
