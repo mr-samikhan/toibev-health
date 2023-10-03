@@ -19,13 +19,13 @@ const Paper = styled('div')(({ theme }) => ({
 }))
 
 export function CustomList({
-  list = [],
   icon,
+  noData,
   Actions,
   listing,
-  onRowClick,
   indexed,
-  noData,
+  list = [],
+  onRowClick,
 }) {
   const removeOnClick = (event) => {
     event.stopPropagation()
@@ -52,7 +52,7 @@ export function CustomList({
                         </Grid>
                       ) : (
                         <IconButton edge="end" aria-label="delete">
-                          <img src={icons.editIcon} />
+                          <img src={icons.editIcon} alt="edit-icon" />
                         </IconButton>
                       )
                     }
@@ -63,11 +63,11 @@ export function CustomList({
                       {indexed ? (
                         <Grid
                           container
-                          justifyContent={'center'}
-                          alignItems={'center'}
                           px={3}
                           py={2}
+                          alignItems={'center'}
                           className="text-avatar"
+                          justifyContent={'center'}
                         >
                           <Typography className="text">{item.text}</Typography>
                         </Grid>
@@ -79,8 +79,7 @@ export function CustomList({
                               : 'avatar'
                           }
                         >
-                          {' '}
-                          <img src={icon ?? item.icon} />
+                          <img src={icon ?? item.icon} alt="edit-icon" />
                         </Avatar>
                       )}
                     </ListItemAvatar>
