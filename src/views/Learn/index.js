@@ -1,37 +1,40 @@
-import React from "react";
-import { Button, Grid, CircularProgress } from "@mui/material";
-import { CustomList } from "../../components/List";
-import { CustomTabs } from "../../components/Tabs";
-import AddIcon from "@mui/icons-material/Add";
-import icons from "../../assets/index";
-import { CultureActions, LanguageActions } from "./components/ActionButtons";
-import TribeForm from "./components/TribeForm";
-import { useLearn } from "./useLearn";
-import LangugaeForm from "./components/Forms/LanguageForm";
-import AlertDialog from "../../components/AlertDialog";
-import ResilienceForm from "./components/Forms/ResilienceForm";
-import ResiliencyItem from "./components/ResiliencyItem";
-import CustomTextfield from "../../components/CustomTextfield";
+import React from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import { Button, Grid, CircularProgress } from '@mui/material'
+
+//imports
+import { useLearn } from './useLearn'
+import icons from '../../assets/index'
+import TribeForm from './components/TribeForm'
+import { CustomList } from '../../components/List'
+import { CustomTabs } from '../../components/Tabs'
+import AlertDialog from '../../components/AlertDialog'
+import ResiliencyItem from './components/ResiliencyItem'
+import LangugaeForm from './components/Forms/LanguageForm'
+import CustomTextfield from '../../components/CustomTextfield'
+import ResilienceForm from './components/Forms/ResilienceForm'
+import { CultureActions, LanguageActions } from './components/ActionButtons'
 
 export function Learn() {
   const {
     tab,
-    setTab,
     open,
+    setTab,
     setOpen,
     cultures,
     languages,
+    reseliency,
+    mobileMode,
+    onRowClick,
     handleClick,
+    handleChange,
     isLoadingCultures,
     isFetchingCultures,
     isLoadingLanguages,
     isFetchingLanguages,
-    reseliency,
     isLoadingReseliency,
     isFetchingReseliency,
-    mobileMode,
-    handleChange,
-  } = useLearn();
+  } = useLearn()
 
   return (
     <>
@@ -66,12 +69,11 @@ export function Learn() {
         container
         justifyContent="space-between"
         alignItems="center"
-        sx={{ marginBottom: "16px" }}
+        sx={{ marginBottom: '16px' }}
       >
         <Grid item>
-          {" "}
           <CustomTabs
-            options={["Culture", "Language", "Resiliency"]}
+            options={['Culture', 'Language', 'Resiliency']}
             setTab={setTab}
             tab={tab}
           />
@@ -82,11 +84,10 @@ export function Learn() {
             variant="contained"
             startIcon={<AddIcon />}
             className="contained-button"
-            sx={{ position: "relative" }}
+            sx={{ position: 'relative' }}
             onClick={handleClick}
           >
-            {" "}
-            {mobileMode ? "" : "Add"}
+            {mobileMode ? '' : 'Add'}
           </Button>
         </Grid>
       </Grid>
@@ -98,7 +99,6 @@ export function Learn() {
       isLoadingReseliency ||
       isFetchingReseliency ? (
         <Grid container justifyContent="center">
-          {" "}
           <CircularProgress />
         </Grid>
       ) : (
@@ -108,6 +108,7 @@ export function Learn() {
               list={cultures}
               icon={icons.peopleIcon}
               Actions={CultureActions}
+              onRowClick={onRowClick}
             />
           )}
           {tab === 1 && (
@@ -115,6 +116,7 @@ export function Learn() {
               list={languages}
               icon={icons.languageIcon}
               Actions={LanguageActions}
+              onRowClick={onRowClick}
             />
           )}
 
@@ -135,5 +137,5 @@ export function Learn() {
         </>
       )}
     </>
-  );
+  )
 }
