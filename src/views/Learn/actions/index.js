@@ -86,6 +86,7 @@ export const addLanguage = async (data) => {
     }
     const language = {
       ...data,
+      createdAt: new Date(),
       cover_img,
     }
     const docRef = await addDoc(collection(firestore, 'Languages'), language)
@@ -99,7 +100,10 @@ export const addLanguage = async (data) => {
 
 export const updateLanguage = async (data) => {
   try {
-    const docRef = await updateDoc(doc(firestore, 'Languages', data.id), data)
+    const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
+      ...data,
+      updatedAt: new Date(),
+    })
     return docRef
   } catch (error) {
     const errorCode = error.code
