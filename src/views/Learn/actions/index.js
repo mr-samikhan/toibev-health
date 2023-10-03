@@ -33,6 +33,7 @@ export const addCulture = async (data) => {
     const culture = {
       ...data,
       cover_img,
+      createdAt: new Date(),
     }
     const docRef = await addDoc(collection(firestore, 'Culture'), culture)
     return docRef
@@ -44,7 +45,6 @@ export const addCulture = async (data) => {
 }
 
 export const updateCulture = async (data) => {
-  console.log(data)
   let cover_img = ''
   try {
     if (data.cover_img.file) {
@@ -54,6 +54,7 @@ export const updateCulture = async (data) => {
     }
     const docRef = await updateDoc(doc(firestore, 'Culture', data.id), {
       ...data,
+      updatedAt: new Date(),
       cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
     return docRef
@@ -125,7 +126,10 @@ export const deleteLanguage = async (id) => {
 
 export const addResiliency = async (data) => {
   try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), data)
+    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+      ...data,
+      createdAt: new Date(),
+    })
     return docRef
   } catch (error) {
     const errorCode = error.code
@@ -166,7 +170,10 @@ export const addResiliencySubCat = async (data) => {
 }
 export const updateResiliencySubCat = async (data) => {
   try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), data)
+    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+      ...data,
+      updatedAt: new Date(),
+    })
     return docRef
   } catch (error) {
     const errorCode = error.code
