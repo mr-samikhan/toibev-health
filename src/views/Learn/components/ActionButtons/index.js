@@ -1,10 +1,12 @@
-import { Grid, IconButton } from '@mui/material'
-import icons from '../../../../assets'
 import React, { useState } from 'react'
+import { Grid, IconButton } from '@mui/material'
+
+//imports
 import TribeForm from '../TribeForm'
+import icons from '../../../../assets'
+import LangugaeForm from '../Forms/LanguageForm'
 import AlertDialog from '../../../../components/AlertDialog'
 import ResiliencySubCatForm from '../Forms/ResiliencySubCatForm'
-import LangugaeForm from '../Forms/LanguageForm'
 
 export function CultureActions({ data }) {
   const [open, setOpen] = useState(false)
@@ -27,7 +29,7 @@ export function CultureActions({ data }) {
               setOpen(true)
             }}
           >
-            <img src={icons.editIcon} />
+            <img src={icons.editIcon} alt="edit-icon" />
           </IconButton>
         </Grid>
       </Grid>
@@ -56,7 +58,7 @@ export function LanguageActions({ data }) {
               setOpen(true)
             }}
           >
-            <img src={icons.editIcon} />
+            <img src={icons.editIcon} alt="edit-icon" />
           </IconButton>
         </Grid>
       </Grid>
@@ -89,7 +91,7 @@ export function ResilienceySubCatActions({ data }) {
               setOpen(true)
             }}
           >
-            <img src={icons.editIcon} />
+            <img src={icons.editIcon} alt="edit-icon" />
           </IconButton>
         </Grid>
       </Grid>
