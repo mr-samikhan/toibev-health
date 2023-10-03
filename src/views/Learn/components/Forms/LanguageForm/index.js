@@ -1,32 +1,34 @@
-import React from "react";
-import { Grid, Box, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import { ReactComponent as PeopleIcon } from "../../../../../assets/icons/people.svg";
-import CustomButton from "../../../../../components/CustomButton";
-import useLanguageForm from "../../../hook/useLanguageForm";
-import ImageUploader from "../../../../../components/MediaUpload";
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { Grid, Box, Typography } from '@mui/material'
+
+//imports
+import useLanguageForm from '../../../hook/useLanguageForm'
+import CustomButton from '../../../../../components/CustomButton'
+import ImageUploader from '../../../../../components/MediaUpload'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
     control,
-    handleSubmit,
     onSubmit,
     isLoading,
+    cultures,
     handleDelete,
-    isLoadingDelete,
+    handleSubmit,
     selectedImage,
+    selectedTribes,
+    isLoadingDelete,
     setSelectedImage,
     isLoadingCultures,
-    isFetchingCultures,
-    cultures,
-    selectedTribes,
     setSelectedTribes,
+    isFetchingCultures,
   } = useLanguageForm({
     isEdit,
     initialState,
     setOpen,
-  });
+  })
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -53,18 +55,17 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             options={cultures}
             isLoading={isLoadingCultures || isFetchingCultures}
             onChange={(e) => {
-              const { label, value } = cultures.filter(
-                (culture) => culture.id === e.target.value
-              )[0];
+              const { label, value } = cultures?.filter(
+                (culture) => culture?.id === e.target.value
+              )[0]
               setSelectedTribes([
                 ...selectedTribes,
                 { title: label, id: value },
-              ]);
+              ])
             }}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="description"
             control={control}
@@ -86,7 +87,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                 fontWeight={500}
                 fontSize={18}
                 sx={{
-                  color: "#000000",
+                  color: '#000000',
                 }}
               >
                 File Upload
@@ -95,8 +96,8 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             <Grid item xs={12}>
               <Grid
                 container
-                justifyContent={"space-between"}
-                sx={{ gap: "16px" }}
+                justifyContent={'space-between'}
+                sx={{ gap: '16px' }}
                 flexWrap="nowrap"
               >
                 <Grid item xs={6}>
@@ -112,17 +113,17 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
         </Grid>
         <Grid item xs={12} mb={isEdit && 2}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Saving..." : "Save Language"}
+            {isLoading ? 'Saving...' : 'Save Language'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12}>
             <CustomButton variant="outlined" onClick={handleDelete}>
-              {isLoadingDelete ? "Deleting..." : "Delete Language"}
+              {isLoadingDelete ? 'Deleting...' : 'Delete Language'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }
