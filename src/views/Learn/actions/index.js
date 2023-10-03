@@ -45,8 +45,8 @@ export const addCulture = async (data) => {
 }
 
 export const updateCulture = async (data) => {
-  let cover_img = ''
   try {
+    let cover_img = ''
     if (data.cover_img.file) {
       const { file, fileName } = data.cover_img || {}
       const url = await uploadFile(file, `images/events/${fileName}`)
@@ -101,11 +101,23 @@ export const addLanguage = async (data) => {
 
 export const updateLanguage = async (data) => {
   try {
+    let cover_img = ''
+    if (data.cover_img.file) {
+      const { file, fileName } = data.cover_img || {}
+      const url = await uploadFile(file, `images/languages/${fileName}`)
+      cover_img = url
+    }
     const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
       ...data,
       updatedAt: new Date(),
+      cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
     return docRef
+    // const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
+    //   ...data,
+    //   updatedAt: new Date(),
+    // })
+    // return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
