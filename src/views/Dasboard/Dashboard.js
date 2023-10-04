@@ -111,7 +111,7 @@ export function Dashboard() {
         <Grid item xs={12} md={6}>
           <Grid container flexDirection="column" className="section" mb={3}>
             <Grid item mb={1}>
-              <Typography className="heading">Geographic</Typography>
+              <Typography className="heading">Location</Typography>
             </Grid>
             <Grid item>
               <DashboardListing

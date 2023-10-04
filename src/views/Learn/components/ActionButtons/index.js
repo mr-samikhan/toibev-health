@@ -46,6 +46,7 @@ export function LanguageActions({ data }) {
           open={open}
           setOpen={setOpen}
           message={
+            // <LanguageDetailForm initialState={data} />
             <LangugaeForm initialState={data} isEdit setOpen={setOpen} />
           }
         />

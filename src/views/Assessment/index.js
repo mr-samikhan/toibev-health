@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { Grid, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import AlertDialog from "../../components/AlertDialog";
-import { CustomList } from "../../components/List";
-import AssessmentForm from "./components/Forms/AssessmentForm";
-import { Actions } from "./components/ActionButtons";
-import { useGetAssessments } from "../../hooks/useGetAssessments";
-import { useNavigate } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import React, { useState } from 'react'
+import { Grid, Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import { useNavigate } from 'react-router-dom'
+import { CircularProgress } from '@mui/material'
+//imports
+import { CustomList } from '../../components/List'
+import { Actions } from './components/ActionButtons'
+import AlertDialog from '../../components/AlertDialog'
+import AssessmentForm from './components/Forms/AssessmentForm'
+import { useGetAssessments } from '../../hooks/useGetAssessments'
 
 export function Assessment() {
-  const [open, setOpen] = useState(false);
-  const { assessments, isLoading, isFetching } = useGetAssessments({});
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false)
+  const { assessments, isLoading, isFetching } = useGetAssessments({})
+  const navigate = useNavigate()
   return (
     <>
       {open && (
@@ -27,7 +28,7 @@ export function Assessment() {
         container
         justifyContent="flex-end"
         alignItems="center"
-        sx={{ marginBottom: "16px" }}
+        sx={{ marginBottom: '16px' }}
       >
         <Grid item>
           <Button
@@ -37,14 +38,12 @@ export function Assessment() {
             className="contained-button"
             onClick={() => setOpen(true)}
           >
-            {" "}
             Add
           </Button>
         </Grid>
       </Grid>
       {isLoading || isFetching ? (
         <Grid container justifyContent="center">
-          {" "}
           <CircularProgress />
         </Grid>
       ) : (
@@ -52,10 +51,10 @@ export function Assessment() {
           Actions={Actions}
           list={assessments}
           onRowClick={(row) => {
-            navigate(`/assesment/${row.id}`, { state: row });
+            navigate(`/assesment/${row.id}`, { state: row })
           }}
         />
       )}
     </>
-  );
+  )
 }
