@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
-import { Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import AlertDialog from "../../../components/AlertDialog";
-import QuestionForm from "../components/Forms/QuestionForm";
-import ConditionForm from "../components/Forms/ConditionForm";
-import { useLocation } from "react-router-dom";
-import { CustomList } from "../../../components/List";
-import { useGetSingleAssessment } from "../../../hooks/useGetAssessmentQuestions";
+import React, { useState } from 'react'
+import { Grid, Typography } from '@mui/material'
+import { Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import AlertDialog from '../../../components/AlertDialog'
+import QuestionForm from '../components/Forms/QuestionForm'
+import ConditionForm from '../components/Forms/ConditionForm'
+import { useLocation } from 'react-router-dom'
+import { CustomList } from '../../../components/List'
+import { useGetSingleAssessment } from '../../../hooks/useGetAssessmentQuestions'
 import {
   SingleAssessmentActionButtons,
   ConditionActionButtons,
-} from "../components/ActionButtons";
-import useSingleAssessment from "../hooks/useSingleAssessment";
+} from '../components/ActionButtons'
+import useSingleAssessment from '../hooks/useSingleAssessment'
 
 export default function SingleAssessment() {
   const {
@@ -26,10 +26,10 @@ export default function SingleAssessment() {
     conditions,
     isLoadingConditions,
     isFetchingConditions,
-  } = useSingleAssessment({});
+  } = useSingleAssessment({})
 
   if (isLoading || isFetching || isFetchingConditions || isLoadingConditions)
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function SingleAssessment() {
             >
               <Grid item>
                 <Typography fontWeight={500} fontSize="20px">
-                  Opioid Use
+                  Question
                 </Typography>
               </Grid>
               <Grid item>
@@ -77,7 +77,6 @@ export default function SingleAssessment() {
                   className="contained-button"
                   onClick={() => setOpenQuestion(true)}
                 >
-                  {" "}
                   Add
                 </Button>
               </Grid>
@@ -112,7 +111,6 @@ export default function SingleAssessment() {
                   className="contained-button"
                   onClick={() => setOpenCondition(true)}
                 >
-                  {" "}
                   Add
                 </Button>
               </Grid>
@@ -128,5 +126,5 @@ export default function SingleAssessment() {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
