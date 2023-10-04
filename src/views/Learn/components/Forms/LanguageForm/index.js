@@ -6,6 +6,7 @@ import { Grid, Box, Typography } from '@mui/material'
 import useLanguageForm from '../../../hook/useLanguageForm'
 import CustomButton from '../../../../../components/CustomButton'
 import ImageUploader from '../../../../../components/MediaUpload'
+import { CustomChip } from '../../../../../components/CustomChip'
 import CustomTextfield from '../../../../../components/CustomTextfield'
 import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 
@@ -18,12 +19,13 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     handleDelete,
     handleSubmit,
     selectedImage,
+    onSelectTribes,
     selectedTribes,
     isLoadingDelete,
     setSelectedImage,
     isLoadingCultures,
-    setSelectedTribes,
     isFetchingCultures,
+    onHandleDeleteTribe,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -33,6 +35,17 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
+        <Grid item container columnGap={1.5} mb={3}>
+          {selectedTribes?.map((tribe, index) => (
+            <Grid item>
+              <CustomChip
+                index={tribe}
+                title={tribe.title}
+                handleDelete={onHandleDeleteTribe}
+              />
+            </Grid>
+          ))}
+        </Grid>
         <Grid item xs={12} mb={4} mt={2}>
           <Controller
             name="title"
@@ -58,10 +71,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
               const { label, value } = cultures?.filter(
                 (culture) => culture?.id === e.target.value
               )[0]
-              setSelectedTribes([
-                ...selectedTribes,
-                { title: label, id: value },
-              ])
+              onSelectTribes({ title: label, id: value })
             }}
           />
         </Grid>
