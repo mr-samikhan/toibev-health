@@ -13,6 +13,10 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     initialState?.tribes || []
   )
 
+  const [selectedVideos, setSelectedVideos] = useState(
+    isEdit ? initialState?.videos : []
+  )
+
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.cover_img || '',
   })
@@ -57,6 +61,7 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       ...formData,
       cover_img: selectedImage,
       tribes: selectedTribes,
+      videos: selectedVideos,
     }
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }
@@ -101,5 +106,8 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     setSelectedTribes,
     isFetchingCultures,
     onHandleDeleteTribe,
+    //
+    setSelectedVideos,
+    selectedVideos,
   }
 }
