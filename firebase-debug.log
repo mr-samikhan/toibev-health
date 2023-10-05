@@ -1,0 +1,32 @@
+[debug] [2023-10-05T17:33:12.523Z] ----------------------------------------------------------------------
+[debug] [2023-10-05T17:33:12.524Z] Command:       /usr/local/bin/node /Users/mac/work/toiyabev2-admin/node_modules/.bin/firebase deploy --only hosting
+[debug] [2023-10-05T17:33:12.525Z] CLI Version:   12.4.0
+[debug] [2023-10-05T17:33:12.525Z] Platform:      darwin
+[debug] [2023-10-05T17:33:12.525Z] Node Version:  v18.18.0
+[debug] [2023-10-05T17:33:12.527Z] Time:          Thu Oct 05 2023 22:33:12 GMT+0500 (Pakistan Standard Time)
+[debug] [2023-10-05T17:33:12.527Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-05T17:33:12.531Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-10-05T17:33:12.643Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-05T17:33:12.643Z] > authorizing via signed-in user (sami@chopdawg.com)
+[debug] [2023-10-05T17:33:12.643Z] [iam] checking project toiyabe-v2 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-05T17:33:12.644Z] > refreshing access token with scopes: []
+[debug] [2023-10-05T17:33:12.645Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-10-05T17:33:12.646Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-05T17:33:22.075Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-10-05T17:33:22.076Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-05T17:33:22.096Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/toiyabe-v2:testIamPermissions [none]
+[debug] [2023-10-05T17:33:22.096Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/toiyabe-v2:testIamPermissions x-goog-quota-user=projects/toiyabe-v2
+[debug] [2023-10-05T17:33:22.097Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/toiyabe-v2:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-05T17:33:24.957Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-10-05T17:33:24.957Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-10-05T17:33:33.541Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/toiyabe-v2:testIamPermissions 200
+[debug] [2023-10-05T17:33:33.541Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/toiyabe-v2:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-05T17:33:33.543Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/toiyabe-v2 [none]
+[debug] [2023-10-05T17:33:47.847Z] Failed to make request to https://firebase.googleapis.com/v1beta1/projects/toiyabe-v2
+[debug] [2023-10-05T17:33:52.854Z] Error: Timed out.
+    at Timeout._onTimeout (/Users/mac/work/toiyabev2-admin/node_modules/firebase-tools/lib/utils.js:253:49)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+[error] 
+[error] Error: An unexpected error has occurred.
