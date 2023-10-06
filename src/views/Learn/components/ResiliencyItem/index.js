@@ -20,7 +20,6 @@ export default function ResiliencyItem({ data, mobileMode }) {
     isFetching,
     isLoading,
   } = useResiliencyCatrgory({ cat: data?.value })
-
   return (
     <>
       <AlertDialog
@@ -67,6 +66,7 @@ export default function ResiliencyItem({ data, mobileMode }) {
               noData="No History Sub-Categories Added"
               Actions={ResilienceySubCatActions}
               list={subCats}
+              cat={data?.value}
             />
           </Grid>
         )}
