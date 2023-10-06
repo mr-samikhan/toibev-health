@@ -72,7 +72,7 @@ export function ResilienceySubCatActions({ data }) {
     <>
       {open && (
         <AlertDialog
-          title="Edit Language"
+          title="Edit History"
           open={open}
           setOpen={setOpen}
           message={
