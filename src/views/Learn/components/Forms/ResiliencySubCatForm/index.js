@@ -1,47 +1,53 @@
-import React from "react";
-import { Grid, Typography, Box } from "@mui/material";
-import { Controller, set } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import useResiliencySubCatForm from "../../../hook/useResiliencySubCatForm";
-import MediaUpload from "../../../../../components/MediaUpload";
-import { PdfFile } from "../../PdfFile";
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { Grid, Typography, Box } from '@mui/material'
+
+import { PdfFile } from '../../PdfFile'
+import MediaUpload from '../../../../../components/MediaUpload'
+import CustomButton from '../../../../../components/CustomButton'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import useResiliencySubCatForm from '../../../hook/useResiliencySubCatForm'
 
 const StyledHeading = ({ children }) => (
   <Typography
     fontWeight={500}
     fontSize={18}
     sx={{
-      color: "#000000",
+      color: '#000000',
     }}
   >
     {children}
   </Typography>
-);
+)
 
-export default function ResiliencySubCatForm({ cat, setOpen, initialState }) {
+export default function ResiliencySubCatForm({
+  cat,
+  setOpen,
+  initialState,
+  isEdit,
+}) {
   const {
-    control,
-    handleSubmit,
-    onSubmit,
-    handleFileChange,
-    pdfInputRef,
     pdf,
-    handleFileUpload,
-    handleRemoveFile,
     image,
+    control,
+    onSubmit,
     setImage,
     isLoading,
+    pdfInputRef,
+    handleSubmit,
+    handleFileChange,
+    handleFileUpload,
+    handleRemoveFile,
   } = useResiliencySubCatForm({
     cat,
     setOpen,
     initialState,
-  });
+    isEdit,
+  })
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="title"
             control={control}
@@ -67,7 +73,7 @@ export default function ResiliencySubCatForm({ cat, setOpen, initialState }) {
                 type="file"
                 id="pdfUpload"
                 accept=".pdf"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 onChange={handleFileChange}
                 onClick={(e) => (e.target.value = null)}
               />
@@ -81,10 +87,10 @@ export default function ResiliencySubCatForm({ cat, setOpen, initialState }) {
 
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Saving" : "Save Sub Category"}
+            {isLoading ? 'Saving' : 'Save Sub Category'}
           </CustomButton>
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }

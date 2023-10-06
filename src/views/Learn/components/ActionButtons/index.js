@@ -66,20 +66,21 @@ export function LanguageActions({ data }) {
     </>
   )
 }
-export function ResilienceySubCatActions({ data }) {
+export function ResilienceySubCatActions({ data, cat }) {
   const [open, setOpen] = useState(false)
   return (
     <>
       {open && (
         <AlertDialog
-          title="Edit Language"
+          title="Edit History"
           open={open}
           setOpen={setOpen}
           message={
             <ResiliencySubCatForm
-              initialState={data}
               isEdit
+              cat={cat}
               setOpen={setOpen}
+              initialState={data}
             />
           }
         />

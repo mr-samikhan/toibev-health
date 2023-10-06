@@ -19,6 +19,7 @@ const Paper = styled('div')(({ theme }) => ({
 }))
 
 export function CustomList({
+  cat,
   icon,
   noData,
   Actions,
@@ -48,7 +49,7 @@ export function CustomList({
                     secondaryAction={
                       !!Actions ? (
                         <Grid onClick={removeOnClick}>
-                          <Actions data={item} list={list} />
+                          <Actions data={item} list={list} cat={cat} />
                         </Grid>
                       ) : (
                         <IconButton edge="end" aria-label="delete">
