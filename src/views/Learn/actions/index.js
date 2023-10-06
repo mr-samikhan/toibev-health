@@ -229,14 +229,23 @@ export const addResiliencySubCat = async (data) => {
 }
 export const updateResiliencySubCat = async ({ data, collectionName }) => {
   try {
+    let cover_img = ''
+    if (data.cover_img.file) {
+      const { file, fileName } = data.cover_img || {}
+      const url = await uploadFile(file, `images/resiliency-subCat/${fileName}`)
+      cover_img = url
+    }
+
     const resiliencyDocRef = doc(
       firestore,
       `Resiliency/general/${collectionName}`,
       data.id
     )
+
     return await updateDoc(resiliencyDocRef, {
       ...data,
       updatedAt: new Date(),
+      cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
   } catch (error) {
     const errorCode = error.code
