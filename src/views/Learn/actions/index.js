@@ -141,17 +141,30 @@ export const updateLanguage = async (data) => {
       const url = await uploadFile(file, `images/languages/${fileName}`)
       cover_img = url
     }
+
+    let existingVideos = data.videos.filter((video) => !video.id)
+    let newVideos = []
+    for (const video of data.videos) {
+      const { file, fileName, id } = video || {}
+      if (id) {
+        const url = await uploadFile(file, `videos/languages/${fileName}`)
+        const thumbnailUrl = await storeThumbnailInFirebase(
+          video.thumbnail,
+          `images/languages/${fileName}`
+        )
+        newVideos.push({
+          fileUrl: url,
+          thumbnail: thumbnailUrl,
+        })
+      }
+    }
     const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
       ...data,
       updatedAt: new Date(),
       cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
+      videos: [...existingVideos, ...newVideos],
     })
     return docRef
-    // const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
-    //   ...data,
-    //   updatedAt: new Date(),
-    // })
-    // return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
