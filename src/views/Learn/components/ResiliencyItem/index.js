@@ -1,14 +1,16 @@
-import React from "react";
-import { Button, Grid } from "@mui/material";
-import { CustomList } from "../../../../components/List";
-import AddIcon from "@mui/icons-material/Add";
-import icons from "../../../../assets/index";
-import { ListItem } from "../../../../components/ListItem";
-import { ListTitle } from "../../../../components/ListTitile";
-import AlertDialog from "../../../../components/AlertDialog";
-import { useResiliencyCatrgory } from "../../hook/useResiliencyCatrgory";
-import ResiliencySubCatForm from "../Forms/ResiliencySubCatForm";
-import { ResilienceySubCatActions } from "../ActionButtons";
+import React from 'react'
+import { Button, Grid } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+
+//imports
+import icons from '../../../../assets/index'
+import { CustomList } from '../../../../components/List'
+import { ListItem } from '../../../../components/ListItem'
+import { ResilienceySubCatActions } from '../ActionButtons'
+import AlertDialog from '../../../../components/AlertDialog'
+import { ListTitle } from '../../../../components/ListTitile'
+import ResiliencySubCatForm from '../Forms/ResiliencySubCatForm'
+import { useResiliencyCatrgory } from '../../hook/useResiliencyCatrgory'
 
 export default function ResiliencyItem({ data, mobileMode }) {
   const {
@@ -17,7 +19,7 @@ export default function ResiliencyItem({ data, mobileMode }) {
     data: subCats,
     isFetching,
     isLoading,
-  } = useResiliencyCatrgory({ cat: data?.value });
+  } = useResiliencyCatrgory({ cat: data?.value })
 
   return (
     <>
@@ -28,18 +30,16 @@ export default function ResiliencyItem({ data, mobileMode }) {
         message={<ResiliencySubCatForm setOpen={setOpen} cat={data?.value} />}
       />
       <Grid container>
-        <Grid item xs={12} sx={{ margin: "40px 0px" }}>
+        <Grid item xs={12} sx={{ margin: '40px 0px' }}>
           <ListItem
             title={data?.title}
             startIcon={icons.clockIcon}
             endIcon={icons.editIcon}
           />
         </Grid>
-        <Grid item xs={12} sx={{ marginBottom: "24px" }}>
-          {" "}
-          <Grid container justifyContent="space-between" flexWrap={"nowrap"}>
+        <Grid item xs={12} sx={{ marginBottom: '24px' }}>
+          <Grid container justifyContent="space-between" flexWrap={'nowrap'}>
             <Grid item flexGrow={1} xs={10}>
-              {" "}
               <ListTitle
                 title={`${data?.title} Sub-Categories`}
                 icon={icons.documentIcon}
@@ -53,13 +53,13 @@ export default function ResiliencyItem({ data, mobileMode }) {
                 startIcon={<AddIcon />}
                 onClick={() => setOpen(true)}
               >
-                {mobileMode ? "" : "Add Additional Resources"}
+                {mobileMode ? '' : 'Add Additional Resources'}
               </Button>
             </Grid>
           </Grid>
         </Grid>
         {isFetching || isLoading ? (
-          "Loading..."
+          'Loading...'
         ) : (
           <Grid item xs={12}>
             <CustomList
@@ -72,5 +72,5 @@ export default function ResiliencyItem({ data, mobileMode }) {
         )}
       </Grid>
     </>
-  );
+  )
 }
