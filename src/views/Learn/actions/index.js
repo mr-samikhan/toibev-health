@@ -227,13 +227,17 @@ export const addResiliencySubCat = async (data) => {
     throw error
   }
 }
-export const updateResiliencySubCat = async (data) => {
+export const updateResiliencySubCat = async ({ data, collectionName }) => {
   try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+    const resiliencyDocRef = doc(
+      firestore,
+      `Resiliency/general/${collectionName}`,
+      data.id
+    )
+    return await updateDoc(resiliencyDocRef, {
       ...data,
       updatedAt: new Date(),
     })
-    return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
