@@ -1,19 +1,18 @@
-import { Grid, IconButton } from "@mui/material";
-import icons from "../../../../assets";
-import React, { useState } from "react";
-import AlertDialog from "../../../../components/AlertDialog";
-import { ProviderForm } from "../Forms/ProviderForm";
-import { useActions } from "../../hooks/useActions";
-import { ProviderAvailabilityForm } from "../Forms/ProviderAvailabilityForm";
-import { TreatmentForm } from "../Forms/TreatmentForm";
-import { Add } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import TreatmentResourceForm from "../Forms/TreatmentResourceForm";
+import React, { useState } from 'react'
+import { Button } from '@mui/material'
+import { Add } from '@mui/icons-material'
+import { Grid, IconButton } from '@mui/material'
+
+import icons from '../../../../assets'
+import { useActions } from '../../hooks/useActions'
+import { ProviderForm } from '../Forms/ProviderForm'
+import { TreatmentForm } from '../Forms/TreatmentForm'
+import AlertDialog from '../../../../components/AlertDialog'
+import TreatmentResourceForm from '../Forms/TreatmentResourceForm'
+import { ProviderAvailabilityForm } from '../Forms/ProviderAvailabilityForm'
 
 export function Actions({ data }) {
-  const { open, setOpen, setOpenAvailability, openAvalability } = useActions(
-    {}
-  );
+  const { open, setOpen, setOpenAvailability, openAvalability } = useActions({})
 
   return (
     <>
@@ -21,7 +20,7 @@ export function Actions({ data }) {
         <AlertDialog
           open={open}
           setOpen={setOpen}
-          title={"Add Medication"}
+          title={'Add Medication'}
           message={
             <ProviderForm initialState={data} isEdit setOpen={setOpen} />
           }
@@ -31,7 +30,7 @@ export function Actions({ data }) {
         <AlertDialog
           open={openAvalability}
           setOpen={setOpenAvailability}
-          title={"Set Availability"}
+          title={'Set Availability'}
           message={
             <ProviderAvailabilityForm
               open={openAvalability}
@@ -42,25 +41,25 @@ export function Actions({ data }) {
         />
       )}
       <Grid container>
-        <Grid item sx={{ marginRight: "8px" }}>
-          {" "}
+        <Grid item sx={{ marginRight: '8px' }}>
+          {' '}
           <IconButton edge="end" onClick={() => setOpenAvailability(true)}>
             <img src={icons.editCalendarIcon} />
           </IconButton>
         </Grid>
         <Grid item>
-          {" "}
+          {' '}
           <IconButton edge="end" onClick={() => setOpen(true)}>
             <img src={icons.editIcon} />
           </IconButton>
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 export function TreatmentActions({ data, expanded }) {
-  const [open, setOpen] = useState(false);
-  const [openResourceForm, setOpenResourceForm] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [openResourceForm, setOpenResourceForm] = useState(false)
 
   return (
     <>
@@ -68,7 +67,7 @@ export function TreatmentActions({ data, expanded }) {
         <AlertDialog
           open={open}
           setOpen={setOpen}
-          title={"Edit Treatment"}
+          title={'Edit Treatment'}
           message={
             <TreatmentForm initialState={data} isEdit setOpen={setOpen} />
           }
@@ -78,7 +77,7 @@ export function TreatmentActions({ data, expanded }) {
         <AlertDialog
           open={openResourceForm}
           setOpen={setOpenResourceForm}
-          title={"Add Treatment Resource"}
+          title={'Add Treatment Resource'}
           message={
             <TreatmentResourceForm data={data} setOpen={setOpenResourceForm} />
           }
@@ -106,12 +105,12 @@ export function TreatmentActions({ data, expanded }) {
                 onClick={() => setOpenResourceForm(true)}
                 sx={{
                   p: 0,
-                  minWidth: "0px",
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "10px",
-                  background: "#468D8D",
-                  "& span": {
+                  minWidth: '0px',
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '10px',
+                  background: '#468D8D',
+                  '& span': {
                     m: 0,
                   },
                 }}
@@ -121,11 +120,11 @@ export function TreatmentActions({ data, expanded }) {
         )}
       </Grid>
     </>
-  );
+  )
 }
 
 export function TreatmentResourceActions({ treatment, expanded, resource }) {
-  const [openResourceForm, setOpenResourceForm] = useState(false);
+  const [openResourceForm, setOpenResourceForm] = useState(false)
 
   return (
     <>
@@ -133,7 +132,7 @@ export function TreatmentResourceActions({ treatment, expanded, resource }) {
         <AlertDialog
           open={openResourceForm}
           setOpen={setOpenResourceForm}
-          title={"Edit Treatment Resource"}
+          title={'Edit Treatment Resource'}
           message={
             <TreatmentResourceForm
               isEdit
@@ -149,5 +148,5 @@ export function TreatmentResourceActions({ treatment, expanded, resource }) {
         <img src={icons.editIcon} />
       </IconButton>
     </>
-  );
+  )
 }
