@@ -111,12 +111,10 @@ export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
 }
 
 export const deleteTreatmentResource = async ({ id, dataId }) => {
-  console.log(id, dataId)
   try {
-    const docRef = await deleteDoc(
+    await deleteDoc(
       doc(firestore, 'Treatment', 'general', 'list', dataId, 'options', id)
     )
-    return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
