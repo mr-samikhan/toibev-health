@@ -1,24 +1,26 @@
-import React from "react";
-import { Grid, Button, CircularProgress, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { Actions, TreatmentActions } from "./components/Actions";
-import { CustomList } from "../../components/List";
-import AlertDialog from "../../components/AlertDialog";
-import { ProviderForm } from "./components/Forms/ProviderForm";
-import { GroupSessionForm } from "./components/Forms/GroupSessionForm";
-import { MedicationForm } from "./components/Forms/MedicationForm";
-import { TreatmentForm } from "./components/Forms/TreatmentForm";
-import { CustomTabs } from "../../components/Tabs";
-import CustomCard from "../../components/CustomCrad";
-import { useHealth } from "./useHealth";
-import CardListing from "../../components/CardListing";
-import icons from "../../assets";
-import CustomTextfield from "../../components/CustomTextfield";
+import React from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import { Grid, Button, CircularProgress, Typography } from '@mui/material'
+
+//imports
+import icons from '../../assets'
+import { useHealth } from './useHealth'
+import { CustomTabs } from '../../components/Tabs'
+import { CustomList } from '../../components/List'
+import CustomCard from '../../components/CustomCrad'
+import AlertDialog from '../../components/AlertDialog'
+import CardListing from '../../components/CardListing'
+import { TreatmentList } from './components/TreatmentList'
+import { ProviderForm } from './components/Forms/ProviderForm'
+import CustomTextfield from '../../components/CustomTextfield'
+import { TreatmentResourceActions } from './components/Actions'
+import { TreatmentForm } from './components/Forms/TreatmentForm'
+import { Actions, TreatmentActions } from './components/Actions'
+import { MedicationForm } from './components/Forms/MedicationForm'
+import { GroupSessionForm } from './components/Forms/GroupSessionForm'
 import GroupSessionCardActionButton, {
   MedicationCardActionButton,
-} from "./components/CardListActionButton";
-import { TreatmentList } from "./components/TreatmentList";
-import { TreatmentResourceActions } from "./components/Actions";
+} from './components/CardListActionButton'
 
 export function Health() {
   const {
@@ -46,7 +48,7 @@ export function Health() {
     medication,
     treatments,
     mobileMode,
-  } = useHealth({});
+  } = useHealth({})
 
   if (
     isLoadingProviders ||
@@ -62,7 +64,7 @@ export function Health() {
       <Grid container alignItems="center" justifyContent="center">
         <CircularProgress />
       </Grid>
-    );
+    )
   }
 
   return (
@@ -71,7 +73,7 @@ export function Health() {
         <AlertDialog
           open={openAddProvider}
           setOpen={setOpenAddProvider}
-          title={"Add Medication"}
+          title={'Add Medication'}
           message={<ProviderForm setOpen={setOpenAddProvider} />}
         />
       )}
@@ -79,7 +81,7 @@ export function Health() {
         <AlertDialog
           open={openGroupSessionForm}
           setOpen={setOpenGroupSessionForm}
-          title={"Add Group Session"}
+          title={'Add Group Session'}
           message={<GroupSessionForm setOpen={setOpenGroupSessionForm} />}
         />
       )}
@@ -87,7 +89,7 @@ export function Health() {
         <AlertDialog
           open={openMedicationForm}
           setOpen={setOpenMedicationForm}
-          title={"Add Medication"}
+          title={'Add Medication'}
           message={<MedicationForm setOpen={setOpenMedicationForm} />}
         />
       )}
@@ -95,7 +97,7 @@ export function Health() {
         <AlertDialog
           open={openTreatmentForm}
           setOpen={setOpenTreatmentForm}
-          title={"Add Treatment"}
+          title={'Add Treatment'}
           message={<TreatmentForm setOpen={setOpenTreatmentForm} />}
         />
       )}
@@ -104,12 +106,11 @@ export function Health() {
         container
         justifyContent="space-between"
         alignItems="center"
-        sx={{ marginBottom: "16px" }}
+        sx={{ marginBottom: '16px' }}
       >
         <Grid item>
-          {" "}
           <CustomTabs
-            options={["Recovery", "Providers"]}
+            options={['Recovery', 'Providers']}
             setTab={setTab}
             tab={tab}
           />
@@ -123,8 +124,7 @@ export function Health() {
               className="contained-button"
               onClick={handleClick}
             >
-              {" "}
-              {mobileMode ? "" : "Add"}
+              {mobileMode ? '' : 'Add'}
             </Button>
           </Grid>
         )}
@@ -135,7 +135,7 @@ export function Health() {
             <Grid item xs={12} sm={6}>
               <Grid
                 container
-                justifyContent={"space-between"}
+                justifyContent={'space-between'}
                 alignItems="center"
                 mb={1}
               >
@@ -149,8 +149,7 @@ export function Health() {
                   className="contained-button"
                   onClick={() => setOpenGroupSessionForm(true)}
                 >
-                  {" "}
-                  {mobileMode ? "" : "Add Group Sessions"}
+                  {mobileMode ? '' : 'Add Group Sessions'}
                 </Button>
               </Grid>
               <Grid container>
@@ -168,7 +167,7 @@ export function Health() {
             <Grid item xs={12} sm={6}>
               <Grid
                 container
-                justifyContent={"space-between"}
+                justifyContent={'space-between'}
                 alignItems="center"
                 mb={1}
               >
@@ -180,8 +179,7 @@ export function Health() {
                   className="contained-button"
                   onClick={() => setOpenMedicationForm(true)}
                 >
-                  {" "}
-                  {mobileMode ? "" : "Add Medication"}
+                  {mobileMode ? '' : 'Add Medication'}
                 </Button>
               </Grid>
               <Grid container>
@@ -199,7 +197,7 @@ export function Health() {
           <Grid
             item
             container
-            justifyContent={"space-between"}
+            justifyContent={'space-between'}
             alignItems="center"
             mb={1.5}
           >
@@ -211,8 +209,7 @@ export function Health() {
               className="contained-button"
               onClick={() => setOpenTreatmentForm(true)}
             >
-              {" "}
-              {mobileMode ? "" : "Add Treatment"}
+              {mobileMode ? '' : 'Add Treatment'}
             </Button>
           </Grid>
           <Grid item container>
@@ -234,5 +231,5 @@ export function Health() {
         />
       )}
     </>
-  );
+  )
 }
