@@ -1,11 +1,27 @@
 import {
-  updateDoc,
-  addDoc,
+  ref,
   doc,
-  collection,
+  addDoc,
+  storage,
   firestore,
+  updateDoc,
   deleteDoc,
+  collection,
+  uploadBytes,
+  getDownloadURL,
 } from '../../../firebase'
+
+const uploadFile = async (file, path) => {
+  try {
+    const storageRef = ref(storage, path)
+    const snapshot = await uploadBytes(storageRef, file)
+    const url = await getDownloadURL(snapshot.ref)
+    return url
+  } catch (error) {
+    console.error('Error uploading file:', error)
+    throw error
+  }
+}
 
 export const addProvider = async (data) => {
   try {
@@ -76,8 +92,17 @@ export const addTreatment = async (data) => {
     throw errorCode
   }
 }
+
 export const addTreatmentResource = async (data) => {
   try {
+    const { file, fileName } = data.cover_img || {}
+
+    const cover_img = file
+      ? await uploadFile(file, `images/treatment/${fileName}`)
+      : ''
+    const pdfFile = data.pdf
+      ? await uploadFile(data.pdf, `pdfs/treatment/${data.pdf.name}`)
+      : ''
     const docRef = await addDoc(
       collection(
         firestore,
@@ -87,7 +112,15 @@ export const addTreatmentResource = async (data) => {
         data?.id,
         'options'
       ),
-      data
+      {
+        ...data,
+        cover_img,
+        pdf: {
+          fileUrl: pdfFile,
+          fileName: data.pdf?.fileName ?? '',
+          fileSize: data.pdf?.fileSize ?? '',
+        },
+      }
     )
     return docRef
   } catch (error) {
@@ -96,11 +129,35 @@ export const addTreatmentResource = async (data) => {
     throw errorCode
   }
 }
+
 export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
   try {
+    let cover_img = ''
+    let pdf = ''
+    if (rest.cover_img.file) {
+      const { file, fileName } = rest.cover_img || {}
+      const url = await uploadFile(file, `images/treatment/${fileName}`)
+      cover_img = url
+    }
+    if (rest.pdf?.file) {
+      const url = await uploadFile(
+        rest.pdf.file,
+        `pdfs/treatment/${rest.pdf.name}`
+      )
+      pdf = url
+      rest.pdf = {
+        fileUrl: pdf,
+        fileName: rest.pdf?.fileName ?? '',
+        fileSize: rest.pdf?.fileSize ?? '',
+      }
+    }
     const docRef = await updateDoc(
       doc(firestore, 'Treatment', 'general', 'list', dataId, 'options', id),
-      { ...rest }
+      {
+        ...rest,
+        updatedAt: new Date(),
+        cover_img: rest.cover_img.file ? cover_img : rest.cover_img.fileUrl,
+      }
     )
     return docRef
   } catch (error) {
