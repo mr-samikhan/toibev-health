@@ -1,20 +1,25 @@
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import {
+  updateTreatment,
   addTreatmentResource,
   updateTreatmentResource,
   deleteTreatmentResource,
 } from '../actions'
 
 export default function useTreatmentResourceForm({
-  isEdit,
   data,
+  isEdit,
   setOpen,
   initialState,
 }) {
   const { control, handleSubmit, reset } = useForm({
     defaultValues: { ...initialState },
   })
+  const [treatDescription, setTreatDescription] = useState(
+    initialState?.description
+  )
   const queryClient = useQueryClient()
 
   const { isLoading, mutate } = useMutation(
@@ -29,6 +34,12 @@ export default function useTreatmentResourceForm({
       },
     }
   )
+  const { mutate: updateTreat } = useMutation(updateTreatment, {
+    onSuccess: (success) => {},
+    onError: (error) => {
+      console.log(error)
+    },
+  })
 
   const { isLoading: isLoadingDelete, mutate: mutateDeelete } = useMutation(
     deleteTreatmentResource,
@@ -58,13 +69,21 @@ export default function useTreatmentResourceForm({
       : mutate({ ...body, id: data?.id })
   }
 
+  //update description
+  const updateIt = (value, id) => {
+    updateTreat({ ...data, id: id, description: value })
+  }
+
   return {
     isEdit,
     control,
-    onDelete,
     onSubmit,
+    onDelete,
+    updateIt,
     isLoading,
     handleSubmit,
     isLoadingDelete,
+    treatDescription,
+    setTreatDescription,
   }
 }
