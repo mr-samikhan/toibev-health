@@ -10,8 +10,8 @@ const fetchInfo = async (id) => {
 
     querySnapshot.forEach((document) => {
       let treatment = {
-        id: document.id,
         ...document.data(),
+        id: document.id,
       }
       data.push(treatment)
     })

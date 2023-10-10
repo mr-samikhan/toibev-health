@@ -20,7 +20,7 @@ export function Actions({ data }) {
         <AlertDialog
           open={open}
           setOpen={setOpen}
-          title={'Add Medication'}
+          title={'Edit Provider'}
           message={
             <ProviderForm initialState={data} isEdit setOpen={setOpen} />
           }
@@ -42,22 +42,25 @@ export function Actions({ data }) {
       )}
       <Grid container>
         <Grid item sx={{ marginRight: '8px' }}>
-          {' '}
           <IconButton edge="end" onClick={() => setOpenAvailability(true)}>
-            <img src={icons.editCalendarIcon} />
+            <img src={icons.editCalendarIcon} alt="calendar-icon" />
           </IconButton>
         </Grid>
         <Grid item>
-          {' '}
           <IconButton edge="end" onClick={() => setOpen(true)}>
-            <img src={icons.editIcon} />
+            <img src={icons.editIcon} alt="edit-icon" />
           </IconButton>
         </Grid>
       </Grid>
     </>
   )
 }
-export function TreatmentActions({ data, expanded }) {
+export function TreatmentActions({
+  data,
+  expanded,
+  setSelectedId,
+  setTreatDescription,
+}) {
   const [open, setOpen] = useState(false)
   const [openResourceForm, setOpenResourceForm] = useState(false)
 
@@ -87,15 +90,21 @@ export function TreatmentActions({ data, expanded }) {
       <Grid container alignItems="center" columnSpacing={2}>
         {!expanded ? (
           <Grid item>
-            <IconButton edge="end">
-              <img src={icons.editIcon} />
+            <IconButton
+              edge="end"
+              onClick={() => {
+                setSelectedId(data.id)
+                setTreatDescription(data?.description)
+              }}
+            >
+              <img src={icons.editIcon} alt="edit-icon" />
             </IconButton>
           </Grid>
         ) : (
           <>
             <Grid item>
               <IconButton edge="end" onClick={() => setOpen(true)}>
-                <img src={icons.editIcon} />
+                <img src={icons.editIcon} alt="edit-icon" />
               </IconButton>
             </Grid>
             <Grid item>
@@ -145,7 +154,7 @@ export function TreatmentResourceActions({ treatment, expanded, resource }) {
       )}
 
       <IconButton edge="end" onClick={() => setOpenResourceForm(true)}>
-        <img src={icons.editIcon} />
+        <img src={icons.editIcon} alt="edit-icon" />
       </IconButton>
     </>
   )

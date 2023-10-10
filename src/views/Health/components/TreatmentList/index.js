@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Grid from '@mui/material/Grid'
-import { Alert } from '@mui/material'
+import { Alert, CircularProgress } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import Accordion from '@mui/material/Accordion'
@@ -13,6 +13,7 @@ import './list.scss'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import CustomTextfield from '../../../../components/CustomTextfield'
+import useTreatmentResourceForm from '../../hooks/useTreatmentResourceForm'
 import { useGetTreatmentOptions } from '../../../../hooks/useGetTreatmentOptions'
 
 const Paper = styled('div')(({ theme }) => ({
@@ -21,6 +22,10 @@ const Paper = styled('div')(({ theme }) => ({
 
 export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
   const [expanded, setExpanded] = React.useState(false)
+  const [selectedId, setSelectedId] = React.useState(null)
+
+  const { updateIt, treatDescription, setTreatDescription } =
+    useTreatmentResourceForm({})
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
@@ -58,6 +63,8 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                       expandIcon={
                         <Actions
                           data={item}
+                          setSelectedId={setSelectedId}
+                          setTreatDescription={setTreatDescription}
                           expanded={expanded === `panel${index + 1}`}
                         />
                       }
@@ -65,7 +72,7 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                       <Grid container alignItems="center" columnSpacing={2}>
                         <Grid item>
                           <Avatar className={'avatar'}>
-                            <img src={icon ?? item.icon} />
+                            <img src={icon ?? item.icon} alt="icon" />
                           </Avatar>
                         </Grid>
                         <Grid item>
@@ -78,18 +85,27 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                     <AccordionDetails>
                       <Grid container>
                         <Grid item xs={12} mb={2.5}>
-                          <CustomTextfield
-                            multiline
-                            rows={3}
-                            label="MAT Description"
-                          />
+                          {selectedId === item.id && (
+                            <CustomTextfield
+                              multiline
+                              rows={3}
+                              label="MAT Description"
+                              value={treatDescription}
+                              onChange={(e) => {
+                                setTreatDescription(e.target.value)
+                                updateIt(e.target.value, item.id)
+                              }}
+                            />
+                          )}
                         </Grid>
                         <Grid item container columnSpacing={6} rowSpacing={2}>
-                          <TreatmentResource
-                            index={index}
-                            ResourceActions={ResourceActions}
-                            treatment={item}
-                          />
+                          {selectedId === item.id && (
+                            <TreatmentResource
+                              index={index}
+                              treatment={item}
+                              ResourceActions={ResourceActions}
+                            />
+                          )}
                         </Grid>
                       </Grid>
                     </AccordionDetails>
@@ -105,52 +121,66 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
 }
 
 export const TreatmentResource = ({ treatment, ResourceActions }) => {
-  const { data, isLoading } = useGetTreatmentOptions({ id: treatment?.id })
+  const { data, isLoading } = useGetTreatmentOptions({
+    id: treatment?.id,
+  })
+
+  if (isLoading) {
+    return (
+      <Grid container alignItems="center" justifyContent="center">
+        <CircularProgress />
+      </Grid>
+    )
+  }
 
   return (
     <>
-      {isLoading
-        ? 'Loading...'
-        : !data?.length
-        ? 'No data found!'
-        : data?.map((resource, index) => (
-            <Grid item xs={6}>
-              {index !== 0 && index !== 1 && (
-                <div
-                  className="itemDivider"
-                  style={{ marginBottom: '16px' }}
-                ></div>
-              )}
+      {isLoading ? (
+        'Loading...'
+      ) : !data?.length ? (
+        <Typography textAlign="center" width="100%">
+          No data found!
+        </Typography>
+      ) : (
+        data?.map((resource, index) => (
+          <Grid item xs={6}>
+            {index !== 0 && index !== 1 && (
+              <div
+                className="itemDivider"
+                style={{ marginBottom: '16px' }}
+              ></div>
+            )}
 
-              <Grid
-                container
-                justifyContent={'space-between'}
-                alignItems="center"
-              >
-                <Grid item>
-                  <Grid container columnSpacing={1.5} alignItems="center">
-                    <Grid item>
-                      <Avatar className={'avatar-small'}>
-                        <img src={treatment?.icon} />
-                      </Avatar>
-                    </Grid>
-                    <Grid item>
-                      <Typography className="primary-text">
-                        {resource?.title}
-                      </Typography>
-                    </Grid>
+            <Grid
+              container
+              justifyContent={'space-between'}
+              alignItems="center"
+            >
+              <Grid item>
+                <Grid container columnSpacing={1.5} alignItems="center">
+                  <Grid item>
+                    <Avatar className={'avatar-small'}>
+                      <img src={treatment?.icon} alt="treat-icon" />
+                    </Avatar>
+                  </Grid>
+                  <Grid item>
+                    <Typography className="primary-text">
+                      {resource?.title}
+                    </Typography>
                   </Grid>
                 </Grid>
-                <Grid item className="list-action">
-                  <ResourceActions
-                    resource={resource}
-                    treatment={treatment}
-                    data={resource}
-                  />
-                </Grid>
+              </Grid>
+              <Grid item className="list-action">
+                <ResourceActions
+                  resource={resource}
+                  treatment={treatment}
+                  data={resource}
+                />
               </Grid>
             </Grid>
-          ))}
+          </Grid>
+        ))
+      )}
     </>
   )
 }
