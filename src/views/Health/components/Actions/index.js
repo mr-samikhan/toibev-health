@@ -20,7 +20,7 @@ export function Actions({ data }) {
         <AlertDialog
           open={open}
           setOpen={setOpen}
-          title={'Add Medication'}
+          title={'Edit Provider'}
           message={
             <ProviderForm initialState={data} isEdit setOpen={setOpen} />
           }

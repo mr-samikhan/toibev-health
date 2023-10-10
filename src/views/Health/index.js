@@ -73,7 +73,7 @@ export function Health() {
         <AlertDialog
           open={openAddProvider}
           setOpen={setOpenAddProvider}
-          title={'Add Medication'}
+          title={'Add Provider'}
           message={<ProviderForm setOpen={setOpenAddProvider} />}
         />
       )}
