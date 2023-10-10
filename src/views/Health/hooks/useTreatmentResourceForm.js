@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import {
@@ -14,13 +14,34 @@ export default function useTreatmentResourceForm({
   setOpen,
   initialState,
 }) {
-  const { control, handleSubmit, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: { ...initialState },
   })
+
   const [treatDescription, setTreatDescription] = useState(
     initialState?.description
   )
+
+  const [pdf, setPdf] = useState(
+    isEdit
+      ? {
+          fileUrl: initialState?.pdf?.fileUrl || '',
+          fileName: initialState?.pdf?.fileName || '',
+          fileSize: initialState?.pdf?.fileSize || '',
+        }
+      : null
+  )
+
+  const [image, setImage] = useState({
+    fileUrl: initialState?.cover_img || '',
+  })
+
   const queryClient = useQueryClient()
+  const pdfInputRef = useRef(null)
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateTreatmentResource : addTreatmentResource,
@@ -34,6 +55,7 @@ export default function useTreatmentResourceForm({
       },
     }
   )
+
   const { mutate: updateTreat } = useMutation(updateTreatment, {
     onSuccess: (success) => {},
     onError: (error) => {
@@ -62,6 +84,8 @@ export default function useTreatmentResourceForm({
   const onSubmit = (formData) => {
     const body = {
       title: formData?.title,
+      pdf,
+      cover_img: image,
     }
 
     isEdit
@@ -74,16 +98,45 @@ export default function useTreatmentResourceForm({
     updateTreat({ ...data, id: id, description: value })
   }
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    const fileUrl = URL.createObjectURL(file)
+
+    setPdf({
+      file,
+      fileName: file.name,
+      fileSize: `${(file.size / (1024 * 1024)).toFixed(2)}MB`,
+      fileType: file.type,
+      fileUrl,
+    })
+  }
+
+  const handleFileUpload = () => {
+    pdfInputRef.current.click()
+  }
+
+  const handleRemoveFile = () => {
+    setPdf(null)
+  }
+
   return {
+    pdf,
+    image,
+    errors,
     isEdit,
     control,
+    setImage,
     onSubmit,
     onDelete,
     updateIt,
     isLoading,
+    pdfInputRef,
     handleSubmit,
     isLoadingDelete,
     treatDescription,
+    handleFileChange,
+    handleFileUpload,
+    handleRemoveFile,
     setTreatDescription,
   }
 }
