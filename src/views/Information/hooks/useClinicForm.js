@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
 import { addClinic, deleteClinic, updateClinic } from '../actions'
 
 export default function useClinicForm({ initialState, isEdit, setOpen }) {
@@ -18,7 +18,6 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ defaultValues: { ...initialState } })
 
@@ -73,24 +72,28 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
       departments,
     }
 
-    mutate(isEdit ? { ...body, id: initialState?.id } : body)
+    mutate(
+      isEdit
+        ? { ...body, id: initialState?.id, updatedAt: new Date() }
+        : { ...body, createdAt: new Date() }
+    )
   }
 
   return {
     errors,
     control,
-    handleSubmit,
     onSubmit,
-    setSelectedImageOne,
-    setSelectedImageTwo,
-    selectedImageOne,
-    selectedImageTwo,
-    departments,
-    setDepartments,
-    addDepartment,
-    handleChange,
     isLoading,
+    departments,
     mutateDelete,
+    handleSubmit,
+    handleChange,
+    addDepartment,
+    setDepartments,
     isLoadingDelete,
+    selectedImageTwo,
+    selectedImageOne,
+    setSelectedImageTwo,
+    setSelectedImageOne,
   }
 }
