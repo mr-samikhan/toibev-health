@@ -3,38 +3,39 @@ import {
   Grid,
   Button,
   Typography,
-  CircularProgress,
   useMediaQuery,
+  CircularProgress,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import AlertDialog from '../../components/AlertDialog'
+//imports
+import './style.scss'
+import { useInformation } from './useInformation'
 import CustomCard from '../../components/CustomCrad'
 import CardListing from '../../components/CardListing'
-import { useInformation } from './useInformation'
-import CustomTextfield from '../../components/CustomTextfield'
-import ServiceForm from './components/Forms/ServiceForm'
+import AlertDialog from '../../components/AlertDialog'
 import ClinicForm from './components/Forms/ClinicForm'
+import ServiceForm from './components/Forms/ServiceForm'
+import CustomTextfield from '../../components/CustomTextfield'
+import SocialMediaForm from './components/Forms/SocialMediaForm.js'
 import CardActionButton, {
   ClinicCardActionButton,
 } from './components/CardListActionButton'
-import './style.scss'
-import SocialMediaForm from './components/Forms/SocialMediaForm.js'
 
 export function Information() {
   const {
-    description,
-    services,
-    isLoadingServices,
-    isFetchingServices,
-    clinics,
-    isLoadingClinics,
-    isFetchingClinics,
     urls,
     open,
     setOpen,
-    openClinicForm,
-    setOpenClinicForm,
+    clinics,
+    services,
+    description,
     handleChange,
+    openClinicForm,
+    isLoadingClinics,
+    isFetchingClinics,
+    isLoadingServices,
+    isFetchingServices,
+    setOpenClinicForm,
   } = useInformation()
   const mobile = useMediaQuery('(max-width:600px)')
   if (
@@ -82,7 +83,6 @@ export function Information() {
               setOpen(true)
             }}
           >
-            {' '}
             {!mobile && 'Add Service'}
           </Button>
         </Grid>
