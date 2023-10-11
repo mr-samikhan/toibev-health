@@ -1,41 +1,42 @@
-import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import useServiceForm from "../../../hooks/useServiceForm";
-import ImageUploader from "../../../../../components/MediaUpload";
-import InputList from "../../../../../components/InputList";
-import { ReactComponent as AchievementIcon } from "../../../../../assets/icons/achievement.svg";
-import { ReactComponent as ClipboardIcon } from "../../../../../assets/icons/clipboard.svg";
-import { ReactComponent as ServiceIcon } from "../../../../../assets/icons/heart-edit.svg";
-import { ReactComponent as StartIcon } from "../../../../../assets/icons/ranking.svg";
+import React from 'react'
+import { Box, Grid, Typography } from '@mui/material'
+import { Controller } from 'react-hook-form'
+//imports
+import useServiceForm from '../../../hooks/useServiceForm'
+import InputList from '../../../../../components/InputList'
+import CustomButton from '../../../../../components/CustomButton'
+import ImageUploader from '../../../../../components/MediaUpload'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { ReactComponent as StartIcon } from '../../../../../assets/icons/ranking.svg'
+import { ReactComponent as ServiceIcon } from '../../../../../assets/icons/heart-edit.svg'
+import { ReactComponent as ClipboardIcon } from '../../../../../assets/icons/clipboard.svg'
+import { ReactComponent as AchievementIcon } from '../../../../../assets/icons/achievement.svg'
 
 export default function ServiceForm({
-  initialState,
   isEdit,
   setOpen,
   clinics,
+  initialState,
 }) {
   const {
     errors,
-    handleSubmit,
-    onSubmit,
     control,
+    onSubmit,
     isLoading,
-    setSelectedImageOne,
-    setSelectedImageTwo,
-    selectedImageOne,
-    selectedImageTwo,
-    acheivements,
-    setAcheivements,
     services,
+    handleSubmit,
     setServices,
     mutateDelete,
-    isLoadingDelete,
-    clinicOptions,
+    acheivements,
     checkKeyDown,
-  } = useServiceForm({ initialState, isEdit, setOpen, clinics });
+    clinicOptions,
+    setAcheivements,
+    selectedImageOne,
+    isLoadingDelete,
+    selectedImageTwo,
+    setSelectedImageTwo,
+    setSelectedImageOne,
+  } = useServiceForm({ initialState, isEdit, setOpen, clinics })
 
   return (
     <Box
@@ -45,78 +46,75 @@ export default function ServiceForm({
     >
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="title"
             control={control}
-            rules={{ required: "Service name is required" }}
+            rules={{ required: 'Service name is required' }}
             render={({ field }) => (
               <CustomTextfield
-                label="Service Name"
-                placeholder="Enter service name"
-                error={errors.serviceName}
-                errorMessage={errors?.serviceName?.message}
-                EndIcon={ServiceIcon}
                 {...field}
+                label="Service Name"
+                error={errors.title}
+                EndIcon={ServiceIcon}
+                placeholder="Enter service name"
+                errorMessage={errors?.title?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="clinic"
             control={control}
-            rules={{ required: "Clinic is required" }}
+            rules={{ required: 'Clinic is required' }}
             render={({ field }) => (
               <CustomTextfield
-                label="Select Clinic"
-                placeholder="Select Clinic"
-                error={errors.clinic}
-                errorMessage={errors?.clinic?.message}
                 select
-                options={clinicOptions}
                 {...field}
+                label="Select Clinic"
+                options={clinicOptions}
+                error={errors.clinic}
+                placeholder="Select Clinic"
+                errorMessage={errors?.clinic?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="who_we_are"
             control={control}
-            rules={{ required: "Field is required" }}
+            rules={{ required: 'Bio is required' }}
             render={({ field }) => (
               <CustomTextfield
-                multiline={true}
                 rows={7}
-                label="Who we are"
-                placeholder="Enter short bio"
-                error={errors.bio}
-                errorMessage={errors?.bio?.message}
-                EndIcon={ClipboardIcon}
                 {...field}
+                multiline={true}
+                label="Who we are"
+                EndIcon={ClipboardIcon}
+                placeholder="Enter short bio"
+                error={errors.who_we_are}
+                errorMessage={errors?.who_we_are?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
           <InputList
-            label="Our Awards and Acheivements"
-            placeholder={"Enter list of achievements (press enter after each)"}
-            Icon={AchievementIcon}
             list={acheivements}
+            Icon={AchievementIcon}
             setList={setAcheivements}
+            label="Our Awards and Acheivements"
+            placeholder={'Enter list of achievements (press enter after each)'}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
           <InputList
-            label="What we offer"
-            placeholder="Enter list of services offered (press enter after each)"
             Icon={StartIcon}
             list={services}
+            label="What we offer"
             setList={setServices}
+            placeholder="Enter list of services offered (press enter after each)"
           />
         </Grid>
         <Grid item xs={12} mb={3}>
@@ -142,7 +140,7 @@ export default function ServiceForm({
         </Grid>
         <Grid item xs={12} mb={2}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Loading" : isEdit ? "Edit Service" : "Add Service"}
+            {isLoading ? 'Loading' : isEdit ? 'Edit Service' : 'Add Service'}
           </CustomButton>
         </Grid>
         {isEdit && (
@@ -151,11 +149,11 @@ export default function ServiceForm({
               variant="outlined"
               onClick={() => mutateDelete(initialState?.id)}
             >
-              {isLoadingDelete ? "Loading" : "Delete Service"}
+              {isLoadingDelete ? 'Loading' : 'Delete Service'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }
