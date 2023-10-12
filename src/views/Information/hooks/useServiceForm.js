@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
+//imports
+import { getErrorMessage } from '../../Login/utils'
+import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addService, deleteService, updateService } from '../actions'
 
 export default function useServiceForm({
@@ -9,12 +13,14 @@ export default function useServiceForm({
   setOpen,
   initialState,
 }) {
+  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+
   const clinicOptions = clinics.map((clinic) => ({
     label: clinic?.title,
     value: clinic?.title,
   }))
 
-  const queryClient = useQueryClient()
   const [selectedImageOne, setSelectedImageOne] = useState({
     fileUrl: initialState?.images[0] || '',
   })
@@ -36,11 +42,30 @@ export default function useServiceForm({
     isEdit ? updateService : addService,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-services')
+        dispatch(
+          setAlertValues({
+            type: 'success',
+            message: isEdit
+              ? 'Service updated successfully'
+              : 'Service added successfully',
+            isOpen: true,
+          })
+        )
+
+        setTimeout(() => {
+          setOpen(false)
+          queryClient.invalidateQueries('get-all-services')
+        }, 3000)
       },
       onError: (error) => {
-        console.log(error)
+        const err = getErrorMessage(error)
+        dispatch(
+          setAlertValues({
+            type: 'error',
+            isOpen: true,
+            message: err || 'Something went wrong!',
+          })
+        )
       },
     }
   )
@@ -49,11 +74,26 @@ export default function useServiceForm({
     deleteService,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-services')
+        dispatch(
+          setAlertValues({
+            type: 'success',
+            isOpen: true,
+            message: 'Service deleted successfully',
+          })
+        )
+        return setTimeout(() => {
+          queryClient.invalidateQueries('get-all-services')
+        }, 3000)
       },
       onError: (error) => {
-        console.log(error)
+        const err = getErrorMessage(error)
+        return dispatch(
+          setAlertValues({
+            type: 'error',
+            message: err || 'Something went wrong!',
+            isOpen: true,
+          })
+        )
       },
     }
   )

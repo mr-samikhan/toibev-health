@@ -38,9 +38,12 @@ export const addAdmin = async (data) => {
   })
 }
 
-export const updateAdmin = async (data) => {
+export const updateAdmin = async ({ data, emailCheck }) => {
   return new Promise(async (resolve, reject) => {
     try {
+      if (emailCheck) {
+        return reject('auth/email-already-in-use')
+      }
       const docRef = await updateDoc(doc(firestore, 'Admins', data.id), data)
       // console.log("Document written with ID: ", docRef.id);
       resolve(docRef)

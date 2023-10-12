@@ -3,33 +3,47 @@ import { useMutation, useQueryClient } from 'react-query'
 
 //imports
 import { deleteAdmin } from '../actions'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useDeleteAdmin({ data, setShowAlert }) {
   const queryClient = useQueryClient()
   const { handleSubmit } = useForm()
+  const dispatch = useDispatch()
 
   const { user } = useSelector((state) => state?.Auth) ?? {}
 
-  const { isLoading, mutate } = useMutation(deleteAdmin, {
-    onSuccess: () => {
-      setShowAlert({
-        open: true,
+  //success
+  const onSuccess = () => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        isOpen: true,
         message: 'Admin deleted successfully',
       })
-      setTimeout(() => {
-        queryClient.invalidateQueries('get-all-admins')
-      }, 2000)
-    },
-    onError: (error) =>
-      setShowAlert({
-        open: true,
-        isError: true,
-        message:
-          error === 'permission-error'
-            ? 'You don`t have permission to delete Adminsitrator!'
-            : 'Something went wrong',
-      }),
+    )
+
+    setTimeout(() => {
+      queryClient.invalidateQueries('get-all-admins')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
+  const { isLoading, mutate } = useMutation(deleteAdmin, {
+    onSuccess: () => onSuccess(),
+    onError: (error) => onError(error),
   })
 
   const onSubmit = () => {

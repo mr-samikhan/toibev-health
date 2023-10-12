@@ -6,19 +6,11 @@ import icons from '../../../../assets'
 import AddAdminForm from '../Forms/AddAdminForm'
 import DeleteAdminForm from '../Forms/DeleteAdminForm'
 import AlertDialog from '../../../../components/AlertDialog'
-import MuiSnackbar from '../../../../components/MuiSnackbar/MuiSnackbar'
 
-export function Actions({ data }) {
+export function Actions({ data, admins }) {
   const [open, setOpen] = useState(false)
 
-  const [showAlert, setShowAlert] = useState({
-    open: false,
-    message: '',
-    isError: false,
-  })
   const [openDeleteAdminForm, setOpenDeleteAdminForm] = useState(false)
-
-  const handleClose = () => setShowAlert((prev) => ({ ...prev, open: false }))
 
   return (
     <>
@@ -31,8 +23,8 @@ export function Actions({ data }) {
             <AddAdminForm
               isEdit
               data={data}
+              admins={admins}
               setOpen={setOpen}
-              setShowAlert={setShowAlert}
             />
           }
         />
@@ -43,7 +35,7 @@ export function Actions({ data }) {
           title="Delete Admin"
           open={openDeleteAdminForm}
           setOpen={setOpenDeleteAdminForm}
-          message={<DeleteAdminForm data={data} setShowAlert={setShowAlert} />}
+          message={<DeleteAdminForm data={data} />}
         />
       )}
       <Grid container justifyContent="flex-end">
@@ -58,14 +50,6 @@ export function Actions({ data }) {
           </IconButton>
         </Grid>
       </Grid>
-      {showAlert.open && (
-        <MuiSnackbar
-          open={showAlert.open}
-          setOpen={handleClose}
-          isError={showAlert.isError}
-          message={showAlert?.message}
-        />
-      )}
     </>
   )
 }

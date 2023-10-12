@@ -1,18 +1,32 @@
 import React from 'react'
 import { Alert, Snackbar } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 
 const MuiSnackbar = (props) => {
-  const { open, setOpen, message, isError } = props || {}
+  // const { open, message, isError } = props || {}
 
-  const handleClose = () => setOpen(false)
+  const { alert } = useSelector((state) => state.CommonReducer)
+  const { isOpen, message, type } = alert
 
-  let severity = isError ? 'error' : 'success'
+  const dispatch = useDispatch()
+  const handleClose = () => {
+    dispatch({
+      type: 'HIDE_ALERT',
+      payload: {
+        type: '',
+        message: '',
+        isOpen: false,
+      },
+    })
+  }
+
+  let severity = type === 'error' ? 'error' : 'success'
 
   return (
     <Snackbar
-      open={Boolean(open)}
+      open={Boolean(isOpen)}
       onClose={handleClose}
-      autoHideDuration={3000}
+      autoHideDuration={2000}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     >
       <Alert

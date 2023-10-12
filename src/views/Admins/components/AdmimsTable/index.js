@@ -1,36 +1,31 @@
-import React from "react";
-import {
-  Avatar,
-  Grid,
-  Typography,
-  useMediaQuery,
-  Divider,
-} from "@mui/material";
-import { Actions } from "../ActionButtons";
+import React from 'react'
+import { Avatar, Grid, Typography, useMediaQuery, Divider } from '@mui/material'
+import { Actions } from '../ActionButtons'
 
 const tableHeaders = [
   {
-    label: "Username",
-    key: "username",
+    label: 'Username',
+    key: 'username',
   },
   {
-    label: "Email Address",
-    key: "email",
+    label: 'Email Address',
+    key: 'email',
   },
   {
-    label: "Permission Level",
-    key: "permissionLevel",
+    label: 'Permission Level',
+    key: 'permissionLevel',
   },
   {
-    label: "",
-    key: "actions",
+    label: '',
+    key: 'actions',
   },
-];
+]
 
 function SingleAdminSmall({
-  name = "Chop Dawg",
-  email = "partner@chopdawg.com",
-  level = "Moderator",
+  name = 'Chop Dawg',
+  email = 'partner@chopdawg.com',
+  level = 'Moderator',
+  admins,
 }) {
   return (
     <Grid container className="row">
@@ -49,16 +44,16 @@ function SingleAdminSmall({
           </Grid>
 
           <Grid item mb={1}>
-            <Actions />
+            <Actions admins={admins} />
           </Grid>
         </Grid>
         <Divider className="divider" />
         <Grid item ml={6} mt={1}>
           <Typography className="level">
-            Permission Level:{" "}
+            Permission Level:{' '}
             <Typography
-              component={"span"}
-              sx={{ color: "#000 !important" }}
+              component={'span'}
+              sx={{ color: '#000 !important' }}
               className="level"
             >
               {level}
@@ -67,11 +62,11 @@ function SingleAdminSmall({
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }
 
-function SingleAdmin({ admin }) {
-  const { username, email, permissionLevel } = admin;
+function SingleAdmin({ admin, admins }) {
+  const { username, email, permissionLevel } = admin
   return (
     <Grid container className="row">
       <Grid
@@ -80,15 +75,15 @@ function SingleAdmin({ admin }) {
         justifyContent="space-between"
         alignItems="center"
         className="wrapper"
-        sx={{ flexWrap: "nowrap" }}
+        sx={{ flexWrap: 'nowrap' }}
       >
         <Grid item sm={3} pr={1}>
           <Grid container alignItems="center" flexWrap="nowrap">
             <Grid item>
-              <Avatar className={"avatar"} />
+              <Avatar className={'avatar'} />
             </Grid>
-            <Grid item sx={{ overflow: "hidden" }}>
-              <Typography className={"text text-overflow"}>
+            <Grid item sx={{ overflow: 'hidden' }}>
+              <Typography className={'text text-overflow'}>
                 {username}
               </Typography>
             </Grid>
@@ -105,13 +100,14 @@ function SingleAdmin({ admin }) {
 
         <Grid item sm={3}>
           <Actions
+            admins={admins}
             data={{
               permissionLevel: {
                 value: permissionLevel,
                 label:
-                  permissionLevel === "moderator"
-                    ? "Moderator"
-                    : "Administrator",
+                  permissionLevel === 'moderator'
+                    ? 'Moderator'
+                    : 'Administrator',
               },
               ...admin,
             }}
@@ -119,14 +115,14 @@ function SingleAdmin({ admin }) {
         </Grid>
       </Grid>
     </Grid>
-  );
+  )
 }
 
 export default function AdminsTable({ admins }) {
-  const matches = useMediaQuery("(max-width: 600px)");
+  const matches = useMediaQuery('(max-width: 600px)')
 
   return matches ? (
-    admins?.map((admin) => <SingleAdminSmall admin={admin} />)
+    admins?.map((admin) => <SingleAdminSmall admin={admin} admins={admins} />)
   ) : (
     <Grid>
       <Grid
@@ -135,12 +131,12 @@ export default function AdminsTable({ admins }) {
         container
         className="table-header"
         justifyContent="space-between"
-        sx={{ flexWrap: "nowrap" }}
+        sx={{ flexWrap: 'nowrap' }}
       >
         {tableHeaders?.map((header) => (
           <Grid item className="item" key={header.key} xs={3} pr={1}>
             <Typography
-              ml={header?.key === "username" ? 8.5 : 0}
+              ml={header?.key === 'username' ? 8.5 : 0}
               className="text-overflow"
             >
               {header.label}
@@ -150,9 +146,9 @@ export default function AdminsTable({ admins }) {
       </Grid>
       <Grid container mt={2.5}>
         {admins?.map((admin) => (
-          <SingleAdmin admin={admin} />
+          <SingleAdmin admin={admin} admins={admins} />
         ))}
       </Grid>
     </Grid>
-  );
+  )
 }

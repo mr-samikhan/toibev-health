@@ -1,34 +1,36 @@
-import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import ImageUploader from "../../../../../components/MediaUpload";
-import useClinicForm from "../../../hooks/useClinicForm";
-import { ReactComponent as SMSIcon } from "../../../../../assets/icons/sms.svg";
-import { ReactComponent as ButterflyIcon } from "../../../../../assets/icons/butterfly.svg";
-import { ReactComponent as LocationIcon } from "../../../../../assets/icons/location.svg";
-import { ReactComponent as PhoneIcon } from "../../../../../assets/icons/phone.svg";
-import { ReactComponent as DepartmentIcon } from "../../../../../assets/icons/tag-user.svg";
-import "./style.scss";
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { Box, Grid, Typography } from '@mui/material'
+
+//imports
+import './style.scss'
+import useClinicForm from '../../../hooks/useClinicForm'
+import ImageUploader from '../../../../../components/MediaUpload'
+import CustomButton from '../../../../../components/CustomButton'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { ReactComponent as SMSIcon } from '../../../../../assets/icons/sms.svg'
+import { ReactComponent as PhoneIcon } from '../../../../../assets/icons/phone.svg'
+import { ReactComponent as LocationIcon } from '../../../../../assets/icons/location.svg'
+import { ReactComponent as ButterflyIcon } from '../../../../../assets/icons/butterfly.svg'
+import { ReactComponent as DepartmentIcon } from '../../../../../assets/icons/tag-user.svg'
 
 export default function ClinicForm({ initialState, isEdit, setOpen }) {
   const {
     errors,
-    handleSubmit,
-    onSubmit,
     control,
+    onSubmit,
     isLoading,
-    setSelectedImageOne,
-    setSelectedImageTwo,
+    departments,
+    handleChange,
+    mutateDelete,
+    handleSubmit,
+    addDepartment,
+    isLoadingDelete,
     selectedImageOne,
     selectedImageTwo,
-    departments,
-    addDepartment,
-    handleChange,
-    isLoadingDelete,
-    mutateDelete,
-  } = useClinicForm({ setOpen, initialState, isEdit });
+    setSelectedImageOne,
+    setSelectedImageTwo,
+  } = useClinicForm({ setOpen, initialState, isEdit })
   return (
     <Box
       component="form"
@@ -37,55 +39,52 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
     >
       <Grid container>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="title"
             control={control}
-            rules={{ required: "Clinic name is required" }}
+            rules={{ required: 'Clinic name is required' }}
             render={({ field }) => (
               <CustomTextfield
-                label="Clinic Name"
-                placeholder="Enter clinic name"
-                error={errors.title}
-                errorMessage={errors?.title?.message}
-                EndIcon={ButterflyIcon}
                 {...field}
+                label="Clinic Name"
+                error={errors.title}
+                EndIcon={ButterflyIcon}
+                placeholder="Enter clinic name"
+                errorMessage={errors?.title?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="address"
             control={control}
-            rules={{ required: "Clinic Address is required" }}
+            rules={{ required: 'Clinic Address is required' }}
             render={({ field }) => (
               <CustomTextfield
-                label="Clinic Address"
-                placeholder="Enter clinic's address"
-                error={errors.address}
-                errorMessage={errors?.address?.message}
-                EndIcon={LocationIcon}
                 {...field}
+                label="Clinic Address"
+                EndIcon={LocationIcon}
+                error={errors.address}
+                placeholder="Enter clinic's address"
+                errorMessage={errors?.address?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
             name="email"
             control={control}
-            rules={{ required: "Clinic Email is required" }}
+            rules={{ required: 'Clinic Email is required' }}
             render={({ field }) => (
               <CustomTextfield
-                label="Clinic Email Address"
-                placeholder="Enter clinic’s email address"
-                error={errors.email}
-                errorMessage={errors?.email?.message}
-                EndIcon={SMSIcon}
                 {...field}
+                EndIcon={SMSIcon}
+                error={errors.email}
+                label="Clinic Email Address"
+                errorMessage={errors?.email?.message}
+                placeholder="Enter clinic’s email address"
               />
             )}
           />
@@ -110,7 +109,7 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
                     placeholder="Enter department name"
                     value={department.name}
                     onChange={(e) => {
-                      handleChange(e, index, "name");
+                      handleChange(e, index, 'name')
                     }}
                     EndIcon={DepartmentIcon}
                   />
@@ -122,19 +121,18 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
                       placeholder="Enter phone"
                       value={department.phone1}
                       onChange={(e) => {
-                        handleChange(e, index, "phone1");
+                        handleChange(e, index, 'phone1')
                       }}
                       EndIcon={PhoneIcon}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    {" "}
                     <CustomTextfield
                       label="Phone 2 (optional)"
                       placeholder="Enter phone"
                       value={department.phone2}
                       onChange={(e) => {
-                        handleChange(e, index, "phone2");
+                        handleChange(e, index, 'phone2')
                       }}
                       EndIcon={PhoneIcon}
                     />
@@ -174,7 +172,7 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Loading" : isEdit ? "Edit Clinic" : "Add Clinic"}
+            {isLoading ? 'Loading...' : isEdit ? 'Edit Clinic' : 'Add Clinic'}
           </CustomButton>
         </Grid>
         {isEdit && (
@@ -183,11 +181,11 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
               variant="outlined"
               onClick={() => mutateDelete(initialState?.id)}
             >
-              {isLoadingDelete ? "Loading" : "Delete Clinic"}
+              {isLoadingDelete ? 'Loading...' : 'Delete Clinic'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }
