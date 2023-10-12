@@ -1,5 +1,9 @@
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
+
+import { getErrorMessage } from '../../Login/utils'
+import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addAdmin, updateAdmin, sendResetPasswordEmail } from '../actions'
 
 const radioOptions = [
@@ -7,13 +11,14 @@ const radioOptions = [
   { value: 'moderator', label: 'Moderator' },
 ]
 
-export default function useAddAdmin({ isEdit, data, setOpen, setShowAlert }) {
+export default function useAddAdmin({ isEdit, data, setOpen, admins }) {
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
 
   const {
     control,
-    handleSubmit,
     setError,
+    handleSubmit,
     formState: { errors },
     watch,
   } = useForm({
@@ -24,55 +29,65 @@ export default function useAddAdmin({ isEdit, data, setOpen, setShowAlert }) {
     },
   })
 
+  //success
+  const onSuccess = ({ isDelete, message }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Admin deleted successfully'
+          : isEdit
+          ? message || 'Admin updated successfully'
+          : 'Admin added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-all-admins')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
   const { email } = watch()
+  let emailCheck =
+    isEdit &&
+    admins?.some((admin) => admin?.id !== data?.id && admin?.email === email)
 
   const { isLoading, mutate } = useMutation(isEdit ? updateAdmin : addAdmin, {
     onSuccess: (success) => {
-      setOpen(false)
-      setShowAlert({
-        open: true,
-        message: isEdit
-          ? 'Admin updated successfully'
-          : 'Admin added successfully',
-      })
-      setTimeout(() => {
-        queryClient.invalidateQueries('get-all-admins')
-      }, 2000)
+      onSuccess({ isDelete: false })
     },
     onError: (error) => {
       if (error === 'auth/email-already-in-use') {
         setError('email', { message: 'Email already in use' })
       }
-      setShowAlert({
-        open: true,
-        isError: true,
-        message:
-          error === 'auth/email-already-in-use'
-            ? 'Email already in use'
-            : 'Something went wrong',
-      })
+      onError(error)
     },
   })
 
   const { isLoading: isLoadingResetPassword, mutate: mutateResetPassword } =
     useMutation(sendResetPasswordEmail, {
       onSuccess: (success) => {
-        setOpen(false)
-        setShowAlert({
-          open: true,
-          message: 'Password reset email sent successfully',
+        onSuccess({
+          isDelete: false,
+          message: 'Reset password email sent successfully',
         })
-        setTimeout(() => {
-          queryClient.invalidateQueries('get-all-admins')
-        }, 2000)
       },
       onError: (error) => {
-        setShowAlert({
-          open: true,
-          isError: true,
-          message: 'Something went wrong',
-        })
-        console.log(error)
+        onError(error)
       },
     })
 
@@ -82,7 +97,12 @@ export default function useAddAdmin({ isEdit, data, setOpen, setShowAlert }) {
       setError('confirmPassword', { message: 'Passwords do not match' })
       return
     }
-    isEdit ? mutate({ ...data, id: data.id }) : mutate({ ...data })
+    isEdit
+      ? mutate({
+          data: { ...data, id: data.id, updatedAt: new Date() },
+          emailCheck,
+        })
+      : mutate({ ...data, createdAt: new Date() })
   }
 
   return {
