@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
+//imports
+import { getErrorMessage } from '../../Login/utils'
 import { addClinic, deleteClinic, updateClinic } from '../actions'
+import { setAlertValues } from '../../../redux/actions/loginActions'
 
 export default function useClinicForm({ initialState, isEdit, setOpen }) {
+  const dispatch = useDispatch()
   const queryClient = useQueryClient()
+
   const [selectedImageOne, setSelectedImageOne] = useState({
     fileUrl: initialState?.images[0] || '',
   })
@@ -21,13 +27,45 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
     formState: { errors },
   } = useForm({ defaultValues: { ...initialState } })
 
-  const { isLoading, mutate } = useMutation(isEdit ? updateClinic : addClinic, {
-    onSuccess: (success) => {
+  //success
+  const onSuccess = ({ isDelete, callBack }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Clinic deleted successfully'
+          : isEdit
+          ? 'Clinic updated successfully'
+          : 'Clinic added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
       setOpen(false)
       queryClient.invalidateQueries('get-all-clinics')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
+  const { isLoading, mutate } = useMutation(isEdit ? updateClinic : addClinic, {
+    onSuccess: (success) => {
+      onSuccess({ isDelete: false })
     },
     onError: (error) => {
-      console.log(error)
+      const err = getErrorMessage(error)
+      onError(err)
     },
   })
 
@@ -35,11 +73,11 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
     deleteClinic,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-clinics')
+        onSuccess({ isDelete: true })
       },
       onError: (error) => {
-        console.log(error)
+        const err = getErrorMessage(error)
+        onError(err)
       },
     }
   )
