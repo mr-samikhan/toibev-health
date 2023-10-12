@@ -9,21 +9,12 @@ import './style.scss'
 import AlertDialog from '../../components/AlertDialog'
 import { useGetAdmins } from '../../hooks/useGetAdmins'
 import AddAdminForm from './components/Forms/AddAdminForm'
-import MuiSnackbar from '../../components/MuiSnackbar/MuiSnackbar'
 
 export function Admins() {
   const matches = useMediaQuery('(max-width: 600px)')
 
   const [open, setOpen] = useState(false)
   const { admins, isLoading, isFetching } = useGetAdmins({})
-
-  const [showAlert, setShowAlert] = useState({
-    open: false,
-    message: '',
-    isError: false,
-  })
-
-  const handleClose = () => setShowAlert((prev) => ({ ...prev, open: false }))
 
   return (
     <>
@@ -32,9 +23,7 @@ export function Admins() {
           open={open}
           setOpen={setOpen}
           title="Add Admin"
-          message={
-            <AddAdminForm setOpen={setOpen} setShowAlert={setShowAlert} />
-          }
+          message={<AddAdminForm setOpen={setOpen} />}
         />
       )}
       <Grid
@@ -61,14 +50,6 @@ export function Admins() {
         </Grid>
       ) : (
         <AdminsTable admins={admins} />
-      )}
-      {showAlert.open && (
-        <MuiSnackbar
-          open={showAlert.open}
-          setOpen={handleClose}
-          isError={showAlert.isError}
-          message={showAlert?.message}
-        />
       )}
     </>
   )
