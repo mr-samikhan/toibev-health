@@ -16,7 +16,13 @@ import {
   atleastOneIntegerandOneCharacter,
 } from '../../../../../utils/validators'
 
-export default function AddAdminForm({ isEdit, data, setOpen, setShowAlert }) {
+export default function AddAdminForm({
+  isEdit,
+  data,
+  setOpen,
+  setShowAlert,
+  admins,
+}) {
   const {
     control,
     errors,
@@ -32,6 +38,7 @@ export default function AddAdminForm({ isEdit, data, setOpen, setShowAlert }) {
     data,
     setOpen,
     setShowAlert,
+    admins,
   })
 
   return (
