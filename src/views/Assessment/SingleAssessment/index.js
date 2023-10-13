@@ -1,29 +1,28 @@
-import React, { useState } from 'react'
-import { Grid, Typography } from '@mui/material'
+import React from 'react'
 import { Button } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import { Grid, Typography } from '@mui/material'
+//imports
+import { CustomList } from '../../../components/List'
 import AlertDialog from '../../../components/AlertDialog'
 import QuestionForm from '../components/Forms/QuestionForm'
 import ConditionForm from '../components/Forms/ConditionForm'
-import { useLocation } from 'react-router-dom'
-import { CustomList } from '../../../components/List'
-import { useGetSingleAssessment } from '../../../hooks/useGetAssessmentQuestions'
-import {
-  SingleAssessmentActionButtons,
-  ConditionActionButtons,
-} from '../components/ActionButtons'
 import useSingleAssessment from '../hooks/useSingleAssessment'
+import {
+  ConditionActionButtons,
+  SingleAssessmentActionButtons,
+} from '../components/ActionButtons'
 
 export default function SingleAssessment() {
   const {
     questions,
-    openQusetion,
-    setOpenQuestion,
-    openCondition,
-    setOpenCondition,
     isLoading,
     isFetching,
     conditions,
+    openQusetion,
+    openCondition,
+    setOpenQuestion,
+    setOpenCondition,
     isLoadingConditions,
     isFetchingConditions,
   } = useSingleAssessment({})
