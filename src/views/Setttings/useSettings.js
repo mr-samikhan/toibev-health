@@ -1,58 +1,63 @@
-import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation } from 'react-query'
+import { useDispatch, useSelector } from 'react-redux'
 //imports
 import { getErrorMessage } from '../Login/utils'
 import { updateUserEmailAndPassword } from './actions'
+import { setAlertValues } from '../../redux/actions/loginActions'
 
 export default function useSettings() {
-  const queryClient = useQueryClient()
+  const dispatch = useDispatch()
 
   const { user } = useSelector((state) => state?.Auth) ?? {}
 
-  const [showAlert, setShowAlert] = React.useState({
-    open: false,
-    message: '',
-    isError: false,
-  })
+  //success
+  const onSuccess = () => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        isOpen: true,
+        message: 'Account updated successfully',
+      })
+    )
+  }
 
-  //open snackbar
-  const onShowSnackBar = () =>
-    setShowAlert((prev) => ({
-      ...prev,
-      open: true,
-      isError: false,
-      message: 'Account updated successfully!',
-    }))
-
-  //close snackbar
-  const onCloseSnackBar = () =>
-    setShowAlert((prev) => ({ ...prev, open: false }))
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
 
   const {
     control,
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+    watch,
+  } = useForm({
+    defaultValues: { ...user, fullname: user?.username },
+  })
+
+  const fullname = watch('fullname')
+  const email = watch('email')
 
   //mutate
   const { isLoading, mutate } = useMutation(updateUserEmailAndPassword, {
     onSuccess: (success) => {
-      onShowSnackBar()
-      queryClient.invalidateQueries('update-user-credentails')
-      // console.log(success, '>>>>success')
+      onSuccess()
+      dispatch({
+        type: 'UPDATE_USER',
+        payload: { username: fullname, email: email },
+      })
     },
     onError: (error) => {
-      const err = getErrorMessage(error)
-      setShowAlert((prev) => ({
-        ...prev,
-        open: true,
-        isError: true,
-        message: err,
-      }))
-      return err
+      onError(error)
       // console.log(err, '>>>>error')
     },
   })
@@ -64,11 +69,12 @@ export default function useSettings() {
       return
     }
     mutate({
+      id: user.id,
       oldEmail: '',
       newEmail: data.email,
       newPassword: 'Abcd@123',
+      username: data.fullname,
       oldPassword: data.password,
-      id: user.id,
     })
   }
 
@@ -79,9 +85,6 @@ export default function useSettings() {
     control,
     onSubmit,
     isLoading,
-    showAlert,
     handleSubmit,
-    setShowAlert,
-    onCloseSnackBar,
   }
 }
