@@ -1,20 +1,21 @@
-import React from "react";
-import { Box, Grid } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import CustomButton from "../../../../../components/CustomButton";
-import useConditionForm from "../../../hooks/useConditionForm";
+import React from 'react'
+import { Box, Grid } from '@mui/material'
+import { Controller } from 'react-hook-form'
+//imports
+import useConditionForm from '../../../hooks/useConditionForm'
+import CustomButton from '../../../../../components/CustomButton'
+import CustomTextfield from '../../../../../components/CustomTextfield'
 
 export default function AddConditionForm(props) {
   const {
     control,
-    handleSubmit,
     onSubmit,
-    correctPercentageOptions,
-    conditionType,
     isLoading,
+    handleSubmit,
+    conditionType,
     displayInfoOptions,
-  } = useConditionForm(props);
+    correctPercentageOptions,
+  } = useConditionForm(props)
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -25,16 +26,16 @@ export default function AddConditionForm(props) {
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                select
+                {...field}
                 label="Correct %"
                 placeholder="% Range"
-                select
                 options={correctPercentageOptions}
-                {...field}
               />
             )}
           />
         </Grid>
-        {conditionType === "range" ? (
+        {conditionType === 'range' ? (
           <Grid item container xs={12} mb={3} spacing={2}>
             <Grid item xs={6}>
               <Controller
@@ -42,9 +43,9 @@ export default function AddConditionForm(props) {
                 control={control}
                 render={({ field }) => (
                   <CustomTextfield
+                    {...field}
                     label="Start %"
                     placeholder="Eg. 10%"
-                    {...field}
                   />
                 )}
               />
@@ -55,15 +56,15 @@ export default function AddConditionForm(props) {
                 control={control}
                 render={({ field }) => (
                   <CustomTextfield
+                    {...field}
                     label="End %"
                     placeholder="Eg. 50%"
-                    {...field}
                   />
                 )}
               />
             </Grid>
           </Grid>
-        ) : conditionType === "lesser" ? (
+        ) : conditionType === 'lesser' ? (
           <Grid item xs={12} mb={3}>
             <Controller
               name="lesserThan"
@@ -85,27 +86,27 @@ export default function AddConditionForm(props) {
           </Grid>
         )}
         <Grid item xs={12} mb={3}>
-          {" "}
+          {' '}
           <Controller
             name="display"
             control={control}
             render={({ field }) => (
               <CustomTextfield
-                label="Display"
-                placeholder="Select Info to be display"
                 select
-                options={displayInfoOptions}
                 {...field}
+                label="Display"
+                options={displayInfoOptions}
+                placeholder="Select Info to be display"
               />
             )}
           />
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Loading" : "Save Condition"}
+            {isLoading ? 'Loading...' : 'Save Condition'}
           </CustomButton>
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }
