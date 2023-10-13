@@ -1,86 +1,124 @@
-import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { useForm } from "react-hook-form";
-import { addQuestion, updateAssessment, updateQuestion } from "../actions";
-import { useLocation } from "react-router-dom";
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+import { useMutation, useQueryClient } from 'react-query'
+import { addQuestion, updateQuestion } from '../actions'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useQuestionForm({ isEdit, setOpen, initialState }) {
-  console.log(initialState);
-  const queryClient = useQueryClient();
-  const { state: assessment } = useLocation();
-  // const { singleAssessment: assessment } = useSingleAssessment({});
+  const queryClient = useQueryClient()
+  const dispatch = useDispatch()
+  const { state: assessment } = useLocation()
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { ...initialState } });
-  const [answers, setAnswers] = useState(initialState?.answers ?? []);
+  } = useForm({ defaultValues: { ...initialState } })
+  const [answers, setAnswers] = useState(initialState?.answers ?? [])
+
+  //success
+  const onSuccess = ({ isDelete, callBack }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Question deleted successfully'
+          : isEdit
+          ? 'Question updated successfully'
+          : 'Question added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-assessment-questions')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-assessment-questions')
+    }, 3000)
+  }
 
   const handleAddAnswer = () => {
     setAnswers([
       ...answers,
-      { id: ++answers.length, isCorrect: false, description: "" },
-    ]);
-  };
+      { id: ++answers.length, isCorrect: false, description: '' },
+    ])
+  }
 
   const handleChangeAnswer = (idx, value) => {
     setAnswers(
       answers.map((answer, index) =>
         index === idx ? { ...answer, value, description: value } : { ...answer }
       )
-    );
-  };
+    )
+  }
 
   const handleRemove = (idx) => {
-    let updatedAnswers = answers;
-    updatedAnswers = updatedAnswers.filter((item, index) => index !== idx);
-    setAnswers(updatedAnswers);
-  };
+    let updatedAnswers = answers
+    updatedAnswers = updatedAnswers.filter((item, index) => index !== idx)
+    setAnswers(updatedAnswers)
+  }
 
   const handleCheck = (idx) => {
-    let updatedAnswers = answers;
+    let updatedAnswers = answers
     updatedAnswers = updatedAnswers.map((item, index) =>
       index === idx
         ? { ...item, checked: !item.checked, isCorrect: !item.checked }
         : item
-    );
-    setAnswers(updatedAnswers);
-  };
+    )
+    setAnswers(updatedAnswers)
+  }
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateQuestion : addQuestion,
     {
-      onSuccess: (success) => {
-        setOpen(false);
-        queryClient.invalidateQueries("get-assessment-questions");
-      },
-      onError: (error) => {
-        console.log(error);
-      },
+      onSuccess: (success) => onSuccess({ isDelete: false }),
+      onError: (error) => onError(error),
     }
-  );
+  )
 
   const onSubmit = (data) => {
     const body = {
       data: { question: data.question, answers },
       id: assessment?.id,
-    };
+    }
 
-    mutate(isEdit ? { ...body, questionId: initialState?.id } : body);
-  };
+    mutate(
+      isEdit
+        ? { ...body, questionId: initialState?.id, updatedAt: new Date() }
+        : { ...body, createdAt: new Date() }
+    )
+  }
 
   return {
+    errors,
     control,
     answers,
-    setAnswers,
-    handleAddAnswer,
-    handleCheck,
-    handleRemove,
-    handleChangeAnswer,
-    handleSubmit,
     onSubmit,
-    errors,
-    initialState,
+    setAnswers,
     isLoading,
-  };
+    handleCheck,
+    initialState,
+    handleSubmit,
+    handleRemove,
+    handleAddAnswer,
+    handleChangeAnswer,
+  }
 }

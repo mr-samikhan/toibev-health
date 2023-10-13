@@ -1,26 +1,28 @@
-import { Grid } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import { Controller } from "react-hook-form";
-import CustomButton from "../../../../../components/CustomButton";
-import CustomTextfield from "../../../../../components/CustomTextfield";
-import useAddAssessment from "../../../hooks/useAddAssessment";
-import { ReactComponent as NotesIcon } from "../../../../../assets/icons/assesments.svg";
+import React from 'react'
+import { Box } from '@mui/system'
+import { Grid } from '@mui/material'
+import { Controller } from 'react-hook-form'
+
+//imports
+import useAddAssessment from '../../../hooks/useAddAssessment'
+import CustomButton from '../../../../../components/CustomButton'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { ReactComponent as NotesIcon } from '../../../../../assets/icons/assesments.svg'
 
 export default function AssessmentForm({ isEdit, data, setOpen }) {
   const {
-    control,
-    handleSubmit,
-    onSubmit,
     errors,
+    control,
+    onSubmit,
     isLoading,
-    isLoadingDelete,
+    handleSubmit,
     mutateDelete,
+    isLoadingDelete,
   } = useAddAssessment({
-    isEdit,
     data,
+    isEdit,
     setOpen,
-  });
+  })
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
@@ -28,15 +30,15 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
           <Controller
             name="title"
             control={control}
-            rules={{ required: { value: true, message: "Name is required" } }}
+            rules={{ required: { value: true, message: 'Name is required' } }}
             render={({ field }) => (
               <CustomTextfield
-                error={!!errors?.title}
-                errorMessage={errors?.title?.message}
+                {...field}
+                EndIcon={NotesIcon}
                 label="Assessment Name"
                 placeholder="Enter Name"
-                EndIcon={NotesIcon}
-                {...field}
+                error={!!errors?.title}
+                errorMessage={errors?.title?.message}
               />
             )}
           />
@@ -46,23 +48,23 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
             name="description"
             control={control}
             rules={{
-              required: { value: true, message: "Description is required" },
+              required: { value: true, message: 'Description is required' },
             }}
             render={({ field }) => (
               <CustomTextfield
+                {...field}
+                EndIcon={NotesIcon}
                 error={!!errors?.description}
-                errorMessage={errors?.description?.message}
                 label="Assessment Description"
                 placeholder="Enter Description"
-                EndIcon={NotesIcon}
-                {...field}
+                errorMessage={errors?.description?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} mb={2}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Loading" : "Save assessment"}
+            {isLoading ? 'Loading...' : 'Save assessment'}
           </CustomButton>
         </Grid>
         {isEdit && (
@@ -71,11 +73,11 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
               variant="outlined"
               onClick={() => mutateDelete(data?.id)}
             >
-              {isLoadingDelete ? "Deleting..." : "Delete assessment"}
+              {isLoadingDelete ? 'Deleting...' : 'Delete assessment'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }
