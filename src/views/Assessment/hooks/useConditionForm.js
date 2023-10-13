@@ -1,10 +1,11 @@
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
-import { addCondition, updateCondition } from '../actions'
-import { useDispatch } from 'react-redux'
-import { setAlertValues } from '../../../redux/actions/loginActions'
+
 import { getErrorMessage } from '../../Login/utils'
+import { addCondition, updateCondition } from '../actions'
+import { setAlertValues } from '../../../redux/actions/loginActions'
 
 const correctPercentageOptions = [
   { label: '% Range', value: 'range' },
@@ -23,7 +24,12 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
   const queryClient = useQueryClient()
   const { state: assessment } = useLocation()
 
-  const { control, handleSubmit, watch } = useForm({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       conditionType: 'range',
       ...initialState,
@@ -108,6 +114,7 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
   }
 
   return {
+    errors,
     control,
     onSubmit,
     isLoading,
