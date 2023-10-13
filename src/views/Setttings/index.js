@@ -7,7 +7,6 @@ import useSettings from './useSettings'
 import { PASSWORD_INFO_TEXT } from '../../constants'
 import CustomButton from '../../components/CustomButton'
 import CustomTextfield from '../../components/CustomTextfield'
-import MuiSnackbar from '../../components/MuiSnackbar/MuiSnackbar'
 import { ReactComponent as SMSIcon } from '../../assets/icons/sms.svg'
 import { ReactComponent as LockIcon } from '../../assets/icons/lock.svg'
 import { ReactComponent as ProfileIcon } from '../../assets/icons/profile.svg'
@@ -18,16 +17,8 @@ import {
 } from '../../utils/validators'
 
 export default function Settings() {
-  const {
-    user,
-    errors,
-    control,
-    onSubmit,
-    isLoading,
-    showAlert,
-    handleSubmit,
-    onCloseSnackBar,
-  } = useSettings()
+  const { user, errors, control, onSubmit, isLoading, handleSubmit } =
+    useSettings()
 
   return (
     <Grid
@@ -51,7 +42,6 @@ export default function Settings() {
         <Grid container justifyContent="space-between" spacing={6}>
           <Grid item md={5}>
             <Controller
-              defaultValue={user?.username}
               rules={{
                 required: { value: true, message: 'Full Name is Required' },
               }}
@@ -152,14 +142,6 @@ export default function Settings() {
             </Grid>
           </Grid>
           <Grid item container justifyContent={'center'}>
-            {showAlert.open && (
-              <MuiSnackbar
-                open={showAlert.open}
-                setOpen={onCloseSnackBar}
-                isError={showAlert.isError}
-                message={showAlert.message}
-              />
-            )}
             <Grid item md={6}>
               <CustomButton variant="contained" type="submit">
                 {isLoading ? 'Loading...' : 'Update'}
