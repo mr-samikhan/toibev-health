@@ -16,6 +16,11 @@ const DashboardReducer = produce((state = initialstate, action) => {
       return state
     }
 
+    case 'RESET_DASHBOARD_VALUES': {
+      state = initialstate
+      return state
+    }
+
     default:
       return state
   }
