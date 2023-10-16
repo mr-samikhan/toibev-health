@@ -1,5 +1,5 @@
-import { useState } from 'react'
-// import { useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import { useGetUsers } from '../../hooks/useGetUsers'
 import { useGetEvents } from '../../hooks/useGetEvents'
@@ -12,13 +12,25 @@ export const useDashboard = () => {
   const [tab, setTab] = useState(0)
   const [toggle, setToggle] = useState(false)
 
-  // const { startDate, endDate } = useSelector((state) => state?.Dashboard) ?? {}
+  const { startDate, endDate } = useSelector((state) => state?.Dashboard) ?? {}
 
-  // useEffect(() => {
-  //   if (startDate && endDate) {
-  //     return alert('date-found')
-  //   }
-  // }, [startDate, endDate])
+  const [filterData, setFilterData] = useState({
+    events: [],
+    assessments: [],
+    assessmentOptions: [],
+    users: [],
+    reseliency: [],
+    conditions: [],
+    surveyConditions: [],
+    groupedProvidersByLocation: [],
+    totalScheduledAppointments: 0,
+  })
+
+  const {
+    data: events,
+    isLoading: isLoadingEvents,
+    isFetching: isFetchingEvents,
+  } = useGetEvents({})
 
   const {
     assessments,
@@ -27,15 +39,39 @@ export const useDashboard = () => {
     isFetching: isFetchingAssessments,
   } = useGetAssessments({})
 
+  let eventCheck = startDate && endDate ? filterData.events : events
+  let assessmentCheck =
+    startDate && endDate ? filterData.assessments : assessments
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const eventsFilter = filterDataBetweenDates(events, startDate, endDate)
+      const assessmentsFilter = filterDataBetweenDates(
+        assessments,
+        startDate,
+        endDate
+      )
+      return setFilterData((prev) => ({
+        ...prev,
+        events: eventsFilter,
+        assessments: assessmentsFilter,
+      }))
+    }
+  }, [startDate, endDate, events, assessments])
+
   const [selectedAssessment, setSelectedAssessment] = useState(
-    assessments?.length ? assessments[0] : {}
+    assessmentCheck?.length ? assessmentCheck[0] : {}
   )
 
-  const {
-    data: events,
-    isLoading: isLoadingEvents,
-    isFetching: isFetchingEvents,
-  } = useGetEvents({})
+  function filterDataBetweenDates(dataa, startDate, endDate) {
+    return dataa?.filter((item) => {
+      const itemDate = new Date(item?.createdAt?.seconds * 1000)
+      const applystartDate = new Date(startDate).getTime()
+      const applyendDate = new Date(endDate).getTime()
+
+      return itemDate >= applystartDate && itemDate <= applyendDate
+    })
+  }
 
   const {
     users,
@@ -79,7 +115,9 @@ export const useDashboard = () => {
     const clickedItem = assessmentOptions?.find(
       (item, index) => index === newValue
     )
-    const assessment = assessments?.find((item) => item.title === clickedItem)
+    const assessment = assessmentCheck?.find(
+      (item) => item.title === clickedItem
+    )
     setSelectedAssessment(assessment)
   }
 
@@ -87,7 +125,6 @@ export const useDashboard = () => {
     tab,
     users,
     setTab,
-    events,
     reseliency,
     onTabClick,
     conditions,
@@ -97,6 +134,7 @@ export const useDashboard = () => {
     surveyConditions,
     isFetchingEvents,
     assessmentOptions,
+    events: eventCheck,
     isLoadingGeography,
     isLoadingConditions,
     isLoadingResources,
