@@ -23,6 +23,13 @@ const LoginReducer = produce((state = initialstate, action) => {
       return state
     }
 
+    case 'UPDATE_USER': {
+      state.user.username = action.payload.username
+      state.user.email = action.payload.email
+      state.isLoading = false
+      return state
+    }
+
     case 'LOGOUT': {
       return { ...initialstate }
     }
