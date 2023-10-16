@@ -59,6 +59,18 @@ export function useHeader() {
     }
   }, [])
 
+  useEffect(() => {
+    if (pathname !== '/dashboard') {
+      dipatch({
+        type: 'RESET_DASHBOARD_VALUES',
+      })
+      setDateRange({
+        startDate: null,
+        endDate: null,
+      })
+    }
+  }, [pathname])
+
   const handleOpenMenu = (event) => {
     setOpen(true)
     setAnchorEl(event.currentTarget)
