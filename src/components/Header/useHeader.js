@@ -48,6 +48,17 @@ export function useHeader() {
     endDate: null,
   })
 
+  const dipatch = useDispatch()
+  console.log(pathname, 'pathname')
+
+  React.useEffect(() => {
+    if (dateRange.startDate == null && dateRange.endDate == null) {
+      dipatch({
+        type: 'RESET_DASHBOARD_VALUES',
+      })
+    }
+  }, [])
+
   const handleOpenMenu = (event) => {
     setOpen(true)
     setAnchorEl(event.currentTarget)
