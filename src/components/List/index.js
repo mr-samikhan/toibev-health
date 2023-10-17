@@ -47,6 +47,15 @@ export function CustomList({
     return result
   }
 
+  const getItemStyle = (draggableStyle) => ({
+    border: 'none',
+    padding: '15px',
+    userSelect: 'none',
+    borderRadius: '16px',
+    background: 'lightgreen',
+    ...draggableStyle,
+  })
+
   const onDragEnd = async (result) => {
     if (!result.destination) {
       return
@@ -95,6 +104,14 @@ export function CustomList({
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
+                              style={
+                                snapshot.isDragging
+                                  ? getItemStyle(
+                                      snapshot.isDragging,
+                                      provided.draggableProps.style
+                                    )
+                                  : null
+                              }
                             >
                               <List dense={false} className="listing">
                                 <ListItem
