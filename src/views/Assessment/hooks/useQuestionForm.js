@@ -6,11 +6,20 @@ import { addQuestion, updateQuestion } from '../actions'
 import { useDispatch } from 'react-redux'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 import { getErrorMessage } from '../../Login/utils'
+import { useGetAssessmentQuestions } from '../../../hooks/useGetAssessmentQuestions'
 
 export default function useQuestionForm({ isEdit, setOpen, initialState }) {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
   const { state: assessment } = useLocation()
+
+  //get id from the url
+  const { state } = useLocation()
+
+  const { questions } = useGetAssessmentQuestions({
+    id: state?.id,
+    enabled: false,
+  })
 
   const {
     control,
@@ -96,14 +105,22 @@ export default function useQuestionForm({ isEdit, setOpen, initialState }) {
 
   const onSubmit = (data) => {
     const body = {
-      data: { question: data.question, answers },
+      data: {
+        question: data.question,
+        answers,
+        docId: assessment?.id,
+      },
       id: assessment?.id,
     }
 
     mutate(
       isEdit
         ? { ...body, questionId: initialState?.id, updatedAt: new Date() }
-        : { ...body, createdAt: new Date() }
+        : {
+            ...body,
+            createdAt: new Date(),
+            index: questions?.length === 0 ? 0 : questions?.length + 1,
+          }
     )
   }
 
