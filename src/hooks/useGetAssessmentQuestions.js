@@ -1,41 +1,46 @@
-import { useQuery } from "react-query";
-import { firestore, collection, getDocs, getDoc, doc } from "../firebase";
-import MultipleAnswers from "../views/Assessment/components/MultipleAnswers";
+import { useQuery } from 'react-query'
+import { firestore, collection, getDocs } from '../firebase'
+import MultipleAnswers from '../views/Assessment/components/MultipleAnswers'
 
 const fetchInfo = async (id) => {
-  let questions = [];
+  let questions = []
   try {
     const querySnapshot = await getDocs(
-      collection(firestore, "Assessments", `${id}`, "questions")
-    );
-    let count = 0;
+      collection(firestore, 'Assessments', `${id}`, 'questions')
+    )
+    let count = 0
     querySnapshot.forEach((document) => {
       let question = {
         id: document.id,
+        docId: document.data().docId,
         title: document.data().question,
         subtitle: <MultipleAnswers data={document.data().answers} />,
         text: ++count,
         ...document.data(),
-      };
-      questions.push(question);
-    });
-
-    return questions;
+      }
+      questions.push(question)
+    })
+    return questions
   } catch (error) {
-    console.log(error);
-    return error;
+    console.log(error)
+    return error
   }
-};
+}
 
 export const useGetAssessmentQuestions = ({ enabled = true, id }) => {
   const { data, isLoading, error, isFetching } = useQuery(
-    ["get-assessment-questions"],
+    ['get-assessment-questions'],
     () => fetchInfo(id),
     {
       enabled,
       refetchOnWindowFocus: false,
     }
-  );
+  )
 
-  return { isLoading, error, questions: data, isFetching };
-};
+  return {
+    isLoading,
+    error,
+    questions: data?.sort((a, b) => a?.index - b?.index),
+    isFetching,
+  }
+}
