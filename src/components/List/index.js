@@ -41,6 +41,9 @@ export function CustomList({
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
+    result.forEach((item, index) => {
+      item.index = index
+    })
     return result
   }
 
@@ -54,35 +57,15 @@ export function CustomList({
       result.destination.index
     )
     list = updatedItems
-    const droppable = list.filter(
-      (item, index) => index === result.source.index
-    )
-
-    await updateDoc(
-      doc(
-        firestore,
-        'Assessments',
-        list[0].docId,
-        'questions',
-        result.draggableId
-      ),
-      {
-        index: result.destination.index,
-        updatedAt: new Date(),
-      }
-    )
-    await updateDoc(
-      doc(
-        firestore,
-        'Assessments',
-        list[0].docId,
-        'questions',
-        droppable[0].id
-      ),
-      {
-        index: result.source.index,
-        updatedAt: new Date(),
-      }
+    updatedItems.map(
+      async (item, index) =>
+        await updateDoc(
+          doc(firestore, 'Assessments', list[0].docId, 'questions', item.id),
+          {
+            index: index,
+            updatedAt: new Date(),
+          }
+        )
     )
   }
 
