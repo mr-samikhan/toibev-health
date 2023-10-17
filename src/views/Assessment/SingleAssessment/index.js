@@ -8,17 +8,14 @@ import AlertDialog from '../../../components/AlertDialog'
 import QuestionForm from '../components/Forms/QuestionForm'
 import ConditionForm from '../components/Forms/ConditionForm'
 import useSingleAssessment from '../hooks/useSingleAssessment'
-import {
-  ConditionActionButtons,
-  SingleAssessmentActionButtons,
-} from '../components/ActionButtons'
+import { SingleAssessmentActionButtons } from '../components/ActionButtons'
 
 export default function SingleAssessment() {
   const {
     questions,
     isLoading,
     isFetching,
-    conditions,
+    // conditions,
     openQusetion,
     openCondition,
     setOpenQuestion,
@@ -84,12 +81,13 @@ export default function SingleAssessment() {
           <Grid item>
             <CustomList
               indexed
+              isDragDisabled
               list={questions ?? []}
               Actions={SingleAssessmentActionButtons}
             />
           </Grid>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Grid container mb={1}>
             <Grid
               item
@@ -122,7 +120,7 @@ export default function SingleAssessment() {
               Actions={ConditionActionButtons}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   )
