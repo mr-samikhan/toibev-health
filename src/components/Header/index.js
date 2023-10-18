@@ -1,6 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
+import { useLocation } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton'
 import {
   Grid,
@@ -47,6 +48,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
   } = useHeader()
 
   const onToggle = () => setShowDateModal((prev) => !prev)
+  const { pathname } = useLocation()
 
   return (
     <>
@@ -171,7 +173,9 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                     alignItems="center"
                   >
                     <Grid item>
-                      <Typography className="title">{title}</Typography>
+                      <Typography className="title">
+                        {pathname === '/home' ? 'Home Page' : title}
+                      </Typography>
                     </Grid>
                     <Grid item>
                       <Grid container alignItems="center">
