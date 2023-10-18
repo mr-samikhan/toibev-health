@@ -6,10 +6,14 @@ import icons from '../../../../assets'
 import EventForm from '../Forms/EventForm'
 import useActionButtons from '../../hooks/useActionButtons'
 import AlertDialog from '../../../../components/AlertDialog'
+import CustomSwitchToggle from '../../../../components/CustomSwitchToggle'
+import { useLocation } from 'react-router-dom'
 
 export function Actions(data) {
   const { open, setOpen } = useActionButtons()
   const mobile = useMediaQuery('(max-width: 600px)')
+
+  const { pathname } = useLocation()
 
   let allClicks = data?.data?.clicks === undefined ? 0 : data?.data?.clicks
   return (
@@ -26,6 +30,7 @@ export function Actions(data) {
       )}
 
       <Grid container className="event-action-buttons">
+        {pathname === '/home' && <CustomSwitchToggle />}
         <Grid item sx={{ marginRight: '8px', alignSelf: 'center' }}>
           <Grid
             className="clicks-count-container"
