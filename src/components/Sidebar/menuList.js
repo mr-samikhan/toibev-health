@@ -22,7 +22,7 @@ export const sidebarTabsList = [
     mobileText: 'Home',
   },
   {
-    text: 'Home',
+    text: 'Home Page',
     key: 'home',
     sub: false,
     icon: HomeIconNew,
