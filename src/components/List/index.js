@@ -47,12 +47,12 @@ export function CustomList({
     return result
   }
 
-  const getItemStyle = (draggableStyle) => ({
+  const getItemStyle = (isDraggable, draggableStyle) => ({
     border: 'none',
-    padding: '15px',
     userSelect: 'none',
     borderRadius: '16px',
-    background: 'lightgreen',
+    padding: isDraggable ? '10px' : null,
+    background: isDraggable ? 'lightgreen' : '',
     ...draggableStyle,
   })
 
@@ -104,14 +104,10 @@ export function CustomList({
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              style={
-                                snapshot.isDragging
-                                  ? getItemStyle(
-                                      snapshot.isDragging,
-                                      provided.draggableProps.style
-                                    )
-                                  : null
-                              }
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
                             >
                               <List dense={false} className="listing">
                                 <ListItem
