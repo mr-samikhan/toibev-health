@@ -50,6 +50,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
   const onToggle = () => setShowDateModal((prev) => !prev)
   const { pathname } = useLocation()
 
+  let isDashboard = pathname === '/dashboard'
   return (
     <>
       {open && (
@@ -179,7 +180,7 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                     </Grid>
                     <Grid item>
                       <Grid container alignItems="center">
-                        {!tabMode && (
+                        {isDashboard && !tabMode && (
                           <Grid item>
                             <DatePicker
                               setOpen={onToggle}
