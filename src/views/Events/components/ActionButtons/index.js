@@ -51,7 +51,13 @@ export function Actions(props) {
             }}
           />
         )}
-        <Grid item sx={{ marginRight: '8px', alignSelf: 'center' }}>
+        <Grid
+          item
+          sx={{
+            marginRight: '8px',
+            alignSelf: 'center',
+          }}
+        >
           <Grid
             className="clicks-count-container"
             onClick={() => mobile && setOpen(true)}
@@ -59,13 +65,34 @@ export function Actions(props) {
             <Typography className="clicks-count">{`${allClicks} Clicks`}</Typography>
           </Grid>
         </Grid>
-        {!mobile && (
-          <Grid item>
-            <IconButton edge="end" onClick={() => setOpen(true)}>
-              <img src={icons.editIcon} alt="edit-icon" />
-            </IconButton>
-          </Grid>
-        )}
+        <Grid item display="flex" gap={3} alignItems="center" pr={1}>
+          {!mobile && (
+            <Grid item>
+              <IconButton edge="end" onClick={() => setOpen(true)}>
+                <img src={icons.editIcon} alt="edit-icon" />
+              </IconButton>
+            </Grid>
+          )}
+          {pathname === '/home' && !mobile && (
+            <Grid item>
+              <IconButton
+                edge="end"
+                sx={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: '10px',
+                  background: 'rgba(242, 106, 71, 0.08)',
+                }}
+              >
+                <img
+                  alt="clip-icon"
+                  src={icons.clipboardIcon}
+                  style={{ width: 20, height: 20 }}
+                />
+              </IconButton>
+            </Grid>
+          )}
+        </Grid>
       </Grid>
     </>
   )
