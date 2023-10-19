@@ -10,7 +10,8 @@ import EventForm from './components/Forms/EventForm'
 import AlertDialog from '../../components/AlertDialog'
 
 export function Events() {
-  const { open, setOpen, data, isLoading, isFetching } = useEvent()
+  const { open, setOpen, data, isLoading, isFetching, updateEventDoc } =
+    useEvent()
   const mobile = useMediaQuery('(max-width: 600px)')
 
   if (isLoading || isFetching) {
@@ -50,7 +51,12 @@ export function Events() {
           </Button>
         </Grid>
       </Grid>
-      <CustomList list={data} Actions={Actions} listing="events" />
+      <CustomList
+        list={data}
+        Actions={Actions}
+        listing="events"
+        updateEventDoc={updateEventDoc}
+      />
     </>
   )
 }
