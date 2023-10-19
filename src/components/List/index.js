@@ -31,6 +31,7 @@ export function CustomList({
   list = [],
   onRowClick,
   isDragDisabled,
+  updateEventDoc,
 }) {
   const removeOnClick = (event) => {
     event.stopPropagation()
@@ -119,6 +120,7 @@ export function CustomList({
                                           data={item}
                                           list={list}
                                           cat={cat}
+                                          updateEventDoc={updateEventDoc}
                                         />
                                       </Grid>
                                     ) : (

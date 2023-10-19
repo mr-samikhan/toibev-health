@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Checkbox, Grid, Typography } from '@mui/material'
 import { Controller } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+import { Box, Checkbox, Grid, Typography } from '@mui/material'
 
 //imports
 import RecurringPeriod from '../../RecurringPeriod'
@@ -10,7 +11,6 @@ import ImageUploader from '../../../../../components/MediaUpload'
 import CustomSwitch from '../../../../../components/CustomSwitch'
 import DatePicker from '../../../../../components/CustomDatePicker'
 import CustomTextfield from '../../../../../components/CustomTextfield'
-import { getDayYearMonthFromDate } from '../../../../../utils/dateFormats'
 import { ReactComponent as TaskIcon } from '../../../../../assets/icons/task.svg'
 import { ReactComponent as LinkIcon } from '../../../../../assets/icons/link.svg'
 import { ReactComponent as Clipboard } from '../../../../../assets/icons/clipboard.svg'
@@ -44,6 +44,8 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
     recurrenceOptions,
   } = useEventForm({ initialState: data, open, setOpen, isEdit })
 
+  const { pathname } = useLocation()
+
   return (
     <Box
       component="form"
@@ -51,6 +53,28 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
       className="clinic-form"
     >
       <Grid container>
+        <Grid item xs={12} mb={3}>
+          {pathname === '/home' && (
+            <Grid container spacing={2}>
+              {/* <Grid item xs={4} sm={6}>
+                <ImageUploader
+                  title="Video"
+                  fileType="video"
+                  selectedFile={selectedVideo}
+                  setSelectedFile={setSelectedVideo}
+                />
+              </Grid> */}
+              <Grid item xs={4} sm={6}>
+                <ImageUploader
+                  title="Photo"
+                  fileType="image"
+                  selectedFile={selectedImage}
+                  setSelectedFile={setSelectedImage}
+                />
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
         <Grid item xs={12} mb={3}>
           <Controller
             name="title"
@@ -259,32 +283,34 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
         </Grid>
 
         <Grid item xs={12} mb={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={4} sm={6}>
-              <ImageUploader
-                title="Video"
-                fileType="video"
-                selectedFile={selectedVideo}
-                setSelectedFile={setSelectedVideo}
-              />
+          {pathname !== '/home' && (
+            <Grid container spacing={2}>
+              <Grid item xs={4} sm={6}>
+                <ImageUploader
+                  title="Video"
+                  fileType="video"
+                  selectedFile={selectedVideo}
+                  setSelectedFile={setSelectedVideo}
+                />
+              </Grid>
+              <Grid item xs={4} sm={6}>
+                <ImageUploader
+                  title="Photo"
+                  fileType="image"
+                  selectedFile={selectedImage}
+                  setSelectedFile={setSelectedImage}
+                />
+              </Grid>
+              <Grid item xs={4} sm={6}>
+                <ImageUploader
+                  title="PDF"
+                  fileType="pdf"
+                  selectedFile={selectedPdf}
+                  setSelectedFile={setSelectedPdf}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={4} sm={6}>
-              <ImageUploader
-                title="Photo"
-                fileType="image"
-                selectedFile={selectedImage}
-                setSelectedFile={setSelectedImage}
-              />
-            </Grid>
-            <Grid item xs={4} sm={6}>
-              <ImageUploader
-                title="PDF"
-                fileType="pdf"
-                selectedFile={selectedPdf}
-                setSelectedFile={setSelectedPdf}
-              />
-            </Grid>
-          </Grid>
+          )}
         </Grid>
         <Grid item xs={12} mb={2}>
           <CustomButton type="submit" variant="contained" disabled={isLoading}>
