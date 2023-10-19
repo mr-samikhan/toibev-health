@@ -9,14 +9,25 @@ import useActionButtons from '../../hooks/useActionButtons'
 import AlertDialog from '../../../../components/AlertDialog'
 import CustomSwitchToggle from '../../../../components/CustomSwitchToggle'
 
-export function Actions(data) {
+export function Actions(props) {
+  const { data, updateEventDoc } = props || {}
   const { open, setOpen } = useActionButtons()
   const mobile = useMediaQuery('(max-width: 600px)')
 
   const { pathname } = useLocation()
 
-  let allClicks = data?.data?.clicks === undefined ? 0 : data?.data?.clicks
-  const [eventStatus, setEventStatus] = React.useState(data?.data?.isActive)
+  let allClicks = data?.clicks === undefined ? 0 : data?.clicks
+  const [eventStatus, setEventStatus] = React.useState(data?.isActive)
+
+  const onUpdate = async () => {
+    try {
+      let updated = { ...data, isActive: !eventStatus }
+      delete updated?.subtitle
+      await updateEventDoc(updated)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
       {open && (
@@ -25,7 +36,7 @@ export function Actions(data) {
           setOpen={setOpen}
           title="Edit Event"
           message={
-            <EventForm isEdit data={data.data} open={open} setOpen={setOpen} />
+            <EventForm isEdit data={data} open={open} setOpen={setOpen} />
           }
         />
       )}
@@ -34,7 +45,10 @@ export function Actions(data) {
         {pathname === '/home' && (
           <CustomSwitchToggle
             value={eventStatus || false}
-            onChange={(e) => setEventStatus(e.target.checked)}
+            onChange={(e) => {
+              setEventStatus(e.target.checked)
+              onUpdate()
+            }}
           />
         )}
         <Grid item sx={{ marginRight: '8px', alignSelf: 'center' }}>
