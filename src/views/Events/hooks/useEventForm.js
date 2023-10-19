@@ -103,24 +103,48 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   }
 
   const onSubmit = (data) => {
+    function getCurrentTime() {
+      const now = new Date()
+      const hours = now.getHours().toString().padStart(2, '0') // Get hours and pad with leading zero if necessary
+      const minutes = now.getMinutes().toString().padStart(2, '0') // Get minutes and pad with leading zero if necessary
+      return `${hours}:${minutes}`
+    }
+
+    //get day month and year
+    const currentDate = {
+      day: new Date().getDay(),
+      month: new Date().getMonth(),
+      year: new Date().getFullYear(),
+    }
+
+    let currentTime = getCurrentTime()
     const body = {
       isRecurring,
+      isActive: false,
       pdf: selectedPdf,
       title: data.title,
       video: selectedVideo,
       image: selectedImage,
       webLink: data.webLink,
-      endTime: data.endTime,
       location: data.location,
-      startTime: data.startTime,
+      endTime: data.endTime || currentTime,
+      startTime: data.startTime || currentTime,
       description: data.description,
       startDate: Timestamp.fromDate(
-        new Date(getFormatedDate(startDate, data.startTime))
+        new Date(
+          getFormatedDate(
+            startDate || currentDate,
+            data.startTime || currentTime
+          )
+        )
       ),
       endDate: Timestamp.fromDate(
-        new Date(getFormatedDate(endDate, data.endTime))
+        new Date(
+          getFormatedDate(endDate || currentDate, data.endTime || currentTime)
+        )
       ),
     }
+
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
