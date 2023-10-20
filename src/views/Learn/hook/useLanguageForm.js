@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import { useGetCultures } from '../../../hooks/useGetCultures'
 import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const { control, handleSubmit } = useForm({
@@ -21,6 +24,40 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     fileUrl: initialState?.cover_img || '',
   })
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
+
+  //success
+  const onSuccess = ({ isDelete }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Language deleted successfully'
+          : isEdit
+          ? 'Language updated successfully'
+          : 'Language added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-all-languages')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
   const {
     cultures,
     isLoading: isLoadingCultures,
@@ -30,25 +67,15 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const { isLoading, mutate } = useMutation(
     isEdit ? updateLanguage : addLanguage,
     {
-      onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-languages')
-      },
-      onError: (error) => {
-        console.log(error)
-      },
+      onSuccess: (success) => onSuccess({ isDelete: false }),
+      onError: (error) => onError(error),
     }
   )
   const { isLoading: isLoadingDelete, mutate: mutateDelete } = useMutation(
     deleteLanguage,
     {
-      onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-languages')
-      },
-      onError: (error) => {
-        console.log(error)
-      },
+      onSuccess: (success) => onSuccess({ isDelete: true }),
+      onError: (error) => onError(error),
     }
   )
 
