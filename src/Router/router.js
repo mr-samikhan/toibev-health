@@ -7,6 +7,7 @@ import { Admins } from '../views/Admins'
 import { Health } from '../views/Health'
 import { Events } from '../views/Events'
 import Settings from '../views/Setttings'
+import { ROUTES } from '../constants/routes'
 import { Assessment } from '../views/Assessment'
 import { Information } from '../views/Information'
 import ResetPassword from '../views/ResetPassword'
@@ -18,23 +19,29 @@ export function Router() {
   return (
     <>
       <Routes>
-        <Route path="/login" exact element={<Login />}></Route>
-        <Route path={`/reset-password`} element={<ResetPassword />}></Route>
+        <Route path={ROUTES.LOGIN} exact element={<Login />}></Route>
+        <Route
+          path={ROUTES.FORGOT_PASSWORD}
+          element={<ResetPassword />}
+        ></Route>
       </Routes>
       <ProtectedRoutes>
         <Routes>
-          <Route path="/" exact element={<Layout />}>
-            <Route path="/home" exact element={<Events />} />
-            <Route path="/learn" exact element={<Learn />} />
-            <Route path="/health" exact element={<Health />} />
-            <Route path="/events" exact element={<Events />} />
-            <Route path="/admins" exact element={<Admins />} />
-            <Route path="/dashboard" exact element={<Dashboard />} />
-            <Route path="/information" exact element={<Information />} />
-            <Route path="/account-settings" exact element={<Settings />} />
-            <Route path="/assesment">
-              <Route path="/assesment" exact element={<Assessment />} />
-              <Route path="/assesment/:id" element={<SingleAssessment />} />
+          <Route path={ROUTES.LAYOUT} exact element={<Layout />}>
+            <Route path={ROUTES.HOME} exact element={<Events />} />
+            <Route path={ROUTES.LEARN} exact element={<Learn />} />
+            <Route path={ROUTES.HEALTH} exact element={<Health />} />
+            <Route path={ROUTES.EVENTS} exact element={<Events />} />
+            <Route path={ROUTES.ADMINS} exact element={<Admins />} />
+            <Route path={ROUTES.SETTING} exact element={<Settings />} />
+            <Route path={ROUTES.DASHBOARD} exact element={<Dashboard />} />
+            <Route path={ROUTES.INFORMATION} exact element={<Information />} />
+            <Route path={ROUTES.ASSESMENT}>
+              <Route path={ROUTES.ASSESMENT} exact element={<Assessment />} />
+              <Route
+                path={ROUTES.SINGLE_ASSESMENT}
+                element={<SingleAssessment />}
+              />
             </Route>
           </Route>
         </Routes>
