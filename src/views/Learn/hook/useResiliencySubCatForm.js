@@ -1,6 +1,9 @@
 import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
+import { getErrorMessage } from '../../Login/utils'
+import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addResiliencySubCat, updateResiliencySubCat } from '../actions'
 
 export default function useResiliencySubCatForm({
@@ -28,16 +31,45 @@ export default function useResiliencySubCatForm({
   const pdfInputRef = useRef(null)
   const queryClient = useQueryClient()
 
+  const dispatch = useDispatch()
+
+  //success
+  const onSuccess = ({ isDelete }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Resilliency Cat deleted successfully'
+          : isEdit
+          ? 'Resilliency Cat updated successfully'
+          : 'Resilliency Cat added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-reseliency')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
   const { isLoading, mutate } = useMutation(
     isEdit ? updateResiliencySubCat : addResiliencySubCat,
     {
-      onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-reseliency')
-      },
-      onError: (error) => {
-        console.log(error)
-      },
+      onSuccess: (success) => onSuccess({ isDelete: false }),
+      onError: (error) => onError(error),
     }
   )
 
