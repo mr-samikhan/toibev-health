@@ -9,6 +9,9 @@ import {
 import { Timestamp } from '../../../firebase'
 import { useMutation, useQueryClient } from 'react-query'
 import { getFormatedDate } from '../../../utils/dateFormats'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useGroupSessionForm({
   data,
@@ -21,6 +24,7 @@ export default function useGroupSessionForm({
     isEdit ? getDate('startDate') : null
   )
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
 
   const {
     watch,
@@ -33,7 +37,38 @@ export default function useGroupSessionForm({
       ...initialState,
     },
   })
-  console.log(watch('startTime'))
+
+  //success
+  const onSuccess = ({ isDelete }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Group Session deleted successfully'
+          : isEdit
+          ? 'Group Session updated successfully'
+          : 'Group Session added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
+      setOpen(false)
+      queryClient.invalidateQueries('get-all-group-sessions')
+    }, 3000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
 
   function getDate(value) {
     if (!initialState[value].seconds) return ''
@@ -50,26 +85,16 @@ export default function useGroupSessionForm({
   const { isLoading, mutate } = useMutation(
     isEdit ? updateGroupSession : addGroupSession,
     {
-      onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-group-sessions')
-      },
-      onError: (error) => {
-        console.log(error)
-      },
+      onSuccess: (success) => onSuccess({ isDelete: false }),
+      onError: (error) => onError(error),
     }
   )
 
   const { isLoading: isLoadingDelete, mutate: mutateDelete } = useMutation(
     deleteGroupSession,
     {
-      onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-group-sessions')
-      },
-      onError: (error) => {
-        console.log(error)
-      },
+      onSuccess: (success) => onSuccess({ isDelete: true }),
+      onError: (error) => onError(error),
     }
   )
 

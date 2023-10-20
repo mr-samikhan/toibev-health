@@ -1,0 +1,15 @@
+export const ROUTES = {
+  LAYOUT: '/',
+  HOME: '/home',
+  LOGIN: '/login',
+  LEARN: '/learn',
+  EVENTS: '/events',
+  ADMINS: '/admins',
+  HEALTH: '/health',
+  DASHBOARD: '/dashboard',
+  ASSESMENT: '/assesment',
+  INFORMATION: '/information',
+  SETTING: '/account-settings',
+  SINGLE_ASSESMENT: '/assesment/:id',
+  FORGOT_PASSWORD: '/reset-password',
+}
