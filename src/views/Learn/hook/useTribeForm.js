@@ -7,7 +7,12 @@ import { getErrorMessage } from '../../Login/utils'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
 export default function useTribeForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit, watch } = useForm({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: { ...initialState },
   })
   const title = watch('title')
@@ -83,14 +88,15 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
   }
 
   return {
+    errors,
     control,
-    handleSubmit,
     isLoading,
-    handleDelete,
-    isLoadingDelete,
-    selectedImage,
-    setSelectedImage,
     onSubmit,
     onDelete,
+    handleSubmit,
+    handleDelete,
+    selectedImage,
+    isLoadingDelete,
+    setSelectedImage,
   }
 }
