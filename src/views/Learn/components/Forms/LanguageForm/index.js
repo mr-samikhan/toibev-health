@@ -13,6 +13,7 @@ import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
+    errors,
     control,
     onSubmit,
     isLoading,
@@ -72,14 +73,19 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
         </Grid>
         <Grid item xs={12} mb={4} mt={2}>
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                {...field}
+                EndIcon={PeopleIcon}
                 label="Language Name"
                 placeholder="Type in title"
-                EndIcon={PeopleIcon}
-                {...field}
+                error={errors?.title?.message}
+                errorMessage={errors?.title?.message}
               />
             )}
           />
@@ -101,15 +107,20 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
         </Grid>
         <Grid item xs={12} mb={3}>
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="description"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                rows={6}
+                multiline
+                {...field}
                 label="Language Description"
                 placeholder="Language Description"
-                multiline
-                rows={6}
-                {...field}
+                error={errors?.description?.message}
+                errorMessage={errors?.description?.message}
               />
             )}
           />
