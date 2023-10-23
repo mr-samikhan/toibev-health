@@ -28,12 +28,20 @@ export const GroupSessionForm = (props) => {
       <Grid container>
         <Grid item xs={12} mb={3}>
           <Controller
+            rules={{
+              required: {
+                value: true,
+                message: 'Group Session Name is required',
+              },
+            }}
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
                 {...field}
+                error={errors.title}
                 label="Group Session Name"
+                errorMessage={errors?.title?.message}
                 placeholder="Enter Group Session Name"
               />
             )}
