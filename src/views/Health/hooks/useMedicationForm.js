@@ -11,7 +11,12 @@ import { getErrorMessage } from '../../Login/utils'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
 export default function useMedicationForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit, reset } = useForm()
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm()
 
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
@@ -81,12 +86,13 @@ export default function useMedicationForm({ isEdit, initialState, setOpen }) {
   }, isEdit)
 
   return {
+    errors,
     control,
-    handleSubmit,
-    onSubmit,
-    isLoading,
-    onDelete,
     isEdit,
+    onSubmit,
+    onDelete,
+    isLoading,
+    handleSubmit,
     isLoadingDelete,
   }
 }

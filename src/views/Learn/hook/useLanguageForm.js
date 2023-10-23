@@ -8,7 +8,11 @@ import { setAlertValues } from '../../../redux/actions/loginActions'
 import { getErrorMessage } from '../../Login/utils'
 
 export default function useLanguageForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: { ...initialState },
   })
 
@@ -118,6 +122,7 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   }
 
   return {
+    errors,
     control,
     cultures,
     onSubmit,

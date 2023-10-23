@@ -8,12 +8,13 @@ import CustomTextfield from '../../../../../components/CustomTextfield'
 
 export const MedicationForm = (props) => {
   const {
-    onSubmit,
-    handleSubmit,
-    control,
-    isLoading,
-    onDelete,
+    errors,
     isEdit,
+    control,
+    onSubmit,
+    onDelete,
+    isLoading,
+    handleSubmit,
     isLoadingDelete,
   } = useMedicationForm(props)
   return (
@@ -21,12 +22,17 @@ export const MedicationForm = (props) => {
       <Grid container>
         <Grid item xs={12} mb={3}>
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
                 {...field}
+                error={errors.title}
                 label="Medication Name"
+                errorMessage={errors?.title?.message}
                 placeholder="Enter Medication Name"
               />
             )}

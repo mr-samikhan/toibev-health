@@ -1,41 +1,47 @@
-import React from "react";
-import { Grid, Box, Typography } from "@mui/material";
-import { Controller } from "react-hook-form";
-import CustomTextfield from "../../../../components/CustomTextfield";
-import ImageUploader from "../../../../components/MediaUpload";
-import CustomButton from "../../../../components/CustomButton";
-import { ReactComponent as PeopleIcon } from "../../../../assets/icons/people.svg";
-import useTribeForm from "../../hook/useTribeForm";
+import React from 'react'
+import { Grid, Box, Typography } from '@mui/material'
+import { Controller } from 'react-hook-form'
+import CustomTextfield from '../../../../components/CustomTextfield'
+import ImageUploader from '../../../../components/MediaUpload'
+import CustomButton from '../../../../components/CustomButton'
+import { ReactComponent as PeopleIcon } from '../../../../assets/icons/people.svg'
+import useTribeForm from '../../hook/useTribeForm'
 
 export default function TribeForm({ isEdit, initialState, setOpen }) {
   const {
+    errors,
     control,
     onSubmit,
-    selectedImage,
-    setSelectedImage,
     onDelete,
     isLoading,
-    isLoadingDelete,
     handleSubmit,
+    selectedImage,
+    isLoadingDelete,
+    setSelectedImage,
   } = useTribeForm({
     isEdit,
-    initialState,
     setOpen,
-  });
+    initialState,
+  })
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
         <Grid item xs={12} mb={3} mt={2}>
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
-                label="Tribe Name"
-                placeholder="Enter Tribe Name"
-                EndIcon={PeopleIcon}
                 {...field}
+                label="Tribe Name"
+                EndIcon={PeopleIcon}
+                error={errors?.title?.message}
+                placeholder="Enter Tribe Name"
+                errorMessage={errors?.title?.message}
               />
             )}
           />
@@ -55,17 +61,21 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
           />
         </Grid>
         <Grid item xs={12} mb={3}>
-          {" "}
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="description"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                rows={6}
+                multiline
+                {...field}
                 label="Culture Description"
                 placeholder="Culture Description"
-                multiline
-                rows={6}
-                {...field}
+                error={errors?.description?.message}
+                errorMessage={errors?.description?.message}
               />
             )}
           />
@@ -77,7 +87,7 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
                 fontWeight={500}
                 fontSize={18}
                 sx={{
-                  color: "#000000",
+                  color: '#000000',
                 }}
               >
                 File Upload
@@ -86,8 +96,8 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
             <Grid item xs={12}>
               <Grid
                 container
-                justifyContent={"space-between"}
-                sx={{ gap: "16px" }}
+                justifyContent={'space-between'}
+                sx={{ gap: '16px' }}
                 flexWrap="nowrap"
               >
                 {/* <Grid item xs={6}>
@@ -110,17 +120,17 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
         </Grid>
         <Grid item xs={12}>
           <CustomButton variant="contained" type="submit">
-            {isLoading ? "Saving" : "Save Culture"}
+            {isLoading ? 'Saving' : 'Save Culture'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12} mt={3}>
             <CustomButton variant="outlined" onClick={onDelete}>
-              {isLoadingDelete ? "Deleting..." : "Delete Culture"}
+              {isLoadingDelete ? 'Deleting...' : 'Delete Culture'}
             </CustomButton>
           </Grid>
         )}
       </Grid>
     </Box>
-  );
+  )
 }

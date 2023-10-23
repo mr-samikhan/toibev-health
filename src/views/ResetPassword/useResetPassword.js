@@ -1,48 +1,60 @@
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form'
 import {
-  confirmPasswordReset,
   auth,
-  verifyPasswordResetCode,
-} from "../../firebase";
-import { useLocation } from "react-router-dom";
-import queryString from "query-string";
+  confirmPasswordReset,
+  sendPasswordResetEmail,
+} from '../../firebase'
+import queryString from 'query-string'
+import { getAuth } from 'firebase/auth'
+import { useLocation } from 'react-router-dom'
 
 export default function useResetPassword() {
-  const { search } = useLocation();
-  const { oobCode } = queryString.parse(search);
+  const { search } = useLocation()
+  const { oobCode } = queryString.parse(search)
   const {
     control,
     handleSubmit,
     setError,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm()
 
-  const newPassword = watch("password");
+  const newPassword = watch('password')
 
   const handleResetPassword = () => {
     confirmPasswordReset(auth, oobCode, newPassword)
       .then(() => {
-        console.log("Password reset successful");
+        console.log('Password reset successful')
       })
       .catch((error) => {
-        console.log("Error resetting password:", error);
-      });
-  };
+        console.log('Error resetting password:', error)
+      })
+  }
+
+  const handleForgotPassword = async (email) => {
+    try {
+      const auth = getAuth()
+      await sendPasswordResetEmail(auth, email)
+      console.log('Password reset email sent successfully')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const onSubmit = (data) => {
-    const passwordsMatch = data.password === data.confirmPassword;
-    if (!passwordsMatch) {
-      setError("confirmPassword", { message: "Passwords do not match" });
-      return;
-    }
-    handleResetPassword();
-  };
+    // const passwordsMatch = data.password === data.confirmPassword
+    // if (!passwordsMatch) {
+    //   setError('confirmPassword', { message: 'Passwords do not match' })
+    //   return
+    // }
+    // handleResetPassword()
+    handleForgotPassword(data.email)
+  }
 
   return {
-    control,
-    handleSubmit,
-    onSubmit,
     errors,
-  };
+    control,
+    onSubmit,
+    handleSubmit,
+  }
 }
