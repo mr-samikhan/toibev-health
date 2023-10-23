@@ -9,10 +9,9 @@ import AlertDialog from '../../components/AlertDialog'
 import CustomButton from '../../components/CustomButton'
 import CustomTextfield from '../../components/CustomTextfield'
 import { ReactComponent as LockIcon } from '../../assets/icons/lock.svg'
-import {
-  // emailValidator,
-  atleastOneIntegerandOneCharacter,
-} from '../../utils/validators'
+import // emailValidator,
+// atleastOneIntegerandOneCharacter,
+'../../utils/validators'
 
 export default function ResetPassword() {
   const navigate = useNavigate()
@@ -22,11 +21,40 @@ export default function ResetPassword() {
   return (
     <AlertDialog
       onClose={() => navigate('/login')}
-      title="Reset Password"
+      title="Forgot Password"
       open={true}
       message={
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          {/* forgot password UI */}
           <Grid container>
+            <Grid item xs={12} mb={4}>
+              <Controller
+                name="email"
+                rules={{
+                  required: { value: true, message: 'Email is required' },
+                }}
+                control={control}
+                render={({ field }) => (
+                  <CustomTextfield
+                    {...field}
+                    EndIcon={LockIcon}
+                    error={!!errors?.email}
+                    label="Enter Email"
+                    placeholder="Enter Email"
+                    errorMessage={errors?.email?.message}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomButton variant="contained" type="submit">
+                Forgot Password
+              </CustomButton>
+            </Grid>
+          </Grid>
+
+          {/* Reset Password UI */}
+          {/* <Grid container>
             <Grid item xs={12} mb={4}>
               <Controller
                 name="password"
@@ -75,7 +103,7 @@ export default function ResetPassword() {
                 {'Reset Password'}
               </CustomButton>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
       }
     />
