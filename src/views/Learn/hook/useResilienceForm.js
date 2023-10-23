@@ -6,7 +6,11 @@ import { addResiliency, updateLanguage } from '../actions'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
 export default function useResilienceForm({ isEdit, initialState, setOpen }) {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: { title: initialState?.title },
   })
   const queryClient = useQueryClient()
@@ -71,9 +75,10 @@ export default function useResilienceForm({ isEdit, initialState, setOpen }) {
   }
 
   return {
+    errors,
     control,
-    handleSubmit,
     onSubmit,
     isLoading,
+    handleSubmit,
   }
 }
