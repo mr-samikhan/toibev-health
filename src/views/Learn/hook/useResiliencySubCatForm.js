@@ -12,7 +12,11 @@ export default function useResiliencySubCatForm({
   setOpen,
   initialState,
 }) {
-  const { control, handleSubmit, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: { title: initialState?.title },
   })
 
@@ -109,6 +113,7 @@ export default function useResiliencySubCatForm({
   return {
     pdf,
     image,
+    errors,
     setPdf,
     control,
     setImage,

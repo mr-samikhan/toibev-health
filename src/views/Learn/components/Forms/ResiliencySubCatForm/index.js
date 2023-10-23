@@ -29,6 +29,7 @@ export default function ResiliencySubCatForm({
   const {
     pdf,
     image,
+    errors,
     control,
     onSubmit,
     setImage,
@@ -49,13 +50,18 @@ export default function ResiliencySubCatForm({
       <Grid container>
         <Grid item xs={12} mb={3}>
           <Controller
+            rules={{
+              required: 'This field is required',
+            }}
             name="title"
             control={control}
             render={({ field }) => (
               <CustomTextfield
+                {...field}
                 label="Title"
                 placeholder="Type in title"
-                {...field}
+                error={errors?.title?.message}
+                errorMessage={errors?.title?.message}
               />
             )}
           />
