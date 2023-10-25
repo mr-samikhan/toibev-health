@@ -93,6 +93,7 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       cover_img: selectedImage,
       tribes: selectedTribes,
       videos: selectedVideos,
+      titles: [{ title: 'Hello' }],
     }
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }

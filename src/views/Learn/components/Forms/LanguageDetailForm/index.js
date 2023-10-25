@@ -1,19 +1,11 @@
 import React from 'react'
-import {
-  Grid,
-  Box,
-  Paper,
-  Divider,
-  MenuItem,
-  IconButton,
-  Typography,
-} from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 //imports
-import plus from '../../../../../assets/icons/plus-icon.svg'
 import CustomButton from '../../../../../components/CustomButton'
 import ImageUploader from '../../../../../components/MediaUpload'
 import { CustomChip } from '../../../../../components/CustomChip'
 import CustomTextfield from '../../../../../components/CustomTextfield'
+import { MuiCustomAutocomplete } from '../../../../../components/MuiCustomAutocomplete/MuiCustomAutocomplete'
 
 export default function LanguageDetailForm({
   onSubmit,
@@ -24,61 +16,28 @@ export default function LanguageDetailForm({
   setSelectedImage,
 }) {
   const [selectedTribes, setSelectedTribes] = React.useState([])
-  // const [isDropdownOpen, setIsDropdownOpen] = React.useState(true)
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(true)
 
-  // const handleDropdownOpen = () => {
-  //   setIsDropdownOpen(true)
-  // }
-
-  // const handleDropdownClose = () => {
-  //   setIsDropdownOpen(false)
-  // }
-
-  // const toggleDropdown = () => {
-  //   if (isDropdownOpen) {
-  //     handleDropdownClose()
-  //   } else {
-  //     handleDropdownOpen()
-  //   }
-  // }
-
-  const onSelectTribes = (record) => {
-    const index = selectedTribes.findIndex(
-      (item) => item.title === record.title
-    )
-
-    if (index === -1) {
-      selectedTribes.push(record)
-    } else {
-      selectedTribes.splice(index, 1)
-    }
-    setSelectedTribes([...selectedTribes])
-    return selectedTribes
+  const handleDropdownOpen = () => {
+    setIsDropdownOpen(true)
   }
 
-  const onHandleDeleteTribe = (record) => {
-    const deleteRec = selectedTribes.findIndex(
-      (item) => item.title === record.title
-    )
-    if (deleteRec !== -1) {
-      selectedTribes.splice(deleteRec, 1)
-    }
-    setSelectedTribes([...selectedTribes])
+  const handleDropdownClose = () => {
+    setIsDropdownOpen(false)
   }
 
-  const getSeletedItems = (item) => {
-    const test = selectedTribes?.findIndex(
-      (tribe) => tribe.title === item.title
-    )
-    if (test === -1) {
-      return false
+  const toggleDropdown = () => {
+    if (isDropdownOpen) {
+      handleDropdownClose()
     } else {
-      return true
+      handleDropdownOpen()
     }
   }
 
   let tribesList =
     selectedTribes?.length === 0 ? initialState?.tribes : selectedTribes
+
+  const [array, setArray] = React.useState([])
 
   return (
     <Box component="form">
@@ -90,53 +49,25 @@ export default function LanguageDetailForm({
         </Grid>
         <Grid item container columnGap={1.5} mb={3}>
           {tribesList?.map((tribe, index) => (
-            <Grid item>
+            <Grid item key={index}>
               <CustomChip index={index} title={tribe.title} />
             </Grid>
           ))}
         </Grid>
 
         <Grid item xs={12} mb={3}>
-          <Paper
-            elevation={0}
-            sx={{
-              height: 190,
-              borderRadius: '24px',
-              position: 'relative',
-              border: '2px solid #3B7D7D',
-            }}
-          >
-            <IconButton sx={{ position: 'absolute', right: 20, top: 20 }}>
-              <img src={plus} alt="plus-icon" />
-            </IconButton>
-            <Box width="90%" m="auto">
-              <Box display="flex" gap={2} flexWrap="wrap">
-                {selectedTribes?.map((tribe, index) => (
-                  <Grid item key={index}>
-                    <CustomChip
-                      title={tribe.title}
-                      index={tribe}
-                      handleDelete={onHandleDeleteTribe}
-                    />
-                  </Grid>
-                ))}
-              </Box>
-              <Divider
-                variant="inset"
-                sx={{ m: 'auto', width: '100%', mt: 3 }}
-              />
-              {initialState?.tribes?.map((item, index) => (
-                <MenuItem
-                  sx={{ p: 0 }}
-                  onClick={() => onSelectTribes(item)}
-                  selected={getSeletedItems(item)}
-                >
-                  {item.title}
-                </MenuItem>
-              ))}
-            </Box>
-          </Paper>
-          {/* <Autocomplete
+          <MuiCustomAutocomplete
+            isTribes
+            array={array}
+            isChip={true}
+            isInput={false}
+            isDivider={true}
+            selectedTribes={selectedTribes}
+            setArrayValues={setSelectedTribes}
+            initialStateArray={initialState?.tribes}
+          />
+        </Grid>
+        {/* <Autocomplete
             sx={{
               position: 'relative',
               '& .MuiInputBase-root': {
@@ -176,27 +107,26 @@ export default function LanguageDetailForm({
             onClose={toggleDropdown}
             getOptionLabel={(option) => option.title}
             defaultValue={[{ title: 'The Godfather', year: 1972 }]}
-            popupIcon={isDropdownOpen ? <Edit /> : <img src={plus} />}
+            popupIcon={isDropdownOpen ? <img src={plus} /> : <img src={plus} />}
             renderInput={(params) => (
-                <TextField
-                  {...params}
-                  sx={{
-                    '& .MuiInputBase-input': {
-                      display: 'flex',
-                      alignSelf: 'flex-start',
-                      m: '10px 31px 10px 10px',
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      height: 190,
-                      display: 'flex',
-                      alignSelf: 'flex-end',
-                      p: 10,
-                    },
-                  }}
-                />
+              <TextField
+                {...params}
+                sx={{
+                  '& .MuiInputBase-input': {
+                    display: 'flex',
+                    alignSelf: 'flex-start',
+                    m: '10px 31px 10px 10px',
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    height: 190,
+                    display: 'flex',
+                    alignSelf: 'flex-end',
+                    p: 10,
+                  },
+                }}
+              />
             )}
           /> */}
-        </Grid>
         <Grid item xs={12} mb={3}>
           <CustomTextfield
             label="Language Description"
@@ -205,6 +135,22 @@ export default function LanguageDetailForm({
             rows={6}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Typography>
+            Add/edit tribes that should be shown under this language
+          </Typography>
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <MuiCustomAutocomplete
+            array={array}
+            isChip={false}
+            isInput={true}
+            isDivider={false}
+            setArrayValues={setArray}
+            initialStateArray={array}
+            selectedTribes={selectedTribes}
           />
         </Grid>
         <Grid item xs={12} mb={3}>

@@ -73,7 +73,7 @@ export function Actions(props) {
               </IconButton>
             </Grid>
           )}
-          {pathname === '/home' && !mobile && (
+          {/* {pathname === '/home' && !mobile && (
             <Grid item>
               <IconButton
                 edge="end"
@@ -91,7 +91,7 @@ export function Actions(props) {
                 />
               </IconButton>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Grid>
     </>
