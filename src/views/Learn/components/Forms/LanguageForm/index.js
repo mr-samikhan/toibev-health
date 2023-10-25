@@ -10,6 +10,7 @@ import ImageUploader from '../../../../../components/MediaUpload'
 import { CustomChip } from '../../../../../components/CustomChip'
 import CustomTextfield from '../../../../../components/CustomTextfield'
 import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
+import { MuiCustomAutocomplete } from '../../../../../components/MuiCustomAutocomplete/MuiCustomAutocomplete'
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
@@ -28,6 +29,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     isLoadingCultures,
     isFetchingCultures,
     onHandleDeleteTribe,
+    setSelectedTribes,
     //
     setSelectedVideos,
     selectedVideos,
@@ -36,6 +38,8 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     initialState,
     setOpen,
   })
+
+  const [languages, setLanguages] = React.useState(initialState?.titles || [])
 
   const onChange = (e) => {
     const files = e.target.files
@@ -60,17 +64,6 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <Grid container>
-        <Grid item container columnGap={1.5} mb={3}>
-          {selectedTribes?.map((tribe, index) => (
-            <Grid item>
-              <CustomChip
-                index={tribe}
-                title={tribe.title}
-                handleDelete={onHandleDeleteTribe}
-              />
-            </Grid>
-          ))}
-        </Grid>
         <Grid item xs={12} mb={4} mt={2}>
           <Controller
             rules={{
@@ -90,8 +83,19 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             )}
           />
         </Grid>
+        <Grid item container columnGap={1.5} mb={3}>
+          {selectedTribes?.map((tribe, index) => (
+            <Grid item>
+              <CustomChip
+                index={tribe}
+                title={tribe.title}
+                handleDelete={onHandleDeleteTribe}
+              />
+            </Grid>
+          ))}
+        </Grid>
         <Grid item xs={12} mb={3}>
-          <CustomTextfield
+          {/* <CustomTextfield
             label="Select Tribes"
             placeholder="Select Tribe"
             select
@@ -103,6 +107,21 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
               )[0]
               onSelectTribes({ title: label, id: value })
             }}
+          /> */}
+          <MuiCustomAutocomplete
+            onChange={(e) => {
+              const { label, value } = cultures?.filter(
+                (culture) => culture?.id === e.target.value
+              )[0]
+              onSelectTribes({ title: label, id: value })
+            }}
+            isTribes
+            isInput={false}
+            // isChip={true}
+            isDivider={true}
+            selectedTribes={selectedTribes}
+            setArrayValues={setSelectedTribes}
+            initialStateArray={isEdit ? initialState?.tribes : cultures}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
@@ -123,6 +142,22 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                 errorMessage={errors?.description?.message}
               />
             )}
+          />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Typography>
+            Add/edit tribes that should be shown under this language
+          </Typography>
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <MuiCustomAutocomplete
+            isChip={false}
+            isInput={true}
+            isTribes={false}
+            isDivider={false}
+            array={languages}
+            selectedTribes={languages}
+            setArrayValues={setLanguages}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
