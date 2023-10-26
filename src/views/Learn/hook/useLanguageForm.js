@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useMutation, useQueryClient } from 'react-query'
-import { useGetCultures } from '../../../hooks/useGetCultures'
-import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
 import { useDispatch } from 'react-redux'
-import { setAlertValues } from '../../../redux/actions/loginActions'
+import { useMutation, useQueryClient } from 'react-query'
+//imports
 import { getErrorMessage } from '../../Login/utils'
+import { useGetCultures } from '../../../hooks/useGetCultures'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
 
 export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const {
@@ -24,9 +25,23 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     isEdit ? initialState?.videos : []
   )
 
+  const [audioFile, setAudioFile] = useState(
+    isEdit
+      ? initialState?.audio
+      : {
+          fileUrl: '',
+          fileName: '',
+          fileSize: '',
+          fileType: '',
+        }
+  )
+
+  const [languages, setLanguages] = useState(initialState?.words || [])
+
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.cover_img || '',
   })
+
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
 
@@ -93,8 +108,12 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       cover_img: selectedImage,
       tribes: selectedTribes,
       videos: selectedVideos,
-      titles: [{ title: 'Hello' }],
+      words: languages,
+      //audio file
+      audio: audioFile,
     }
+    delete audioFile.file
+
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }
 
@@ -140,7 +159,11 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     isFetchingCultures,
     onHandleDeleteTribe,
     //
-    setSelectedVideos,
+    languages,
+    audioFile,
+    setLanguages,
+    setAudioFile,
     selectedVideos,
+    setSelectedVideos,
   }
 }

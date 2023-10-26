@@ -7,8 +7,10 @@ import deleteIcon from './icons/delete.svg'
 import languageIcon from './icons/language.svg'
 import documentIcon from './icons/document.svg'
 import clipboardIcon from './icons/clipboard.svg'
+import microphoneIcon from './icons/microphone.svg'
 import statsUsersIcon from './icons/stats-users.svg'
 import statsViewsIcon from './icons/stats-views.svg'
+import videoCircleIcon from './icons/video-circle.svg'
 import mediaUploadIcon from './icons/media-upload.png'
 import editCalendarIcon from './icons/edit-calendar.svg'
 import statsCalendarIcon from './icons/stats-calendar.svg'
@@ -26,7 +28,9 @@ export default {
   clipboardIcon,
   statsViewsIcon,
   statsUsersIcon,
+  microphoneIcon,
   mediaUploadIcon,
+  videoCircleIcon,
   editCalendarIcon,
   statsCalendarIcon,
   statsAppointmentIcon,
