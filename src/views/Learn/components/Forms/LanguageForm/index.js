@@ -33,13 +33,15 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     //
     setSelectedVideos,
     selectedVideos,
+    languages,
+    setLanguages,
+    setAudioFile,
+    audioFile,
   } = useLanguageForm({
     isEdit,
     initialState,
     setOpen,
   })
-
-  const [languages, setLanguages] = React.useState(initialState?.titles || [])
 
   const onChange = (e) => {
     const files = e.target.files
@@ -82,6 +84,11 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
               />
             )}
           />
+        </Grid>
+        <Grid item xs={12} mb={3}>
+          <Typography>
+            Add/edit tribes that should be shown under this language
+          </Typography>
         </Grid>
         <Grid item container columnGap={1.5} mb={3}>
           {selectedTribes?.map((tribe, index) => (
@@ -146,7 +153,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
         </Grid>
         <Grid item xs={12} mb={3}>
           <Typography>
-            Add/edit tribes that should be shown under this language
+            Add/edit words that should be shown under this language
           </Typography>
         </Grid>
         <Grid item xs={12} mb={3}>
@@ -176,13 +183,19 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             <Grid item xs={12}>
               <Grid
                 container
-                justifyContent={'space-between'}
-                sx={{ gap: '16px' }}
                 flexWrap="nowrap"
+                sx={{ gap: '16px' }}
+                justifyContent={'space-between'}
               >
                 <Grid item xs={6}>
                   <ImageUploader
-                    // title="Image"
+                    fileType="audio"
+                    selectedFile={audioFile}
+                    setSelectedFile={setAudioFile}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <ImageUploader
                     fileType="image"
                     selectedFile={selectedImage}
                     setSelectedFile={setSelectedImage}
@@ -192,7 +205,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container md={12} spacing={2} mb={2}>
+        {/* <Grid item container md={12} spacing={2} mb={2}>
           {selectedVideos?.map((item, index) => (
             <Grid item xs={6} md={6} key={index}>
               <ImageUploader
@@ -214,7 +227,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
               />
             </Grid>
           )}
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} mb={isEdit && 2}>
           <CustomButton variant="contained" type="submit">
             {isLoading ? 'Saving...' : 'Save Language'}
