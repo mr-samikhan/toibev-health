@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { Grid, IconButton, useMediaQuery, Typography } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { Grid, IconButton, useMediaQuery, Typography, Box } from '@mui/material'
 
 //imports
 import './style.scss'
@@ -16,10 +16,13 @@ const ImageUploader = ({
 }) => {
   const mobile = useMediaQuery('(max-width: 600px)')
   const fileInputRef = useRef(null)
+  const audioRef = useRef(new Audio())
 
   const handleFileUpload = () => {
     fileInputRef.current.click()
   }
+
+  const [playAudio, setPlayAudio] = useState(false)
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]
@@ -40,6 +43,8 @@ const ImageUploader = ({
   const removeSelectedFile = (event) => {
     event.stopPropagation()
     setSelectedFile(null)
+    audioRef.current.pause()
+    audioRef.current.src = ''
   }
 
   const isFileTypeAllowed = (file) => {
@@ -60,6 +65,31 @@ const ImageUploader = ({
         return 'application/pdf'
     }
   }
+  const onPlayAudio = () => {
+    setPlayAudio(true)
+    audioRef.current.src = selectedFile.fileUrl
+    audioRef.current.play()
+  }
+
+  const onPauseAudio = () => {
+    setPlayAudio(false)
+    audioRef.current.pause()
+  }
+
+  const onAudioClick = () => {
+    if (playAudio) {
+      onPauseAudio()
+    } else {
+      onPlayAudio()
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      audioRef.current.pause()
+      audioRef.current.src = ''
+    }
+  }, [])
 
   return (
     <>
@@ -106,13 +136,34 @@ const ImageUploader = ({
               </video>
             ) : (
               <>
-                <Grid component="span" className="icon" mb={2}>
-                  <img
-                    src={icons.pdfIcon}
-                    alt="Upload Icon"
-                    className="icon-image"
-                  />
-                </Grid>
+                <Box position="relative">
+                  <Grid component="span" className="icon" mb={2}>
+                    {fileType === 'audio' && (
+                      <>
+                        <IconButton
+                          onClick={() => onAudioClick()}
+                          sx={{ position: 'absolute', right: 100 }}
+                        >
+                          <img
+                            width={30}
+                            height={30}
+                            alt="Upload Icon"
+                            src={icons.videoCircleIcon}
+                          />
+                        </IconButton>
+                      </>
+                    )}
+                    <img
+                      alt="Upload Icon"
+                      className="icon-image"
+                      src={
+                        fileType === 'audio'
+                          ? icons.microphoneIcon
+                          : icons.pdfIcon
+                      }
+                    />
+                  </Grid>
+                </Box>
                 <Grid component="span" className="file-name">
                   {selectedFile.fileName}
                 </Grid>
@@ -126,7 +177,13 @@ const ImageUploader = ({
           <>
             <Grid component="span" className="icon" mb={2}>
               <img
-                src={fileType === 'pdf' ? icons.pdfIcon : icons.mediaUploadIcon}
+                src={
+                  fileType === 'pdf'
+                    ? icons.pdfIcon
+                    : fileType === 'audio'
+                    ? icons.microphoneIcon
+                    : icons.mediaUploadIcon
+                }
                 alt="Upload Icon"
                 className="icon-image"
               />
