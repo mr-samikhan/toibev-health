@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Grid, IconButton, useMediaQuery, Typography, Box } from '@mui/material'
+import { Grid, Box, IconButton, Typography, useMediaQuery } from '@mui/material'
 
 //imports
 import './style.scss'
@@ -65,9 +65,29 @@ const ImageUploader = ({
         return 'application/pdf'
     }
   }
+
+  const [sliderValue, setSliderValue] = useState(null)
+
   const onPlayAudio = () => {
     setPlayAudio(true)
     audioRef.current.src = selectedFile.fileUrl
+    //get audio slider value
+    audioRef.current.currentTime = 0
+    audioRef.current.volume = 0.1
+    audioRef.current.playbackRate = 1
+    audioRef.current.ontimeupdate = () => {
+      const sliderValue =
+        (audioRef.current.currentTime / audioRef.current.duration) * 100
+      setSliderValue(sliderValue)
+    }
+    //end
+
+    //when audio ends
+    audioRef.current.onended = () => {
+      setPlayAudio(false)
+      setSliderValue(0)
+    }
+    //end
     audioRef.current.play()
   }
 
@@ -90,6 +110,27 @@ const ImageUploader = ({
       audioRef.current.src = ''
     }
   }, [])
+
+  //audio slider
+  const RenderDurationSlider = () => {
+    return (
+      <Box
+        height={4}
+        width={160}
+        borderRadius={30}
+        position="relative"
+        sx={{ background: 'rgba(59, 125, 125, 0.30)' }}
+      >
+        <Box
+          height={4}
+          borderRadius={30}
+          bgcolor="#3B7D7D"
+          position="absolute"
+          width={`${sliderValue}%`}
+        ></Box>
+      </Box>
+    )
+  }
 
   return (
     <>
@@ -142,7 +183,7 @@ const ImageUploader = ({
                       <>
                         <IconButton
                           onClick={() => onAudioClick()}
-                          sx={{ position: 'absolute', right: 100 }}
+                          sx={{ position: 'absolute', right: 90 }}
                         >
                           <img
                             width={30}
@@ -169,6 +210,9 @@ const ImageUploader = ({
                 </Grid>
                 <Grid component="span" className="file-size">
                   {selectedFile.fileSize}
+                </Grid>
+                <Grid component="span" className="file-size" mt={2}>
+                  <RenderDurationSlider />
                 </Grid>
               </>
             )}
