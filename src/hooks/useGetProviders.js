@@ -11,8 +11,9 @@ const fetchInfo = async () => {
       let provider = {
         ...document.data(),
         id: document.id,
-        subtitle: document.data().address,
         title: document.data().name,
+        subtitle: document.data().address,
+        createdAt: document.data().createdAt,
       }
 
       providersData.push(provider)
@@ -50,7 +51,11 @@ export const useGetProviders = ({ enabled = true }) => {
         const { city, state } = parseAddress(provider.address)
         const key = `${city} ${state}`
         if (!groupedProviders[key]) {
-          groupedProviders[key] = { title: key, clicks: 0 }
+          groupedProviders[key] = {
+            title: key,
+            clicks: 0,
+            createdAt: provider.createdAt,
+          }
         }
         groupedProviders[key].clicks += provider.clicks || 0
         // groupedProviders[key].providers.push(provider);

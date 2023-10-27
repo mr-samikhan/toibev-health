@@ -39,40 +39,6 @@ export const useDashboard = () => {
     isFetching: isFetchingAssessments,
   } = useGetAssessments({})
 
-  let eventCheck = startDate && endDate ? filterData.events : events
-  let assessmentCheck =
-    startDate && endDate ? filterData.assessments : assessments
-
-  useEffect(() => {
-    if (startDate && endDate) {
-      const eventsFilter = filterDataBetweenDates(events, startDate, endDate)
-      const assessmentsFilter = filterDataBetweenDates(
-        assessments,
-        startDate,
-        endDate
-      )
-      return setFilterData((prev) => ({
-        ...prev,
-        events: eventsFilter,
-        assessments: assessmentsFilter,
-      }))
-    }
-  }, [startDate, endDate, events, assessments])
-
-  const [selectedAssessment, setSelectedAssessment] = useState(
-    assessmentCheck?.length ? assessmentCheck[0] : {}
-  )
-
-  function filterDataBetweenDates(dataa, startDate, endDate) {
-    return dataa?.filter((item) => {
-      const itemDate = new Date(item?.createdAt?.seconds * 1000)
-      const applystartDate = new Date(startDate).getTime()
-      const applyendDate = new Date(endDate).getTime()
-
-      return itemDate >= applystartDate && itemDate <= applyendDate
-    })
-  }
-
   const {
     users,
     isLoading: isLoadingUsers,
@@ -92,6 +58,31 @@ export const useDashboard = () => {
     isFetching: isFechingResources,
   } = useGetReseliency({})
 
+  let eventCheck = startDate && endDate ? filterData.events : events
+  let assessmentCheck =
+    startDate && endDate ? filterData.assessments : assessments
+  let usersCheck = startDate && endDate ? filterData.users : users
+  let reseliencyCheck =
+    startDate && endDate ? filterData.reseliency : reseliency
+  let groupProviders =
+    startDate && endDate
+      ? filterData.groupedProvidersByLocation
+      : groupedProvidersByLocation
+
+  const [selectedAssessment, setSelectedAssessment] = useState(
+    assessmentCheck?.length ? assessmentCheck[0] : {}
+  )
+
+  function filterDataBetweenDates(data_, startDate, endDate) {
+    return data_?.filter((item) => {
+      const itemDate = new Date(item?.createdAt?.seconds * 1000)
+      const applystartDate = new Date(startDate).getTime()
+      const applyendDate = new Date(endDate).getTime()
+
+      return itemDate >= applystartDate && itemDate <= applyendDate
+    })
+  }
+
   const {
     conditions,
     isLoading: isLoadingConditions,
@@ -100,6 +91,45 @@ export const useDashboard = () => {
     id: selectedAssessment?.id,
     enabled: !!toggle,
   })
+
+  let conditionsCheck =
+    startDate && endDate ? filterData.conditions : conditions
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      const eventsFilter = filterDataBetweenDates(events, startDate, endDate)
+      const assessmentsFilter = filterDataBetweenDates(
+        assessments,
+        startDate,
+        endDate
+      )
+      const usersFilter = filterDataBetweenDates(users, startDate, endDate)
+      const groupedProvidersByLocationFilter = filterDataBetweenDates(
+        groupedProvidersByLocation,
+        startDate,
+        endDate
+      )
+      const reseliencyFilter = filterDataBetweenDates(
+        reseliency,
+        startDate,
+        endDate
+      )
+      const conditionsFilter = filterDataBetweenDates(
+        conditions,
+        startDate,
+        endDate
+      )
+      return setFilterData((prev) => ({
+        ...prev,
+        users: usersFilter,
+        events: eventsFilter,
+        reseliency: reseliencyFilter,
+        conditions: conditionsFilter,
+        assessments: assessmentsFilter,
+        groupedProvidersByLocation: groupedProvidersByLocationFilter,
+      }))
+    }
+  }, [startDate, endDate, events, assessments])
 
   const {
     conditions: surveyConditions,
@@ -123,11 +153,11 @@ export const useDashboard = () => {
 
   return {
     tab,
-    users,
+    users: usersCheck,
     setTab,
-    reseliency,
+    reseliency: reseliencyCheck,
     onTabClick,
-    conditions,
+    conditions: conditionsCheck,
     isLoadingUsers,
     isFetchingUsers,
     isLoadingEvents,
@@ -144,7 +174,7 @@ export const useDashboard = () => {
     isLoadingAssessments,
     isFetchingAssessments,
     isLoadingSurveyConditions,
-    groupedProvidersByLocation,
+    groupedProvidersByLocation: groupProviders,
     isFetchingSurveyConditions,
     totalScheduledAppointments,
   }
