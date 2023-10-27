@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { useNavigate } from 'react-router-dom'
 import { CircularProgress } from '@mui/material'
 //imports
+import icons from '../../assets/index'
 import { CustomList } from '../../components/List'
 import { Actions } from './components/ActionButtons'
 import AlertDialog from '../../components/AlertDialog'
@@ -48,6 +49,7 @@ export function Assessment() {
         </Grid>
       ) : (
         <CustomList
+          icon={icons.clipboardIcon}
           Actions={Actions}
           list={assessments}
           onRowClick={(row) => {
