@@ -12,6 +12,7 @@ const ImageUploader = ({
   onChange,
   onRemoveFile,
   selectedFile,
+  isLanguageForm,
   setSelectedFile,
   fileType = 'image',
   onAddLanguageAudio,
@@ -40,7 +41,9 @@ const ImageUploader = ({
         fileType: file.type,
         fileUrl,
       })
-      onAddLanguageAudio(index, file, fileType)
+      if (isLanguageForm) {
+        onAddLanguageAudio(index, file, fileType)
+      }
     }
   }
 
@@ -49,7 +52,9 @@ const ImageUploader = ({
     setSelectedFile(null)
     audioRef.current.pause()
     audioRef.current.src = ''
-    onRemoveFile(index, fileType)
+    if (isLanguageForm) {
+      onRemoveFile(index, fileType)
+    }
   }
 
   const isFileTypeAllowed = (file) => {

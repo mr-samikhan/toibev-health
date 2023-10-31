@@ -112,7 +112,6 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       //audio file
       // audio: audioFile,
     }
-    console.log(data)
     // delete audioFile.file
 
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)

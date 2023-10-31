@@ -211,6 +211,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                   <Grid item xs={6}>
                     <ImageUploader
                       index={index}
+                      isLanguageForm
                       fileType="audio"
                       selectedFile={item?.audio}
                       onRemoveFile={onRemoveFile}
@@ -221,6 +222,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                   <Grid item xs={6}>
                     <ImageUploader
                       index={index}
+                      isLanguageForm
                       fileType="image"
                       selectedFile={item?.image}
                       onRemoveFile={onRemoveFile}
