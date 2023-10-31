@@ -26,17 +26,17 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     selectedTribes,
     isLoadingDelete,
     setSelectedImage,
+    setSelectedTribes,
     isLoadingCultures,
     isFetchingCultures,
     onHandleDeleteTribe,
-    setSelectedTribes,
     //
-    setSelectedVideos,
-    selectedVideos,
+    audioFile,
     languages,
     setLanguages,
     setAudioFile,
-    audioFile,
+    selectedVideos,
+    setSelectedVideos,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -61,6 +61,26 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     const updatedSelectedVideos = [...selectedVideos]
     updatedSelectedVideos.splice(indexToRemove, 1)
     setSelectedVideos(updatedSelectedVideos)
+  }
+
+  const onAddLanguageAudio = (index, file, fileType) => {
+    let newLanguages = [...languages]
+    const fileUrl = URL.createObjectURL(file)
+    newLanguages[index][fileType] = {
+      file,
+      fileName: file.name,
+      fileSize: `${(file.size / (1024 * 1024)).toFixed(2)}mb`,
+      fileType: file.type,
+      fileUrl,
+    }
+    setLanguages(newLanguages)
+  }
+
+  //remove only the image or audio
+  const onRemoveFile = (indexToRemove, fileType) => {
+    const updatedSelectedVideos = [...languages]
+    updatedSelectedVideos[indexToRemove][fileType] = ''
+    setLanguages(updatedSelectedVideos)
   }
 
   return (
@@ -167,7 +187,54 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             setArrayValues={setLanguages}
           />
         </Grid>
-        <Grid item xs={12} mb={3}>
+        {languages?.map((item, index) => (
+          <Grid item xs={12} mb={3} key={index}>
+            <Grid container>
+              <Grid item xs={12} mb={2}>
+                <Typography
+                  fontWeight={500}
+                  fontSize={18}
+                  sx={{
+                    color: '#000000',
+                  }}
+                >
+                  File Upload:{` ${item?.title}`}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid
+                  container
+                  flexWrap="nowrap"
+                  sx={{ gap: '16px' }}
+                  justifyContent={'space-between'}
+                >
+                  <Grid item xs={6}>
+                    <ImageUploader
+                      index={index}
+                      fileType="audio"
+                      selectedFile={item?.audio}
+                      onRemoveFile={onRemoveFile}
+                      setSelectedFile={setAudioFile}
+                      onAddLanguageAudio={onAddLanguageAudio}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <ImageUploader
+                      index={index}
+                      fileType="image"
+                      selectedFile={item?.image}
+                      onRemoveFile={onRemoveFile}
+                      setSelectedFile={setSelectedImage}
+                      onAddLanguageAudio={onAddLanguageAudio}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        ))}
+        {/* previos work */}
+        {/* <Grid item xs={12} mb={3}>
           <Grid container>
             <Grid item xs={12} mb={2}>
               <Typography
@@ -204,7 +271,8 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
+        {/* end */}
         {/* <Grid item container md={12} spacing={2} mb={2}>
           {selectedVideos?.map((item, index) => (
             <Grid item xs={6} md={6} key={index}>
