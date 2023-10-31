@@ -1,16 +1,16 @@
 import { getStorage, uploadString } from 'firebase/storage'
 import {
-  updateDoc,
-  addDoc,
   doc,
-  collection,
+  ref,
+  addDoc,
+  setDoc,
+  storage,
+  updateDoc,
   firestore,
   deleteDoc,
-  storage,
-  ref,
+  collection,
   uploadBytes,
   getDownloadURL,
-  setDoc,
 } from '../../../firebase'
 
 const uploadFile = async (file, path) => {
@@ -95,34 +95,64 @@ const storeThumbnailInFirebase = async (thumbnailDataUrl, fileName) => {
 
 export const addLanguage = async (data) => {
   try {
-    let cover_img = ''
-    if (data.cover_img?.file) {
-      cover_img = await uploadFile(
-        data.cover_img.file,
-        `images/languages/${data.cover_img?.fileName}`
-      )
-    }
+    // let cover_img = ''
+    // if (data.cover_img?.file) {
+    //   cover_img = await uploadFile(
+    //     data.cover_img.file,
+    //     `images/languages/${data.cover_img?.fileName}`
+    //   )
+    // }
     //upload multiple videos
-    const videos = []
-    for (const video of data.videos) {
-      const { file, fileName } = video || {}
-      const url = await uploadFile(file, `videos/languages/${fileName}`)
+    // const videos = []
+    // for (const video of data.videos) {
+    //   const { file, fileName } = video || {}
+    //   const url = await uploadFile(file, `videos/languages/${fileName}`)
 
-      const thumbnailUrl = await storeThumbnailInFirebase(
-        video.thumbnail,
-        `images/languages/${fileName}`
+    //   const thumbnailUrl = await storeThumbnailInFirebase(
+    //     video.thumbnail,
+    //     `images/languages/${fileName}`
+    //   )
+    //   videos.push({
+    //     fileUrl: url,
+    //     thumbnail: thumbnailUrl,
+    //   })
+    // }
+    //end
+
+    //upload audio image file
+    const words = []
+    for (const word of data.words) {
+      const { image, audio, title } = word || {}
+      const imageUrl = await uploadFile(
+        image.file,
+        `images/languages/${image.fileName}`
       )
-      videos.push({
-        fileUrl: url,
-        thumbnail: thumbnailUrl,
+      const audioUrl = await uploadFile(
+        audio.file,
+        `audio/languages/${audio.fileName}`
+      )
+      words.push({
+        title,
+        image: {
+          fileUrl: imageUrl,
+          fileName: image.fileName,
+          fileSize: image.fileSize,
+        },
+        audio: {
+          fileUrl: audioUrl,
+          fileName: audio.fileName,
+          fileSize: audio.fileSize,
+        },
       })
     }
+    // end
 
     const language = {
       ...data,
       createdAt: new Date(),
-      cover_img,
-      videos,
+      words,
+      // cover_img,
+      // videos,
     }
     const docRef = await addDoc(collection(firestore, 'Languages'), language)
     return docRef
@@ -135,34 +165,83 @@ export const addLanguage = async (data) => {
 
 export const updateLanguage = async (data) => {
   try {
-    let cover_img = ''
-    if (data.cover_img.file) {
-      const { file, fileName } = data.cover_img || {}
-      const url = await uploadFile(file, `images/languages/${fileName}`)
-      cover_img = url
-    }
-
-    let existingVideos = data.videos.filter((video) => !video.id)
-    let newVideos = []
-    for (const video of data.videos) {
-      const { file, fileName, id } = video || {}
-      if (id) {
-        const url = await uploadFile(file, `videos/languages/${fileName}`)
-        const thumbnailUrl = await storeThumbnailInFirebase(
-          video.thumbnail,
-          `images/languages/${fileName}`
-        )
-        newVideos.push({
-          fileUrl: url,
-          thumbnail: thumbnailUrl,
-        })
+    //upload audio & image file
+    const words = []
+    for (const word of data.words) {
+      const { image, audio, title } = word || {}
+      if (!image.file || !audio.file) {
+        let emptyWord = {
+          title,
+          image: {
+            fileUrl: image.fileUrl || '',
+            fileName: image.fileName || '',
+            fileSize: image.fileSize || '',
+          },
+          audio: {
+            fileUrl: audio.fileUrl || '',
+            fileName: audio.fileName || '',
+            fileSize: audio.fileSize || '',
+          },
+        }
+        words.push(emptyWord)
+        continue
       }
+      const imageUrl = await uploadFile(
+        image.file,
+        `images/languages/${image.fileName}`
+      )
+      const audioUrl = await uploadFile(
+        audio.file,
+        `audio/languages/${audio.fileName}`
+      )
+      words.push({
+        title,
+        image: {
+          fileUrl: imageUrl || '',
+          fileName: image.fileName || '',
+          fileSize: image.fileSize || '',
+        },
+        audio: {
+          fileUrl: audioUrl || '',
+          fileName: audio.fileName || '',
+          fileSize: audio.fileSize || '',
+        },
+      })
     }
+    // end
+
+    // let cover_img = ''
+    // if (data.cover_img.file) {
+    //   const { file, fileName } = data.cover_img || {}
+    //   const url = await uploadFile(file, `images/languages/${fileName}`)
+    //   cover_img = url
+    // }
+
+    //videos upload
+    // let existingVideos = data.videos.filter((video) => !video.id)
+    // let newVideos = []
+    // for (const video of data.videos) {
+    //   const { file, fileName, id } = video || {}
+    //   if (id) {
+    //     const url = await uploadFile(file, `videos/languages/${fileName}`)
+    //     const thumbnailUrl = await storeThumbnailInFirebase(
+    //       video.thumbnail,
+    //       `images/languages/${fileName}`
+    //     )
+    //     newVideos.push({
+    //       fileUrl: url,
+    //       thumbnail: thumbnailUrl,
+    //     })
+    //   }
+    // }
+    //end
+
     const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
       ...data,
       updatedAt: new Date(),
-      cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
-      videos: [...existingVideos, ...newVideos],
+      words,
+      // videos: [...existingVideos, ...newVideos],
+      // cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
     return docRef
   } catch (error) {
@@ -196,6 +275,7 @@ export const addResiliency = async (data) => {
     throw errorCode
   }
 }
+
 export const addResiliencySubCat = async (data) => {
   try {
     const { file, fileName } = data.image || {}
@@ -227,6 +307,7 @@ export const addResiliencySubCat = async (data) => {
     throw error
   }
 }
+
 export const updateResiliencySubCat = async ({ data, collectionName }) => {
   try {
     let cover_img = ''
