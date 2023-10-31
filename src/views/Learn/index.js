@@ -106,7 +106,6 @@ export function Learn() {
           {tab === 0 && (
             <CustomList
               list={cultures}
-              icon={icons.peopleIcon}
               Actions={CultureActions}
               onRowClick={onRowClick}
             />

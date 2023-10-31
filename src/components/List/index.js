@@ -161,7 +161,7 @@ export function CustomList({
                                         }
                                       >
                                         <img
-                                          src={icon ?? item.icon}
+                                          src={icon ?? item?.cover_img}
                                           alt="edit-icon"
                                         />
                                       </Avatar>
