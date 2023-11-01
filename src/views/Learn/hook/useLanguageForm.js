@@ -105,14 +105,14 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const onSubmit = (formData) => {
     const data = {
       ...formData,
-      cover_img: selectedImage,
+      // cover_img: selectedImage,
       tribes: selectedTribes,
       videos: selectedVideos,
       words: languages,
       //audio file
-      audio: audioFile,
+      // audio: audioFile,
     }
-    delete audioFile.file
+    // delete audioFile.file
 
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }

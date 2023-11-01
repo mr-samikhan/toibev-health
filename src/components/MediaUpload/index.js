@@ -7,11 +7,15 @@ import icons from '../../assets'
 import { ReactComponent as ClearIcon } from '../../assets/icons/clear.svg'
 
 const ImageUploader = ({
+  index,
   title,
   onChange,
+  onRemoveFile,
   selectedFile,
+  isLanguageForm,
   setSelectedFile,
   fileType = 'image',
+  onAddLanguageAudio,
   handleImageRemove,
 }) => {
   const mobile = useMediaQuery('(max-width: 600px)')
@@ -37,6 +41,9 @@ const ImageUploader = ({
         fileType: file.type,
         fileUrl,
       })
+      if (isLanguageForm) {
+        onAddLanguageAudio(index, file, fileType)
+      }
     }
   }
 
@@ -45,6 +52,9 @@ const ImageUploader = ({
     setSelectedFile(null)
     audioRef.current.pause()
     audioRef.current.src = ''
+    if (isLanguageForm) {
+      onRemoveFile(index, fileType)
+    }
   }
 
   const isFileTypeAllowed = (file) => {

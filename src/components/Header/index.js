@@ -189,9 +189,9 @@ export const Header = ({ childData, handleDrawerToggle }) => {
                           </Grid>
                         )}
                         <Grid item sx={{ margin: '0px 24px 0px 32px' }}>
-                          <IconButton>
+                          {/* <IconButton>
                             <NotificationBadge />
-                          </IconButton>
+                          </IconButton> */}
                         </Grid>
                         <Grid item>
                           <Avatar onClick={onGotoSettingPage} />
