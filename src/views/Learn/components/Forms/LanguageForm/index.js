@@ -1,8 +1,9 @@
 import React from 'react'
 import { Controller } from 'react-hook-form'
-import { Grid, Box, Typography } from '@mui/material'
+import { Grid, Box, Typography, IconButton } from '@mui/material'
 
 //imports
+import plus from '../../../../../assets/icons/plus-icon.svg'
 import { createThumbnailFromVideo } from '../../../actions'
 import useLanguageForm from '../../../hook/useLanguageForm'
 import CustomButton from '../../../../../components/CustomButton'
@@ -43,6 +44,8 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     setOpen,
   })
 
+  const [isCoursesModal, setIsCoursesModal] = React.useState(false)
+
   const onChange = (e) => {
     const files = e.target.files
 
@@ -80,6 +83,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const onRemoveFile = (indexToRemove, fileType) => {
     const updatedSelectedVideos = [...languages]
     updatedSelectedVideos[indexToRemove][fileType] = ''
+    updatedSelectedVideos[indexToRemove].file = ''
     setLanguages(updatedSelectedVideos)
   }
 
@@ -198,7 +202,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
                     color: '#000000',
                   }}
                 >
-                  File Upload:{` ${item?.title}`}
+                  File Upload For:{` ${item?.title}`}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -298,6 +302,21 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             </Grid>
           )}
         </Grid> */}
+        <Grid item xs={12} mb={3} display="flex" gap={2} alignItems="center">
+          <Typography
+            fontWeight={500}
+            fontSize={18}
+            sx={{
+              color: '#000000',
+            }}
+          >
+            Courses
+          </Typography>
+          <IconButton>
+            <img src={plus} alt="plus" />
+          </IconButton>
+        </Grid>
+        {isCoursesModal && <Typography>Hello</Typography>}
         <Grid item xs={12} mb={isEdit && 2}>
           <CustomButton variant="contained" type="submit">
             {isLoading ? 'Saving...' : 'Save Language'}
