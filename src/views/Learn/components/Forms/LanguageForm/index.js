@@ -4,19 +4,19 @@ import { Grid, Box, Typography, IconButton } from '@mui/material'
 
 //imports
 import plus from '../../../../../assets/icons/plus-icon.svg'
-import calendarIcon from '../../../../../assets/icons/events-Icon.svg'
-import locationIcon from '../../../../../assets/icons/location-blue.svg'
 import { createThumbnailFromVideo } from '../../../actions'
 import useLanguageForm from '../../../hook/useLanguageForm'
+import { CustomList } from '../../../../../components/List'
 import CustomButton from '../../../../../components/CustomButton'
 import ImageUploader from '../../../../../components/MediaUpload'
+import AlertDialog from '../../../../../components/AlertDialog'
+import { useGetEvents } from '../../../../../hooks/useGetEvents'
 import { CustomChip } from '../../../../../components/CustomChip'
+import calendarIcon from '../../../../../assets/icons/events-Icon.svg'
 import CustomTextfield from '../../../../../components/CustomTextfield'
+import locationIcon from '../../../../../assets/icons/location-blue.svg'
 import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 import { MuiCustomAutocomplete } from '../../../../../components/MuiCustomAutocomplete/MuiCustomAutocomplete'
-import AlertDialog from '../../../../../components/AlertDialog'
-import { CustomList } from '../../../../../components/List'
-import { useGetEvents } from '../../../../../hooks/useGetEvents'
 
 export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   const {
@@ -27,17 +27,13 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     cultures,
     handleDelete,
     handleSubmit,
-    selectedImage,
     onSelectTribes,
     selectedTribes,
     isLoadingDelete,
     setSelectedImage,
     setSelectedTribes,
-    isLoadingCultures,
-    isFetchingCultures,
     onHandleDeleteTribe,
     //
-    audioFile,
     languages,
     setLanguages,
     setAudioFile,
