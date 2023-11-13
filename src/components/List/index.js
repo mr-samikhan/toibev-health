@@ -22,6 +22,8 @@ const Paper = styled('div')(({ theme }) => ({
 }))
 
 export function CustomList({
+  isNoicon,
+  selectedRows,
   cat,
   icon,
   noData,
@@ -36,6 +38,7 @@ export function CustomList({
   const removeOnClick = (event) => {
     event.stopPropagation()
   }
+
   let dragDisabled = isDragDisabled === undefined ? true : false
 
   const reorder = (list, startIndex, endIndex) => {
@@ -79,6 +82,12 @@ export function CustomList({
     )
   }
 
+  const onSelectStyle = (item) => {
+    return selectedRows?.filter((el) => el.id === item.id).length > 0
+      ? { background: 'rgba(59, 125, 125, 0.30)' }
+      : {}
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -113,6 +122,8 @@ export function CustomList({
                               <List dense={false} className="listing">
                                 <ListItem
                                   className="listing-item"
+                                  // style={onSelectStyle(item)}
+                                  style={onSelectStyle(item)}
                                   secondaryAction={
                                     !!Actions ? (
                                       <Grid onClick={removeOnClick}>
@@ -124,15 +135,17 @@ export function CustomList({
                                         />
                                       </Grid>
                                     ) : (
-                                      <IconButton
-                                        edge="end"
-                                        aria-label="delete"
-                                      >
-                                        <img
-                                          src={icons.editIcon}
-                                          alt="edit-icon"
-                                        />
-                                      </IconButton>
+                                      isNoicon && (
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="delete"
+                                        >
+                                          <img
+                                            src={icons.editIcon}
+                                            alt="edit-icon"
+                                          />
+                                        </IconButton>
+                                      )
                                     )
                                   }
                                   sx={{ cursor: onRowClick && 'pointer' }}
