@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
 //imports
 import { getErrorMessage } from '../../Login/utils'
+import { useGetEvents } from '../../../hooks/useGetEvents'
 import { useGetCultures } from '../../../hooks/useGetCultures'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
@@ -37,6 +38,8 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   )
 
   const [languages, setLanguages] = useState(initialState?.words || [])
+
+  const [selectedCourses, setSelectedCourses] = useState([])
 
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.cover_img || '',
@@ -83,6 +86,8 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     isFetching: isFetchingCultures,
   } = useGetCultures({ enabled: false })
 
+  const { data } = useGetEvents({ enabled: true })
+
   const { isLoading, mutate } = useMutation(
     isEdit ? updateLanguage : addLanguage,
     {
@@ -97,6 +102,28 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       onError: (error) => onError(error),
     }
   )
+
+  const onSelectCourses = (course) => {
+    let index = selectedCourses.findIndex((item) => item.id === course.id)
+    if (index === -1) {
+      //set only few things
+      setSelectedCourses([
+        ...selectedCourses,
+        {
+          id: course.id,
+          title: course.title,
+          startDate: course.startDate,
+          endDate: course.endDate,
+          location: course.location,
+          image: course.image,
+        },
+      ])
+    } else {
+      let temp = [...selectedCourses]
+      temp.splice(index, 1)
+      setSelectedCourses(temp)
+    }
+  }
 
   const handleDelete = () => {
     mutateDelete(initialState.id)
@@ -113,7 +140,6 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       // audio: audioFile,
     }
     // delete audioFile.file
-
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }
 
@@ -163,7 +189,11 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
     audioFile,
     setLanguages,
     setAudioFile,
+    events: data,
     selectedVideos,
+    selectedCourses,
+    onSelectCourses,
     setSelectedVideos,
+    setSelectedCourses,
   }
 }
