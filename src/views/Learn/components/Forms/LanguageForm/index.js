@@ -7,11 +7,10 @@ import plus from '../../../../../assets/icons/plus-icon.svg'
 import { createThumbnailFromVideo } from '../../../actions'
 import useLanguageForm from '../../../hook/useLanguageForm'
 import { CustomList } from '../../../../../components/List'
-import CustomButton from '../../../../../components/CustomButton'
-import ImageUploader from '../../../../../components/MediaUpload'
 import AlertDialog from '../../../../../components/AlertDialog'
-import { useGetEvents } from '../../../../../hooks/useGetEvents'
 import { CustomChip } from '../../../../../components/CustomChip'
+import ImageUploader from '../../../../../components/MediaUpload'
+import CustomButton from '../../../../../components/CustomButton'
 import calendarIcon from '../../../../../assets/icons/events-Icon.svg'
 import CustomTextfield from '../../../../../components/CustomTextfield'
 import locationIcon from '../../../../../assets/icons/location-blue.svg'
@@ -39,6 +38,10 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     setAudioFile,
     selectedVideos,
     setSelectedVideos,
+    selectedCourses,
+    setSelectedCourses,
+    onSelectCourses,
+    events,
   } = useLanguageForm({
     isEdit,
     initialState,
@@ -46,20 +49,6 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
   })
 
   const [isCoursesModal, setIsCoursesModal] = React.useState(false)
-  const [selectedCourses, setSelectedCourses] = React.useState([])
-
-  const { data } = useGetEvents({ enabled: true })
-
-  const onSelectCourses = (course) => {
-    let index = selectedCourses.findIndex((item) => item.id === course.id)
-    if (index === -1) {
-      setSelectedCourses([...selectedCourses, course])
-    } else {
-      let temp = [...selectedCourses]
-      temp.splice(index, 1)
-      setSelectedCourses(temp)
-    }
-  }
 
   const onCancel = () => {
     setSelectedCourses([])
@@ -358,7 +347,7 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             message={
               <>
                 <CustomList
-                  list={data}
+                  list={events}
                   icon={false}
                   isNoicon={false}
                   onRowClick={onSelectCourses}
