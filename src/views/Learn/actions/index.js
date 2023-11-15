@@ -165,84 +165,61 @@ export const addLanguage = async (data) => {
 
 export const updateLanguage = async (data) => {
   try {
-    //upload audio & image file
     const words = []
-    for (const word of data.words) {
-      const { image, audio, title } = word || {}
-      if (!image.file || !audio.file) {
-        let emptyWord = {
-          title,
-          image: {
-            fileUrl: image.fileUrl || '',
-            fileName: image.fileName || '',
-            fileSize: image.fileSize || '',
-          },
-          audio: {
-            fileUrl: audio.fileUrl || '',
-            fileName: audio.fileName || '',
-            fileSize: audio.fileSize || '',
-          },
+
+    await Promise.all(
+      data.words.map(async (word) => {
+        let { image, audio, title } = word || {}
+
+        if (image?.file === undefined || image?.file === '') {
+          image = {
+            fileUrl: image?.fileUrl,
+            fileName: image?.fileName,
+            fileSize: image?.fileSize,
+          }
         }
-        words.push(emptyWord)
-        continue
-      }
-      const imageUrl = await uploadFile(
-        image.file,
-        `images/languages/${image.fileName}`
-      )
-      const audioUrl = await uploadFile(
-        audio.file,
-        `audio/languages/${audio.fileName}`
-      )
-      words.push({
-        title,
-        image: {
-          fileUrl: imageUrl || '',
-          fileName: image.fileName || '',
-          fileSize: image.fileSize || '',
-        },
-        audio: {
-          fileUrl: audioUrl || '',
-          fileName: audio.fileName || '',
-          fileSize: audio.fileSize || '',
-        },
+
+        if (audio?.file === undefined || audio?.file === '') {
+          audio = {
+            fileUrl: audio?.fileUrl,
+            fileName: audio?.fileName,
+            fileSize: audio?.fileSize,
+          }
+        }
+
+        if (image?.file !== undefined) {
+          const imgUrl = await uploadFile(
+            image.file,
+            `images/languages/${image.fileName}`
+          )
+          word.image = {
+            fileUrl: imgUrl,
+            fileName: image.fileName,
+            fileSize: image.fileSize,
+          }
+        }
+
+        if (audio?.file !== undefined) {
+          const audioUrl = await uploadFile(
+            audio.file,
+            `audio/languages/${audio.fileName}`
+          )
+          word.audio = {
+            fileUrl: audioUrl,
+            fileName: audio.fileName,
+            fileSize: audio.fileSize,
+          }
+        }
+
+        words.push({ ...word, title })
       })
-    }
-    // end
-
-    // let cover_img = ''
-    // if (data.cover_img.file) {
-    //   const { file, fileName } = data.cover_img || {}
-    //   const url = await uploadFile(file, `images/languages/${fileName}`)
-    //   cover_img = url
-    // }
-
-    //videos upload
-    // let existingVideos = data.videos.filter((video) => !video.id)
-    // let newVideos = []
-    // for (const video of data.videos) {
-    //   const { file, fileName, id } = video || {}
-    //   if (id) {
-    //     const url = await uploadFile(file, `videos/languages/${fileName}`)
-    //     const thumbnailUrl = await storeThumbnailInFirebase(
-    //       video.thumbnail,
-    //       `images/languages/${fileName}`
-    //     )
-    //     newVideos.push({
-    //       fileUrl: url,
-    //       thumbnail: thumbnailUrl,
-    //     })
-    //   }
-    // }
-    //end
-
+    )
     const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
       ...data,
       updatedAt: new Date(),
       words,
-      // videos: [...existingVideos, ...newVideos],
-      // cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
     })
+
     return docRef
   } catch (error) {
     const errorCode = error.code
