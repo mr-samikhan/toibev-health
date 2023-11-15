@@ -39,7 +39,9 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
 
   const [languages, setLanguages] = useState(initialState?.words || [])
 
-  const [selectedCourses, setSelectedCourses] = useState([])
+  const [selectedCourses, setSelectedCourses] = useState(
+    isEdit ? initialState?.courses : []
+  )
 
   const [selectedImage, setSelectedImage] = useState({
     fileUrl: initialState?.cover_img || '',
@@ -132,14 +134,14 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
   const onSubmit = (formData) => {
     const data = {
       ...formData,
-      // cover_img: selectedImage,
+      words: languages,
       tribes: selectedTribes,
       videos: selectedVideos,
-      words: languages,
+      courses: selectedCourses,
       //audio file
       // audio: audioFile,
+      // cover_img: selectedImage,
     }
-    // delete audioFile.file
     isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
   }
 
