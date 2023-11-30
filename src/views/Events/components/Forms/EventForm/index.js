@@ -15,9 +15,12 @@ import { ReactComponent as TaskIcon } from '../../../../../assets/icons/task.svg
 import { ReactComponent as LinkIcon } from '../../../../../assets/icons/link.svg'
 import { ReactComponent as Clipboard } from '../../../../../assets/icons/clipboard.svg'
 import { ReactComponent as LocationIcon } from '../../../../../assets/icons/location.svg'
+import { useGetCultures } from '../../../../../hooks/useGetCultures'
+import { useGetEvents } from '../../../../../hooks/useGetEvents'
 
 export default function EventForm({ isEdit, data, open, setOpen }) {
   const {
+    watch,
     errors,
     endDate,
     onSubmit,
@@ -45,6 +48,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
   } = useEventForm({ initialState: data, open, setOpen, isEdit })
 
   const { pathname } = useLocation()
+
+  const { data: events } = useGetEvents({
+    enabled: false,
+  })
 
   return (
     <Box
@@ -79,7 +86,23 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
           <Controller
             name="title"
             control={control}
-            rules={{ required: 'Title is required' }}
+            rules={{
+              required: 'Field is required',
+              validate: (value) =>
+                isEdit && data?.title?.toLowerCase() === value.toLowerCase()
+                  ? data?.title?.toLowerCase() === value.toLowerCase() && true
+                  : isEdit && data?.title?.toLowerCase() !== value.toLowerCase()
+                  ? events?.some(
+                      (item) =>
+                        item?.title.toLowerCase() === value.toLowerCase()
+                    ) && 'Title already exists'
+                  : events?.some(
+                      (item) =>
+                        item?.title.toLowerCase() === value.toLowerCase()
+                    )
+                  ? 'Title already exists'
+                  : undefined,
+            }}
             render={({ field }) => (
               <CustomTextfield
                 label="Title"
