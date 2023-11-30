@@ -29,6 +29,7 @@ export default function useResiliencySubCatForm({
         }
       : null
   )
+
   const [image, setImage] = React.useState({
     fileUrl: initialState?.cover_img || '',
   })

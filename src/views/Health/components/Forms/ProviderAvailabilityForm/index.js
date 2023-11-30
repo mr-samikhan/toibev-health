@@ -41,9 +41,10 @@ export const ProviderAvailabilityForm = (props) => {
           <Grid className="available__times">
             {availableTimes?.map((time) => (
               <Button
+                key={time.value}
                 variant="contained"
-                className={time.isSelected ? 'time selected' : 'time'}
                 onClick={() => handleAvailableTime(time)}
+                className={time.isSelected ? 'time selected' : 'time'}
               >
                 {time.label}
               </Button>

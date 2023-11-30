@@ -153,6 +153,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   }
 
   return {
+    watch,
     errors,
     control,
     onSubmit,

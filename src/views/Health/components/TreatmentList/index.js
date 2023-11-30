@@ -104,6 +104,7 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                               index={index}
                               treatment={item}
                               ResourceActions={ResourceActions}
+                              icon={item?.cover_img || icon}
                             />
                           )}
                         </Grid>
@@ -120,7 +121,7 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
   )
 }
 
-export const TreatmentResource = ({ treatment, ResourceActions }) => {
+export const TreatmentResource = ({ icon, treatment, ResourceActions }) => {
   const { data, isLoading } = useGetTreatmentOptions({
     id: treatment?.id,
   })
@@ -160,7 +161,7 @@ export const TreatmentResource = ({ treatment, ResourceActions }) => {
                 <Grid container columnSpacing={1.5} alignItems="center">
                   <Grid item>
                     <Avatar className={'avatar-small'}>
-                      <img src={treatment?.icon} alt="treat-icon" />
+                      <img src={resource?.cover_img || icon} alt="treat-icon" />
                     </Avatar>
                   </Grid>
                   <Grid item>

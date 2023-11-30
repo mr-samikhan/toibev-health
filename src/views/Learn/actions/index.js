@@ -255,21 +255,23 @@ export const addResiliency = async (data) => {
 
 export const addResiliencySubCat = async (data) => {
   try {
-    const { file, fileName } = data.image || {}
+    const { file, fileName } = data.cover_img || {}
 
     const cover_img = file
       ? await uploadFile(file, `images/resiliency/${fileName}`)
       : ''
+
     const pdfFile = data.pdf
       ? await uploadFile(data.pdf, `pdfs/resiliency/${data.pdf.name}`)
       : ''
+
     const subCat = {
       title: data.title,
       cover_img,
       pdf: {
         fileUrl: pdfFile,
-        fileName: data.pdf?.name ?? '',
-        fileSize: data.pdf?.size ?? '',
+        fileName: data.pdf?.fileName ?? '',
+        fileSize: data.pdf?.fileSize ?? '',
       },
     }
 
@@ -292,6 +294,18 @@ export const updateResiliencySubCat = async ({ data, collectionName }) => {
       const { file, fileName } = data.cover_img || {}
       const url = await uploadFile(file, `images/resiliency-subCat/${fileName}`)
       cover_img = url
+    }
+
+    if (data.pdf?.file) {
+      const pdfFile = await uploadFile(
+        data.pdf,
+        `pdfs/resiliency/${data.pdf.name}`
+      )
+      data.pdf = {
+        fileUrl: pdfFile,
+        fileName: data.pdf?.fileName ?? '',
+        fileSize: data.pdf?.fileSize ?? '',
+      }
     }
 
     const resiliencyDocRef = doc(

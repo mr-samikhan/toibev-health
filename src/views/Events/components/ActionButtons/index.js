@@ -21,7 +21,11 @@ export function Actions(props) {
 
   const onUpdate = async () => {
     try {
-      let updated = { ...data, isActive: !eventStatus }
+      let updated = {
+        ...data,
+        isActive: !eventStatus,
+        icon: data.icon === undefined ? '' : data.icon,
+      }
       delete updated?.subtitle
       await updateEventDoc(updated)
     } catch (error) {
