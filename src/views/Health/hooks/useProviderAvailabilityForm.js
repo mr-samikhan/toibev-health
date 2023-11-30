@@ -66,9 +66,18 @@ export const useProviderAvailabilityForm = (props) => {
         })
       })
     )
-    // console.log(availabilities)
+    const uniqueSet = new Set(
+      availabilities.map((item) => JSON.stringify(item))
+    )
 
-    mutate({ availabilities, id: initialState.id, updatedAt: new Date() })
+    const uniqueArray = Array.from(uniqueSet).map((item) => JSON.parse(item))
+    console.log(uniqueArray)
+
+    mutate({
+      availabilities: uniqueArray,
+      id: initialState.id,
+      updatedAt: new Date(),
+    })
   }
 
   useEffect(() => {
