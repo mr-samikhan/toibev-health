@@ -1,0 +1,74 @@
+.sidebar-tab-text {
+  position: relative;
+  text-transform: capitalize;
+  color: var(--white) !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  @media screen and (max-width: 900px) {
+    text-transform: capitalize;
+    color: var(--black) !important;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+
+.active-tab {
+  position: relative;
+  color: var(--white) !important;
+  text-transform: capitalize;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.29) 0%,
+    rgba(217, 217, 217, 0) 91.58%
+  ) !important;
+
+  @media only screen and (max-width: 900px) {
+    color: var(--primary) !important;
+    text-transform: capitalize;
+    filter: invert(51%) sepia(24%) saturate(736%) hue-rotate(131deg)
+      brightness(93%) contrast(88%);
+    background: linear-gradient(
+      90deg,
+      rgba(70, 141, 141, 0.17) 2.73%,
+      rgba(70, 141, 141, 0) 100%
+    ) !important;
+  }
+}
+
+.border {
+  width: 6px;
+  background: #fff;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  @media only screen and (max-width: 900px) {
+    background: var(--primary) !important;
+  }
+}
+
+.black_icon {
+  filter: brightness(0) invert(0);
+}
+
+.white_icon {
+  color: var(--white) !important;
+  filter: brightness(1) invert(0);
+  @media only screen and (max-width: 900px) {
+    filter: brightness(0) invert(0);
+    color: var(--primary) !important;
+  }
+}
+
+.background {
+  position: absolute;
+  width: 135px;
+  margin-top: -8px;
+  z-index: -100;
+  @media only screen and (min-width: 900px) {
+    filter: brightness(0.3);
+  }
+}

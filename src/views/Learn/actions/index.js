@@ -11,6 +11,7 @@ import {
   collection,
   uploadBytes,
   getDownloadURL,
+  getDocs,
 } from '../../../firebase'
 
 const uploadFile = async (file, path) => {
@@ -253,6 +254,28 @@ export const addResiliency = async (data) => {
   }
 }
 
+export const updateResiliency = async (data) => {
+  try {
+    const collectionRef = collection(
+      firestore,
+      'Resiliency',
+      'general',
+      'this_is_new_1'
+    )
+    const querySnapshot = await getDocs(collectionRef)
+
+    // Delete each document in the collection
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref)
+    })
+
+    console.log('Collection successfully deleted!')
+  } catch (error) {
+    console.log('error', error)
+    return error
+  }
+}
+
 export const addResiliencySubCat = async (data) => {
   try {
     const { file, fileName } = data.cover_img || {}
@@ -262,7 +285,7 @@ export const addResiliencySubCat = async (data) => {
       : ''
 
     const pdfFile = data.pdf
-      ? await uploadFile(data.pdf, `pdfs/resiliency/${data.pdf.name}`)
+      ? await uploadFile(data.pdf, `pdfs/resiliency/${data.pdf.fileName}`)
       : ''
 
     const subCat = {

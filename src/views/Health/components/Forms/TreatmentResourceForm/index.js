@@ -69,7 +69,7 @@ export default function TreatmentResourceForm({
           />
         </Grid>
         <Grid xs={12} mb={4}>
-          {!!pdf ? (
+          {pdf?.fileName !== '' ? (
             <PdfFile pdf={pdf} handleRemoveFile={handleRemoveFile} />
           ) : (
             <>
@@ -94,7 +94,7 @@ export default function TreatmentResourceForm({
         </Grid>
 
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" disabled={isLoading} type="submit">
             {isLoading
               ? 'Loading...'
               : isEdit
@@ -104,7 +104,11 @@ export default function TreatmentResourceForm({
         </Grid>
         {isEdit && (
           <Grid item xs={12} mt={2}>
-            <CustomButton variant="outlined" onClick={onDelete}>
+            <CustomButton
+              variant="outlined"
+              onClick={onDelete}
+              disabled={isLoadingDelete}
+            >
               {isLoadingDelete ? 'Deleting' : 'Delete Resource'}
             </CustomButton>
           </Grid>

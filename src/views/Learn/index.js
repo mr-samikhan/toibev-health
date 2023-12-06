@@ -36,6 +36,16 @@ export function Learn() {
     isFetchingReseliency,
   } = useLearn()
 
+  const [openTitleModal, setOpenTitleModal] = React.useState(false)
+  const [isEdit, setIsEdit] = React.useState(false)
+  const [title, setTitle] = React.useState(null)
+
+  const onOpenMainModal = (title) => {
+    setTitle(title)
+    setOpenTitleModal(true)
+    setIsEdit(true)
+  }
+
   return (
     <>
       {tab === 0 && open && (
@@ -62,6 +72,21 @@ export function Learn() {
           setOpen={setOpen}
           message={
             <ResilienceForm setOpen={setOpen} initialState={reseliency[0]} />
+          }
+        />
+      )}
+      {openTitleModal && (
+        <AlertDialog
+          title="Update Resilience"
+          open={openTitleModal}
+          setOpen={setOpenTitleModal}
+          message={
+            <ResilienceForm
+              setOpen={setOpen}
+              isEdit={isEdit}
+              title={title}
+              initialState={reseliency[0]}
+            />
           }
         />
       )}
@@ -129,7 +154,11 @@ export function Learn() {
                 onChange={handleChange}
               />
               {reseliency[0]?.menu?.map((item) => (
-                <ResiliencyItem data={item} mobileMode={mobileMode} />
+                <ResiliencyItem
+                  data={item}
+                  onOpenMainModal={onOpenMainModal}
+                  mobileMode={mobileMode}
+                />
               ))}
             </>
           )}

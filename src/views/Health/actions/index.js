@@ -101,7 +101,7 @@ export const addTreatmentResource = async (data) => {
       ? await uploadFile(file, `images/treatment/${fileName}`)
       : ''
     const pdfFile = data.pdf
-      ? await uploadFile(data.pdf, `pdfs/treatment/${data.pdf.name}`)
+      ? await uploadFile(data.pdf.file, `pdfs/treatment/${data.pdf.fileName}`)
       : ''
     const docRef = await addDoc(
       collection(
@@ -142,7 +142,7 @@ export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
     if (rest.pdf?.file) {
       const url = await uploadFile(
         rest.pdf.file,
-        `pdfs/treatment/${rest.pdf.name}`
+        `pdfs/treatment/${rest.pdf.fileName}`
       )
       pdf = url
       rest.pdf = {

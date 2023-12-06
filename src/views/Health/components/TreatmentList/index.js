@@ -89,7 +89,7 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                             <CustomTextfield
                               multiline
                               rows={3}
-                              label="MAT Description"
+                              label="Description"
                               value={treatDescription}
                               onChange={(e) => {
                                 setTreatDescription(e.target.value)
