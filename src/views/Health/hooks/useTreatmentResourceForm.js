@@ -88,9 +88,16 @@ export default function useTreatmentResourceForm({
       cover_img: image,
     }
 
+    console.log(body)
+
     isEdit
-      ? mutate({ ...body, id: initialState.id, dataId: data?.id })
-      : mutate({ ...body, id: data?.id })
+      ? mutate({
+          ...body,
+          id: initialState.id,
+          dataId: data?.id,
+          createdAt: new Date(),
+        })
+      : mutate({ ...body, id: data?.id, updatedAt: new Date() })
   }
 
   //update description
@@ -116,7 +123,11 @@ export default function useTreatmentResourceForm({
   }
 
   const handleRemoveFile = () => {
-    setPdf(null)
+    setPdf({
+      fileName: '',
+      fileSize: '',
+      fileType: '',
+    })
   }
 
   return {

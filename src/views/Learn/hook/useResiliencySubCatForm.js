@@ -107,7 +107,10 @@ export default function useResiliencySubCatForm({
       cat: cat || '',
     }
     isEdit
-      ? mutate({ data: { ...data, id: initialState?.id }, collectionName: cat })
+      ? mutate({
+          data: { ...data, id: initialState?.id, createdAt: new Date() },
+          collectionName: cat,
+        })
       : mutate(data)
   }
 

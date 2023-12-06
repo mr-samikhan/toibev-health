@@ -2,16 +2,21 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
 import { getErrorMessage } from '../../Login/utils'
-import { addResiliency, updateLanguage } from '../actions'
+import { addResiliency, updateResiliency } from '../actions'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
-export default function useResilienceForm({ isEdit, initialState, setOpen }) {
+export default function useResilienceForm({
+  isEdit,
+  initialState,
+  setOpen,
+  title,
+}) {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { title: initialState?.title },
+    defaultValues: { title: isEdit ? title : '' },
   })
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
@@ -49,7 +54,7 @@ export default function useResilienceForm({ isEdit, initialState, setOpen }) {
   }
 
   const { isLoading, mutate } = useMutation(
-    isEdit ? updateLanguage : addResiliency,
+    isEdit ? updateResiliency : addResiliency,
     {
       onSuccess: (success) => onSuccess({ isDelete: false }),
       onError: (error) => onError(error),
