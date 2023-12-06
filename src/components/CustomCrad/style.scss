@@ -1,0 +1,19 @@
+.card {
+  .card-heading {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 38px;
+    color: #000000;
+  }
+  .card-container {
+    .card-wrapper {
+      min-height: 400px;
+      flex-direction: column;
+      background: #ffffff;
+      box-shadow: 0px 6px 20px rgba(36, 41, 41, 0.1);
+      border-radius: 16px;
+      padding: 16px 0px;
+      padding: 20px 0px;
+    }
+  }
+}

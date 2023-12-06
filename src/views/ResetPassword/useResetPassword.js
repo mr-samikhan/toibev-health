@@ -48,7 +48,7 @@ export default function useResetPassword() {
     )
   }
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async (email) => {
     confirmPasswordReset(auth, oobCode, newPassword)
       .then(() => {
         console.log('Password reset successful')
@@ -56,6 +56,18 @@ export default function useResetPassword() {
       .catch((error) => {
         console.log('Error resetting password:', error)
       })
+
+    // try {
+    //   const auth = getAuth()
+    //   const actionCodeSettings = {
+    //     url: 'https://toiyabe-v2.web.app/reset-password',
+    //     handleCodeInApp: true,
+    //   }
+    //   await sendPasswordResetEmail(auth, email, actionCodeSettings)
+    //   console.log('Password reset email sent successfully')
+    // } catch (error) {
+    //   console.log(error.message)
+    // }
   }
 
   const checkEmail = async (email) => {
@@ -67,7 +79,8 @@ export default function useResetPassword() {
         // onError('Email does not exist')
         return { message: 'Email does not exist', type: 'error' }
       } else {
-        handleResetPassword(email)
+        // await handleForgotPassword(email)
+        await handleResetPassword(email)
         return { message: 'Email sent successfully' }
         // onSuccess({ message: 'Email sent successfully' })
       }
@@ -83,7 +96,7 @@ export default function useResetPassword() {
       await sendPasswordResetEmail(auth, email)
       console.log('Password reset email sent successfully')
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
     }
   }
 

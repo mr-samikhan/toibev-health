@@ -6,13 +6,20 @@ import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people
 import CustomButton from '../../../../../components/CustomButton'
 import useResilienceForm from '../../../hook/useResilienceForm'
 
-export default function ResilienceForm({ isEdit, initialState, setOpen }) {
+export default function ResilienceForm({
+  isEdit,
+  initialState,
+  setOpen,
+  title,
+}) {
   const { control, handleSubmit, onSubmit, isLoading, errors } =
     useResilienceForm({
       isEdit,
       initialState,
       setOpen,
+      title,
     })
+  console.log(isEdit, '>>>>')
 
   return (
     <>

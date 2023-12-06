@@ -12,7 +12,7 @@ import { ListTitle } from '../../../../components/ListTitile'
 import ResiliencySubCatForm from '../Forms/ResiliencySubCatForm'
 import { useResiliencyCatrgory } from '../../hook/useResiliencyCatrgory'
 
-export default function ResiliencyItem({ data, mobileMode }) {
+export default function ResiliencyItem({ data, mobileMode, onOpenMainModal }) {
   const {
     open,
     setOpen,
@@ -34,6 +34,7 @@ export default function ResiliencyItem({ data, mobileMode }) {
             title={data?.title}
             startIcon={icons.clockIcon}
             endIcon={icons.editIcon}
+            onOpenMainModal={onOpenMainModal}
           />
         </Grid>
         <Grid item xs={12} sx={{ marginBottom: '24px' }}>
