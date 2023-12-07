@@ -254,22 +254,146 @@ export const addResiliency = async (data) => {
   }
 }
 
-export const updateResiliency = async (data) => {
+export const updateResiliency = async ({
+  data,
+  newCollectionName,
+  oldCollectionName,
+}) => {
   try {
+    const collectionName = newCollectionName?.split(' ').join('_').toLowerCase()
+    const oldCollectionName_ = oldCollectionName
+      ?.split(' ')
+      .join('_')
+      .toLowerCase()
+
+    //get collection data
     const collectionRef = collection(
       firestore,
       'Resiliency',
       'general',
-      'this_is_new_1'
+      oldCollectionName_
     )
     const querySnapshot = await getDocs(collectionRef)
+    if (querySnapshot.docs.length > 0) {
+      const existingRecs = querySnapshot.docs.map((doc) => doc.data())
 
-    // Delete each document in the collection
-    querySnapshot.forEach(async (doc) => {
-      await deleteDoc(doc.ref)
-    })
+      //add collection here
+      const firestoreCollection = collection(
+        firestore,
+        'Resiliency',
+        'general',
+        collectionName
+      )
 
-    console.log('Collection successfully deleted!')
+      // Delete each document in the collection
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref)
+      })
+
+      for (const item of existingRecs) {
+        try {
+          await addDoc(firestoreCollection, item)
+          // console.log('Document successfully added!')
+        } catch (error) {
+          console.error('Error adding document: ', error)
+        }
+      }
+      const index = data.menu.findIndex(
+        (item) => item.title === oldCollectionName
+      )
+
+      if (index !== -1) {
+        data.menu[index].title = newCollectionName
+        data.menu[index].value = collectionName
+      }
+
+      // update doc here
+      const resiliencyDocRef = doc(firestore, 'Resiliency', 'general')
+      await updateDoc(
+        resiliencyDocRef,
+        {
+          ['menu']: data.menu,
+        },
+        {
+          merge: true,
+        }
+      )
+    } else {
+      //only update menu
+      const index = data.menu.findIndex(
+        (item) => item.title === oldCollectionName
+      )
+
+      if (index !== -1) {
+        data.menu[index].title = newCollectionName
+        data.menu[index].value = collectionName
+      }
+      const resiliencyDocRef = doc(firestore, 'Resiliency', 'general')
+      await updateDoc(
+        resiliencyDocRef,
+        {
+          ['menu']: data.menu,
+        },
+        {
+          merge: true,
+        }
+      )
+    }
+    return true
+  } catch (error) {
+    console.log('error', error)
+    return error
+  }
+}
+
+export const deleteResiliency = async ({ collectionName, data }) => {
+  try {
+    const oldCollectionName_ = collectionName
+      ?.split(' ')
+      .join('_')
+      .toLowerCase()
+    const index = data.menu.findIndex((item) => item.title === collectionName)
+
+    if (index !== -1) {
+      data.menu.splice(index, 1)
+    }
+    const collectionRef = collection(
+      firestore,
+      'Resiliency',
+      'general',
+      oldCollectionName_
+    )
+    const querySnapshot = await getDocs(collectionRef)
+    if (querySnapshot.docs.length > 0) {
+      // Delete each document in the collection
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref)
+      })
+      const resiliencyDocRef = doc(firestore, 'Resiliency', 'general')
+      await updateDoc(
+        resiliencyDocRef,
+        {
+          ['menu']: data.menu,
+        },
+        {
+          merge: true,
+        }
+      )
+    } else {
+      //only update menu
+
+      const resiliencyDocRef = doc(firestore, 'Resiliency', 'general')
+      await updateDoc(
+        resiliencyDocRef,
+        {
+          ['menu']: data.menu,
+        },
+        {
+          merge: true,
+        }
+      )
+    }
+    return true
   } catch (error) {
     console.log('error', error)
     return error

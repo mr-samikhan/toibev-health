@@ -2,7 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import Grid from '@mui/material/Grid'
-import { Alert, CircularProgress } from '@mui/material'
+import { Alert, Chip, CircularProgress } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import Accordion from '@mui/material/Accordion'
@@ -24,8 +24,12 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
   const [expanded, setExpanded] = React.useState(false)
   const [selectedId, setSelectedId] = React.useState(null)
 
-  const { updateIt, treatDescription, setTreatDescription } =
-    useTreatmentResourceForm({})
+  const {
+    updateIt,
+    treatDescription,
+    setTreatDescription,
+    updateTreatLoading,
+  } = useTreatmentResourceForm({})
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
@@ -86,16 +90,36 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                       <Grid container>
                         <Grid item xs={12} mb={2.5}>
                           {selectedId === item.id && (
-                            <CustomTextfield
-                              multiline
-                              rows={3}
-                              label="Description"
-                              value={treatDescription}
-                              onChange={(e) => {
-                                setTreatDescription(e.target.value)
-                                updateIt(e.target.value, item.id)
-                              }}
-                            />
+                            <>
+                              <CustomTextfield
+                                multiline
+                                rows={3}
+                                label="Description"
+                                value={treatDescription}
+                                onChange={(e) => {
+                                  setTreatDescription(e.target.value)
+                                }}
+                              />
+                              <Box
+                                textAlign="center"
+                                mt={2}
+                                onClick={() =>
+                                  updateIt(treatDescription, item.id)
+                                }
+                              >
+                                <Chip
+                                  label={
+                                    updateTreatLoading ? 'Loading...' : 'Update'
+                                  }
+                                  sx={{ cursor: 'pointer' }}
+                                  disabled={
+                                    updateTreatLoading ||
+                                    treatDescription?.length === 0 ||
+                                    ''
+                                  }
+                                />
+                              </Box>
+                            </>
                           )}
                         </Grid>
                         <Grid item container columnSpacing={6} rowSpacing={2}>

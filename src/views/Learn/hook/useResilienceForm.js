@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useMutation, useQueryClient } from 'react-query'
 import { getErrorMessage } from '../../Login/utils'
-import { addResiliency, updateResiliency } from '../actions'
+import { addResiliency, deleteResiliency, updateResiliency } from '../actions'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
 export default function useResilienceForm({
@@ -10,6 +10,7 @@ export default function useResilienceForm({
   initialState,
   setOpen,
   title,
+  setOpenTitleModal,
 }) {
   const {
     control,
@@ -56,7 +57,20 @@ export default function useResilienceForm({
   const { isLoading, mutate } = useMutation(
     isEdit ? updateResiliency : addResiliency,
     {
-      onSuccess: (success) => onSuccess({ isDelete: false }),
+      onSuccess: (success) => {
+        onSuccess({ isDelete: false })
+        isEdit && setOpenTitleModal(false)
+      },
+      onError: (error) => onError(error),
+    }
+  )
+  const { isLoading: isDeleteLoading, mutate: onDelete } = useMutation(
+    deleteResiliency,
+    {
+      onSuccess: (success) => {
+        onSuccess({ isDelete: true })
+        isEdit && setOpenTitleModal(false)
+      },
       onError: (error) => onError(error),
     }
   )
@@ -73,10 +87,21 @@ export default function useResilienceForm({
       ],
     }
     if (isEdit) {
-      mutate({ ...data, id: initialState.id })
+      mutate({
+        data: { ...initialState, id: initialState.id },
+        newCollectionName: formData.title,
+        oldCollectionName: title,
+      })
     } else {
       mutate(data)
     }
+  }
+
+  const handleDelete = async () => {
+    onDelete({
+      data: initialState,
+      collectionName: title,
+    })
   }
 
   return {
@@ -85,5 +110,7 @@ export default function useResilienceForm({
     onSubmit,
     isLoading,
     handleSubmit,
+    isDeleteLoading,
+    onDelete: handleDelete,
   }
 }
