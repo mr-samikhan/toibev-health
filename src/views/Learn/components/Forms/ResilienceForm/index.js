@@ -1,25 +1,33 @@
 import React from 'react'
 import { Grid, Box } from '@mui/material'
 import { Controller } from 'react-hook-form'
-import CustomTextfield from '../../../../../components/CustomTextfield'
-import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 import CustomButton from '../../../../../components/CustomButton'
 import useResilienceForm from '../../../hook/useResilienceForm'
+import CustomTextfield from '../../../../../components/CustomTextfield'
+import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 
 export default function ResilienceForm({
-  isEdit,
-  initialState,
-  setOpen,
   title,
+  isEdit,
+  setOpen,
+  initialState,
+  setOpenTitleModal,
 }) {
-  const { control, handleSubmit, onSubmit, isLoading, errors } =
-    useResilienceForm({
-      isEdit,
-      initialState,
-      setOpen,
-      title,
-    })
-  console.log(isEdit, '>>>>')
+  const {
+    errors,
+    control,
+    onDelete,
+    onSubmit,
+    isLoading,
+    handleSubmit,
+    isDeleteLoading,
+  } = useResilienceForm({
+    title,
+    isEdit,
+    setOpen,
+    initialState,
+    setOpenTitleModal,
+  })
 
   return (
     <>
@@ -49,6 +57,20 @@ export default function ResilienceForm({
               {isLoading ? 'Saving...' : 'Save'}
             </CustomButton>
           </Grid>
+          {isEdit && (
+            <Grid item xs={12} mb={isEdit && 2}>
+              <CustomButton
+                variant="contained"
+                onClick={onDelete}
+                disabled={isDeleteLoading}
+                sx={{
+                  bgcolor: '#FF0000',
+                }}
+              >
+                {isDeleteLoading ? 'Deleting...' : 'Delete'}
+              </CustomButton>
+            </Grid>
+          )}
         </Grid>
       </Box>
     </>

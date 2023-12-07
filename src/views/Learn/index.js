@@ -86,6 +86,7 @@ export function Learn() {
               isEdit={isEdit}
               title={title}
               initialState={reseliency[0]}
+              setOpenTitleModal={setOpenTitleModal}
             />
           }
         />
@@ -149,9 +150,9 @@ export function Learn() {
               <CustomTextfield
                 multiline
                 rows={3}
-                label="Resiliency Description"
-                // value={reseliency[0]?.description}
                 onChange={handleChange}
+                label="Resiliency Description"
+                defaultValue={reseliency[0]?.description}
               />
               {reseliency[0]?.menu?.map((item) => (
                 <ResiliencyItem

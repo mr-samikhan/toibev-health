@@ -33,7 +33,11 @@ export default function useTreatmentResourceForm({
           fileName: initialState?.pdf?.fileName || '',
           fileSize: initialState?.pdf?.fileSize || '',
         }
-      : null
+      : {
+          fileUrl: '',
+          fileName: '',
+          fileSize: '',
+        }
   )
 
   const [image, setImage] = useState({
@@ -56,12 +60,17 @@ export default function useTreatmentResourceForm({
     }
   )
 
-  const { mutate: updateTreat } = useMutation(updateTreatment, {
-    onSuccess: (success) => {},
-    onError: (error) => {
-      console.log(error)
-    },
-  })
+  const { isLoading: updateTreatLoading, mutate: updateTreat } = useMutation(
+    updateTreatment,
+    {
+      onSuccess: (success) => {
+        queryClient.invalidateQueries('get-all-treatments')
+      },
+      onError: (error) => {
+        console.log(error)
+      },
+    }
+  )
 
   const { isLoading: isLoadingDelete, mutate: mutateDeelete } = useMutation(
     deleteTreatmentResource,
@@ -148,6 +157,7 @@ export default function useTreatmentResourceForm({
     handleFileChange,
     handleFileUpload,
     handleRemoveFile,
+    updateTreatLoading,
     setTreatDescription,
   }
 }

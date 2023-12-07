@@ -1,6 +1,6 @@
 import React from 'react'
-import { Grid, Avatar, Typography, IconButton } from '@mui/material'
 import './listItem.scss'
+import { Grid, Avatar, Typography, IconButton } from '@mui/material'
 
 export function ListItem({ startIcon, title, endIcon, onOpenMainModal }) {
   return (
@@ -16,7 +16,6 @@ export function ListItem({ startIcon, title, endIcon, onOpenMainModal }) {
         <Grid item xs={10}>
           <Grid container spacing={2} alignItems="center" flexWrap={'nowrap'}>
             <Grid item>
-              {' '}
               <Avatar className="avatar">
                 <img src={startIcon} />
               </Avatar>

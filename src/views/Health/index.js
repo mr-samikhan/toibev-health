@@ -27,27 +27,29 @@ export function Health() {
     tab,
     setTab,
     providers,
-    openAddProvider,
-    setOpenAddProvider,
-    handleClick,
-    isLoadingProviders,
-    isFetchingProviders,
-    openGroupSessionForm,
-    openMedicationForm,
-    openTreatmentForm,
-    setOpenGroupSessionForm,
-    setOpenMedicationForm,
-    setOpenTreatmentForm,
-    isLoadingGroupSessions,
-    isLoadingMedication,
-    isLoadingTreatment,
-    isFetchingGroupSessions,
-    isFetchingMedication,
-    isFetchingTreatment,
-    groupSessions,
     medication,
     treatments,
     mobileMode,
+    handleClick,
+    groupSessions,
+    openAddProvider,
+    isLoadingProviders,
+    isFetchingProviders,
+    openMedicationForm,
+    openTreatmentForm,
+    treatDescription,
+    isLoadingMedication,
+    setOpenAddProvider,
+    isLoadingTreatment,
+    onDescripitonChange,
+    openGroupSessionForm,
+    setOpenTreatmentForm,
+    isFetchingTreatment,
+    setOpenMedicationForm,
+    isFetchingMedication,
+    isLoadingGroupSessions,
+    isFetchingGroupSessions,
+    setOpenGroupSessionForm,
   } = useHealth({})
 
   if (
@@ -213,13 +215,19 @@ export function Health() {
             </Button>
           </Grid>
           <Grid item container>
-            <CustomTextfield multiline rows={3} label="Treatment Description" />
+            <CustomTextfield
+              multiline
+              rows={3}
+              label="Treatment Description"
+              defaultValue={treatDescription}
+              onChange={onDescripitonChange}
+            />
           </Grid>
           <TreatmentList
-            ResourceActions={TreatmentResourceActions}
-            Actions={TreatmentActions}
             list={treatments}
             icon={icons.peopleIcon}
+            Actions={TreatmentActions}
+            ResourceActions={TreatmentResourceActions}
           />
         </Grid>
       )}
