@@ -25,9 +25,9 @@ export function useInformation() {
 
   useEffect(() => {
     setDescription(desc)
-  }, [])
+  }, [desc])
 
-  const { isLoading, mutate } = useMutation(updateDescription, {
+  const { mutate } = useMutation(updateDescription, {
     onSuccess: (success) => {},
     onError: (error) => {
       console.log(error)
@@ -35,8 +35,8 @@ export function useInformation() {
   })
 
   const handleChange = (event) => {
-    setDescription(event.target.value)
     mutate({ description: event.target.value })
+    setDescription(event.target.value)
   }
 
   return {

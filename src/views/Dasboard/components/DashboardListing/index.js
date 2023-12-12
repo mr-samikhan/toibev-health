@@ -47,6 +47,11 @@ export default function DashboardListing({ list, tabs, listing, isLoading }) {
       <Grid container mb={2} px={3}>
         {tabs}
       </Grid>
+      {list?.length === 0 && (
+        <Grid item xs={12} className="card-list-item">
+          <Typography textAlign="center">No results found</Typography>
+        </Grid>
+      )}
       {listing !== 'surveys' ? (
         <Grid container className="dashboard-listing">
           {isLoading
