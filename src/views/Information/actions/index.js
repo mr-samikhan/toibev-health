@@ -1,190 +1,195 @@
 import {
-  updateDoc,
-  addDoc,
   doc,
-  collection,
+  ref,
+  addDoc,
+  setDoc,
+  storage,
+  updateDoc,
   firestore,
   deleteDoc,
-  storage,
-  ref,
+  collection,
   uploadBytes,
   getDownloadURL,
-} from "../../../firebase";
+} from '../../../firebase'
+
+const UNIQUE_STRING = Math.random().toString(36).substr(2, 9)
 
 const uploadImage = async (file, path) => {
   try {
-    const storageRef = ref(storage, path);
-    const snapshot = await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(snapshot.ref);
-    return url;
+    const storageRef = ref(storage, `${path}__${UNIQUE_STRING}`)
+    const snapshot = await uploadBytes(storageRef, file)
+    const url = await getDownloadURL(snapshot.ref)
+    return url
   } catch (error) {
-    console.error("Error uploading file:", error);
-    throw error;
+    console.error('Error uploading file:', error)
+    throw error
   }
-};
+}
 
 export const addService = async (data) => {
-  let images = [];
+  let images = []
   try {
     for (let index = 0; index < data?.images.length; index++) {
-      const file = data?.images[index];
+      const file = data?.images[index]
       if (file?.file) {
         const url = await uploadImage(
           file.file,
           `images/services/${index}/${file.fileName}`
-        );
-        images.push(url);
+        )
+        images.push(url)
       } else {
-        images.push(file.fileUrl);
+        images.push(file.fileUrl)
       }
     }
 
     const serviceData = {
       ...data,
       images,
-    };
+    }
 
     const docRef = await addDoc(
-      collection(firestore, "Information", "services", "list"),
+      collection(firestore, 'Information', 'services', 'list'),
       serviceData
-    );
+    )
 
-    return docRef;
+    return docRef
   } catch (error) {
-    console.error("Error adding document:", error);
-    throw error;
+    console.error('Error adding document:', error)
+    throw error
   }
-};
+}
 
 export const updateService = async (data) => {
-  let images = [];
+  let images = []
   try {
     for (let index = 0; index < data?.images.length; index++) {
-      const file = data?.images[index];
+      const file = data?.images[index]
       if (file?.file) {
         const url = await uploadImage(
           file.file,
           `images/services/${index}/${file.fileName}`
-        );
-        images.push(url);
+        )
+        images.push(url)
       } else {
-        images.push(file.fileUrl);
+        images.push(file.fileUrl)
       }
     }
 
     const serviceData = {
       ...data,
       images,
-    };
+    }
     const docRef = await updateDoc(
-      doc(firestore, "Information", "services", "list", data.id),
+      doc(firestore, 'Information', 'services', 'list', data.id),
       serviceData
-    );
+    )
 
-    return docRef;
+    return docRef
   } catch (error) {
-    console.error("Error adding document:", error);
-    throw error;
+    console.error('Error adding document:', error)
+    throw error
   }
-};
+}
 
 export const deleteService = async (id) => {
   try {
-    await deleteDoc(doc(firestore, "Information", "services", "list", id));
+    await deleteDoc(doc(firestore, 'Information', 'services', 'list', id))
   } catch (error) {
-    console.error("Error deleting document:", error);
-    throw error;
+    console.error('Error deleting document:', error)
+    throw error
   }
-};
+}
 
 export const addClinic = async (data) => {
-  let images = [];
+  let images = []
   try {
     for (let index = 0; index < data?.images.length; index++) {
-      const file = data?.images[index];
+      const file = data?.images[index]
       if (file?.file) {
         const url = await uploadImage(
           file.file,
           `images/clinics/${index}/${file.fileName}`
-        );
-        images.push(url);
+        )
+        images.push(url)
       } else {
-        images.push(file.fileUrl);
+        images.push(file.fileUrl)
       }
     }
 
     const clinicData = {
       ...data,
       images,
-    };
+    }
 
     const docRef = await addDoc(
-      collection(firestore, "Information", "clinics", "list"),
+      collection(firestore, 'Information', 'clinics', 'list'),
       clinicData
-    );
+    )
 
-    return docRef;
+    return docRef
   } catch (error) {
-    console.error("Error adding document:", error);
-    throw error;
+    console.error('Error adding document:', error)
+    throw error
   }
-};
+}
 
 export const updateClinic = async (data) => {
-  let images = [];
+  let images = []
   try {
     for (let index = 0; index < data?.images.length; index++) {
-      const file = data?.images[index];
+      const file = data?.images[index]
       if (file?.file) {
         const url = await uploadImage(
           file.file,
           `images/clinics/${index}/${file.fileName}`
-        );
-        images.push(url);
+        )
+        images.push(url)
       } else {
-        images.push(file.fileUrl);
+        images.push(file.fileUrl)
       }
     }
 
     const clinicData = {
       ...data,
       images,
-    };
+    }
     const docRef = await updateDoc(
-      doc(firestore, "Information", "clinics", "list", data.id),
+      doc(firestore, 'Information', 'clinics', 'list', data.id),
       clinicData
-    );
+    )
 
-    return docRef;
+    return docRef
   } catch (error) {
-    console.error("Error adding document:", error);
-    throw error;
+    console.error('Error adding document:', error)
+    throw error
   }
-};
+}
 
 export const deleteClinic = async (id) => {
   try {
-    await deleteDoc(doc(firestore, "Information", "clinics", "list", id));
+    await deleteDoc(doc(firestore, 'Information', 'clinics', 'list', id))
   } catch (error) {
-    console.error("Error deleting document:", error);
-    throw error;
+    console.error('Error deleting document:', error)
+    throw error
   }
-};
+}
 
 export const updateSocialLinks = async (data) => {
   try {
-    await updateDoc(doc(firestore, "Information", "clinics"), data);
+    await updateDoc(doc(firestore, 'Information', 'clinics'), data)
   } catch (error) {
-    console.error("Error deleting document:", error);
-    throw error;
+    console.error('Error deleting document:', error)
+    throw error
   }
-};
+}
 
 export const updateDescription = async (data) => {
   try {
-    await updateDoc(doc(firestore, "Information", "services"), data);
+    await setDoc(doc(firestore, 'Information', 'services'), data, {
+      merge: true,
+    })
   } catch (error) {
-    console.error("Error deleting document:", error);
-    throw error;
+    console.error('Error deleting document:', error)
+    throw error
   }
-};
+}

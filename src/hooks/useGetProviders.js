@@ -48,18 +48,36 @@ export const useGetProviders = ({ enabled = true }) => {
     // }
     data.forEach((provider) => {
       if (provider.address) {
-        const { city, state } = parseAddress(provider.address)
-        const key = `${city} ${state}`
-        if (!groupedProviders[key]) {
-          groupedProviders[key] = {
-            title: key,
-            clicks: 0,
-            createdAt: provider.createdAt,
+        const parsedAddress = parseAddress(provider.address)
+
+        if (parsedAddress && parsedAddress.city && parsedAddress.state) {
+          const { city, state } = parsedAddress
+          const key = `${city} ${state}`
+
+          if (!groupedProviders[key]) {
+            groupedProviders[key] = {
+              title: key,
+              clicks: 0,
+              createdAt: provider.createdAt,
+            }
           }
+
+          groupedProviders[key].clicks += provider.clicks || 0
         }
-        groupedProviders[key].clicks += provider.clicks || 0
-        // groupedProviders[key].providers.push(provider);
       }
+      // if (provider.address) {
+      //   const { city, state } = parseAddress(provider.address)
+      //   const key = `${city} ${state}`
+      //   if (!groupedProviders[key]) {
+      //     groupedProviders[key] = {
+      //       title: key,
+      //       clicks: 0,
+      //       createdAt: provider.createdAt,
+      //     }
+      //   }
+      //   groupedProviders[key].clicks += provider.clicks || 0
+      //   // groupedProviders[key].providers.push(provider);
+      // }
     })
 
     groupedProvidersByLocation = Object.values(groupedProviders)

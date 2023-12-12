@@ -11,9 +11,11 @@ import {
   getDownloadURL,
 } from '../../../firebase'
 
+const UNIQUE_STRING = Math.random().toString(36).substr(2, 9)
+
 const uploadFile = async (file, path) => {
   try {
-    const storageRef = ref(storage, path)
+    const storageRef = ref(storage, `${path}__${UNIQUE_STRING}`)
     const snapshot = await uploadBytes(storageRef, file)
     const url = await getDownloadURL(snapshot.ref)
     return url

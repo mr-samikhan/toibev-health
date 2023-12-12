@@ -172,9 +172,9 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
             isInput={false}
             // isChip={true}
             isDivider={true}
+            initialStateArray={cultures}
             selectedTribes={selectedTribes}
             setArrayValues={setSelectedTribes}
-            initialStateArray={isEdit ? initialState?.tribes : cultures}
           />
         </Grid>
         <Grid item xs={12} mb={3}>
@@ -427,13 +427,17 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
           ))}
         </Grid>
         <Grid item xs={12} mb={isEdit && 2}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Saving...' : 'Save Language'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12}>
-            <CustomButton variant="outlined" onClick={handleDelete}>
+            <CustomButton
+              variant="outlined"
+              onClick={handleDelete}
+              disabled={isLoadingDelete}
+            >
               {isLoadingDelete ? 'Deleting...' : 'Delete Language'}
             </CustomButton>
           </Grid>
