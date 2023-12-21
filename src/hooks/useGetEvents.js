@@ -1,11 +1,11 @@
-import { useQuery } from "react-query";
-import { firestore, collection, getDocs } from "../firebase";
-import { EventDetails } from "../views/Events/components/EventDetails";
+import { useQuery } from 'react-query'
+import { firestore, collection, getDocs } from '../firebase'
+import { EventDetails } from '../views/Events/components/EventDetails'
 
-const fetchInfo = async () => {
-  let data = [];
+export const fetchInfo = async () => {
+  let data = []
   try {
-    const querySnapshot = await getDocs(collection(firestore, "Events"));
+    const querySnapshot = await getDocs(collection(firestore, 'Events'))
 
     querySnapshot.forEach((document) => {
       let admin = {
@@ -14,25 +14,25 @@ const fetchInfo = async () => {
         subtitle: <EventDetails data={document.data()} />,
         icon: document.data().image,
         ...document.data(),
-      };
-      data.push(admin);
-    });
+      }
+      data.push(admin)
+    })
 
-    return data;
+    return data
   } catch (error) {
-    return error;
+    return error
   }
-};
+}
 
 export const useGetEvents = ({ enabled = true }) => {
   const { data, isLoading, error, isFetching } = useQuery(
-    ["get-all-events"],
+    ['get-all-events'],
     fetchInfo,
     {
       enabled,
       refetchOnWindowFocus: false,
     }
-  );
+  )
 
-  return { isLoading, error, data, isFetching };
-};
+  return { isLoading, error, data, isFetching }
+}

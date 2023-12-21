@@ -18,7 +18,7 @@ const UNIQUE_STRING = Math.random().toString(36).substr(2, 9)
 
 const uploadFile = async (file, path) => {
   try {
-    const storageRef = ref(storage, `${path}__${UNIQUE_STRING}`)
+    const storageRef = ref(storage, `${path}_${UNIQUE_STRING}`)
     const snapshot = await uploadBytes(storageRef, file)
     const url = await getDownloadURL(snapshot.ref)
     return url
@@ -411,8 +411,8 @@ export const addResiliencySubCat = async (data) => {
       ? await uploadFile(file, `images/resiliency/${fileName}`)
       : ''
 
-    const pdfFile = data.pdf
-      ? await uploadFile(data.pdf, `pdfs/resiliency/${data.pdf.fileName}`)
+    const pdfFile = data.pdf.file
+      ? await uploadFile(data.pdf.file, `pdfs/resiliency/${data.pdf.fileName}`)
       : ''
 
     const subCat = {
@@ -448,8 +448,8 @@ export const updateResiliencySubCat = async ({ data, collectionName }) => {
 
     if (data.pdf?.file) {
       const pdfFile = await uploadFile(
-        data.pdf,
-        `pdfs/resiliency/${data.pdf.name}`
+        data.pdf.file,
+        `pdfs/resiliency/${data.pdf.fileName}`
       )
       data.pdf = {
         fileUrl: pdfFile,

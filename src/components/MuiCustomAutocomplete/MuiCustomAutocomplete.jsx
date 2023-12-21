@@ -1,13 +1,11 @@
 import {
   Box,
-  Dialog,
-  DialogContent,
-  Divider,
   Grid,
-  IconButton,
-  MenuItem,
   Paper,
+  Divider,
+  MenuItem,
   TextField,
+  IconButton,
 } from '@mui/material'
 import React from 'react'
 import { CustomChip } from '../CustomChip'
@@ -75,6 +73,8 @@ export const MuiCustomAutocomplete = ({
 
   let ARRAY_CHECK = isTribes ? initialStateArray : array
 
+  let isAddBtnDisable = array?.lenght === 0 || !inputValue
+
   return (
     <Paper
       elevation={0}
@@ -90,16 +90,17 @@ export const MuiCustomAutocomplete = ({
     >
       {isInput && (
         <TextField
-          variant="standard"
           fullWidth
+          variant="standard"
+          value={inputValue}
           sx={{ px: '15px' }}
           onChange={onChange || handleChange}
-          value={inputValue}
         />
       )}
       <IconButton
-        sx={{ position: 'absolute', right: 20, top: 20 }}
+        disabled={isAddBtnDisable}
         onClick={onAddLanguageTexts}
+        sx={{ position: 'absolute', right: 20, top: 20 }}
       >
         <img src={plus} alt="plus-icon" />
       </IconButton>
@@ -109,8 +110,8 @@ export const MuiCustomAutocomplete = ({
             selectedTribes?.map((tribe, index) => (
               <Grid item key={index}>
                 <CustomChip
-                  title={tribe.title}
                   index={tribe}
+                  title={tribe.title}
                   handleDelete={onHandleDeleteTribe}
                 />
               </Grid>

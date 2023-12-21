@@ -98,7 +98,7 @@ const NavItem = (props) => {
           <FiberManualRecordOutlinedIcon />
         )
         return (
-          <>
+          <React.Fragment key={index}>
             <ListItem
               button
               key={menu.key}
@@ -119,7 +119,7 @@ const NavItem = (props) => {
             {isDesktop && menu.text === 'Information' && (
               <div className="divider"></div>
             )}
-          </>
+          </React.Fragment>
         )
       })}
       <Box

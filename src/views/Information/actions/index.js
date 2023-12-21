@@ -176,7 +176,9 @@ export const deleteClinic = async (id) => {
 
 export const updateSocialLinks = async (data) => {
   try {
-    await updateDoc(doc(firestore, 'Information', 'clinics'), data)
+    await setDoc(doc(firestore, 'Information', 'clinics'), data, {
+      merge: true,
+    })
   } catch (error) {
     console.error('Error deleting document:', error)
     throw error

@@ -16,12 +16,23 @@ import {
 //images or icons
 import { ReactComponent as LockIcon } from '../../../../assets/icons/lock.svg'
 import { ReactComponent as MessageIcon } from '../../../../assets/icons/sms.svg'
+import { useSelector } from 'react-redux'
+import { ROUTES } from '../../../../constants/routes'
 
 export default function LoginForm() {
   const navigate = useNavigate()
 
   const { control, onSubmit, handleSubmit, isLoading, isLoginError, errors } =
     useLoginForm({})
+
+  const { isAuthenticated } = useSelector((state) => state.Auth)
+  console.log(isAuthenticated, 'isAuthenticated')
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      navigate(ROUTES.DASHBOARD)
+    }
+  }, [])
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -90,7 +101,11 @@ export default function LoginForm() {
               </Typography>
             </Grid>
             <Grid item xs={6} container alignSelf={'center'}>
-              <CustomButton variant="contained" type="submit">
+              <CustomButton
+                type="submit"
+                variant="contained"
+                disabled={isLoading}
+              >
                 {isLoading ? 'Loading...' : ' Login'}
               </CustomButton>
             </Grid>

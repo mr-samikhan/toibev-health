@@ -53,7 +53,11 @@ export default function ResilienceForm({
             />
           </Grid>
           <Grid item xs={12} mb={isEdit && 2}>
-            <CustomButton variant="contained" type="submit">
+            <CustomButton
+              type="submit"
+              variant="contained"
+              disabled={isLoading}
+            >
               {isLoading ? 'Saving...' : 'Save'}
             </CustomButton>
           </Grid>

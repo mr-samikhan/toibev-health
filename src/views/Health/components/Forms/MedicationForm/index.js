@@ -52,7 +52,7 @@ export const MedicationForm = (props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading
               ? 'Loading...'
               : isEdit
@@ -62,7 +62,11 @@ export const MedicationForm = (props) => {
         </Grid>
         {isEdit && (
           <Grid item xs={12} mt={3}>
-            <CustomButton variant="outlined" onClick={onDelete}>
+            <CustomButton
+              variant="outlined"
+              onClick={onDelete}
+              disabled={isLoadingDelete}
+            >
               {isLoadingDelete ? 'Deleting...' : 'Delete Group Session'}
             </CustomButton>
           </Grid>

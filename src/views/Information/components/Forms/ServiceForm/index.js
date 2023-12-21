@@ -139,7 +139,7 @@ export default function ServiceForm({
           </Grid>
         </Grid>
         <Grid item xs={12} mb={2}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Loading' : isEdit ? 'Edit Service' : 'Add Service'}
           </CustomButton>
         </Grid>
@@ -147,6 +147,7 @@ export default function ServiceForm({
           <Grid item xs={12}>
             <CustomButton
               variant="outlined"
+              disabled={isLoadingDelete}
               onClick={() => mutateDelete(initialState?.id)}
             >
               {isLoadingDelete ? 'Loading' : 'Delete Service'}

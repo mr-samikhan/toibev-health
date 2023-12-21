@@ -92,7 +92,7 @@ export default function ResiliencySubCatForm({
         </Grid>
 
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Saving' : 'Save Sub Category'}
           </CustomButton>
         </Grid>

@@ -143,7 +143,11 @@ export default function Settings() {
           </Grid>
           <Grid item container justifyContent={'center'}>
             <Grid item md={6}>
-              <CustomButton variant="contained" type="submit">
+              <CustomButton
+                type="submit"
+                variant="contained"
+                disabled={isLoading}
+              >
                 {isLoading ? 'Loading...' : 'Update'}
               </CustomButton>
             </Grid>

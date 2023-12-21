@@ -119,13 +119,17 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Saving' : 'Save Culture'}
           </CustomButton>
         </Grid>
         {isEdit && (
           <Grid item xs={12} mt={3}>
-            <CustomButton variant="outlined" onClick={onDelete}>
+            <CustomButton
+              variant="outlined"
+              onClick={onDelete}
+              disabled={isLoadingDelete}
+            >
               {isLoadingDelete ? 'Deleting...' : 'Delete Culture'}
             </CustomButton>
           </Grid>

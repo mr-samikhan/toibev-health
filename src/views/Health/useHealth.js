@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 import { firestore } from '../../firebase'
 import { useEffect, useState } from 'react'
 import { useBreakpints } from '../../common/helpers'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { useGetProviders } from '../../hooks/useGetProviders'
 import { useGetTreatments } from '../../hooks/useGetTreatments'
 import { useGetMedication } from '../../hooks/useGetMedication'
@@ -64,9 +64,12 @@ export const useHealth = () => {
 
   const updateDescription = async (data) => {
     try {
-      const docRef = await updateDoc(
+      const docRef = await setDoc(
         doc(firestore, 'Treatment', 'general'),
-        data
+        data,
+        {
+          merge: true,
+        }
       )
       setTreatDescription(data)
       return docRef

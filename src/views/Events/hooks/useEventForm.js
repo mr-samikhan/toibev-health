@@ -120,7 +120,6 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     let currentTime = getCurrentTime()
     const body = {
       isRecurring,
-      isActive: false,
       pdf: selectedPdf,
       title: data.title,
       video: selectedVideo,
