@@ -171,7 +171,7 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Loading...' : isEdit ? 'Edit Clinic' : 'Add Clinic'}
           </CustomButton>
         </Grid>
@@ -179,6 +179,7 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
           <Grid item xs={12} mt={2}>
             <CustomButton
               variant="outlined"
+              disabled={isLoadingDelete}
               onClick={() => mutateDelete(initialState?.id)}
             >
               {isLoadingDelete ? 'Loading...' : 'Delete Clinic'}

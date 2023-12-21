@@ -10,7 +10,7 @@ import AlertDialog from '../../../../components/AlertDialog'
 import CustomSwitchToggle from '../../../../components/CustomSwitchToggle'
 
 export function Actions(props) {
-  const { data, updateEventDoc } = props || {}
+  const { data, updateEventDoc, list } = props || {}
   const { open, setOpen } = useActionButtons()
   const mobile = useMediaQuery('(max-width: 600px)')
 
@@ -40,7 +40,13 @@ export function Actions(props) {
           setOpen={setOpen}
           title="Edit Event"
           message={
-            <EventForm isEdit data={data} open={open} setOpen={setOpen} />
+            <EventForm
+              isEdit
+              data={data}
+              open={open}
+              setOpen={setOpen}
+              alldata={list}
+            />
           }
         />
       )}

@@ -18,7 +18,13 @@ import { ReactComponent as LocationIcon } from '../../../../../assets/icons/loca
 import { useGetCultures } from '../../../../../hooks/useGetCultures'
 import { useGetEvents } from '../../../../../hooks/useGetEvents'
 
-export default function EventForm({ isEdit, data, open, setOpen }) {
+export default function EventForm({
+  isEdit,
+  data,
+  open,
+  setOpen,
+  alldata: events,
+}) {
   const {
     watch,
     errors,
@@ -49,10 +55,10 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
 
   const { pathname } = useLocation()
 
-  const { data: events } = useGetEvents({
-    enabled: false,
-  })
-
+  // const { data: events } = useGetEvents({
+  //   enabled: false,
+  // })
+  // console.log(alldata)
   return (
     <Box
       component="form"
@@ -88,20 +94,20 @@ export default function EventForm({ isEdit, data, open, setOpen }) {
             control={control}
             rules={{
               required: 'Field is required',
-              validate: (value) =>
-                isEdit && data?.title?.toLowerCase() === value.toLowerCase()
-                  ? data?.title?.toLowerCase() === value.toLowerCase() && true
-                  : isEdit && data?.title?.toLowerCase() !== value.toLowerCase()
-                  ? events?.some(
-                      (item) =>
-                        item?.title.toLowerCase() === value.toLowerCase()
-                    ) && 'Title already exists'
-                  : events?.some(
-                      (item) =>
-                        item?.title.toLowerCase() === value.toLowerCase()
-                    )
-                  ? 'Title already exists'
-                  : undefined,
+              // validate: (value) =>
+              //   isEdit && data?.title?.toLowerCase() === value.toLowerCase()
+              //     ? data?.title?.toLowerCase() === value.toLowerCase() && true
+              //     : isEdit && data?.title?.toLowerCase() !== value.toLowerCase()
+              //     ? events?.some(
+              //         (item) =>
+              //           item?.title.toLowerCase() === value.toLowerCase()
+              //       ) && 'Title already exists'
+              //     : events?.some(
+              //         (item) =>
+              //           item?.title.toLowerCase() === value.toLowerCase()
+              //       )
+              //     ? 'Title already exists'
+              //     : undefined,
             }}
             render={({ field }) => (
               <CustomTextfield

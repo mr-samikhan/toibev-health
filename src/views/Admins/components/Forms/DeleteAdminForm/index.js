@@ -19,7 +19,7 @@ export default function DeleteAdminForm({ data, setShowAlert }) {
           <Typography>Are you sure you want to delete admin?</Typography>
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Delete'}
           </CustomButton>
         </Grid>

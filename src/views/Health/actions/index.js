@@ -102,8 +102,8 @@ export const addTreatmentResource = async (data) => {
     const cover_img = file
       ? await uploadFile(file, `images/treatment/${fileName}`)
       : ''
-    const pdfFile = data.pdf
-      ? await uploadFile(data.pdf.file, `pdfs/treatment/${data.pdf.fileName}`)
+    const pdfFile = data.pdf?.file
+      ? await uploadFile(data.pdf?.file, `pdfs/treatment/${data.pdf.fileName}`)
       : ''
     const docRef = await addDoc(
       collection(

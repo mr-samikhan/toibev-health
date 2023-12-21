@@ -136,7 +136,7 @@ export default function AddConditionForm(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Save Condition'}
           </CustomButton>
         </Grid>

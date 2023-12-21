@@ -160,7 +160,7 @@ export default function AddAdminForm({
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isEdit ? 'SAVE' : 'Add User'}
             {isLoading && '...'}
           </CustomButton>

@@ -31,7 +31,7 @@ export const TreatmentForm = (props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading
               ? isEdit
                 ? 'Updating...'

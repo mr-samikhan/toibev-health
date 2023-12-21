@@ -103,7 +103,7 @@ export default function QuestionForm({ setOpen, initialState, isEdit }) {
           </CustomButton>
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="outlined" type="submit">
+          <CustomButton variant="outlined" type="submit" disabled={isLoading}>
             {isLoading ? 'Saving...' : 'Save Question'}
           </CustomButton>
         </Grid>

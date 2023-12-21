@@ -52,7 +52,7 @@ export const ProviderAvailabilityForm = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Saving...' : 'Save'}
           </CustomButton>
         </Grid>

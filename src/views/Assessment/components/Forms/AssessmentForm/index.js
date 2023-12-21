@@ -71,6 +71,7 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
           <Grid item xs={12}>
             <CustomButton
               variant="outlined"
+              disabled={isLoadingDelete}
               onClick={() => mutateDelete(data?.id)}
             >
               {isLoadingDelete ? 'Deleting...' : 'Delete assessment'}
