@@ -95,7 +95,7 @@ export default function CustomTextfield({
               {EndIconPrimary ? (
                 <EndIconPrimary />
               ) : (
-                <CustomIconButton>
+                <CustomIconButton onClick={rest.onClick}>
                   <EndIcon />
                 </CustomIconButton>
               )}
@@ -106,7 +106,12 @@ export default function CustomTextfield({
       }}
       SelectProps={{
         IconComponent: (props) => (
-          <IconButton>
+          <IconButton
+            {...props}
+            sx={{
+              bottom: 20,
+            }}
+          >
             <ExpandMoreIcon />
           </IconButton>
         ),

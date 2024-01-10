@@ -408,11 +408,14 @@ export const addResiliencySubCat = async (data) => {
     const { file, fileName } = data.cover_img || {}
 
     const cover_img = file
-      ? await uploadFile(file, `images/resiliency/${fileName}`)
+      ? await uploadFile(file, `images/resiliency-subCat/${fileName}`)
       : ''
 
     const pdfFile = data.pdf.file
-      ? await uploadFile(data.pdf.file, `pdfs/resiliency/${data.pdf.fileName}`)
+      ? await uploadFile(
+          data.pdf.file,
+          `pdfs/resiliency-subCat/${data.pdf.fileName}`
+        )
       : ''
 
     const subCat = {
@@ -449,7 +452,7 @@ export const updateResiliencySubCat = async ({ data, collectionName }) => {
     if (data.pdf?.file) {
       const pdfFile = await uploadFile(
         data.pdf.file,
-        `pdfs/resiliency/${data.pdf.fileName}`
+        `pdfs/resiliency-subCat/${data.pdf.fileName}`
       )
       data.pdf = {
         fileUrl: pdfFile,

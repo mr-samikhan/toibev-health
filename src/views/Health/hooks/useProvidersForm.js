@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { addProvider, updateProvider } from '../actions'
 import { useMutation, useQueryClient } from 'react-query'
+import { useGetClinics } from '../../../hooks/useGetClinics'
 
 export default function useProviderForm(props) {
   const { isEdit, initialState, setOpen } = props
@@ -10,7 +11,12 @@ export default function useProviderForm(props) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      ...initialState,
+      clinic: isEdit ? initialState?.clinic : '',
+    },
+  })
 
   const queryClient = useQueryClient()
 
@@ -27,10 +33,19 @@ export default function useProviderForm(props) {
     }
   )
 
+  let { clinics, isLoadingClinics } = useGetClinics({})
+
+  clinics = clinics?.map((record) => {
+    return {
+      label: record.title,
+      value: record.title,
+    }
+  })
+
   const onSubmit = (data) => {
     const body = {
       name: data?.name,
-      address: data?.address,
+      clinic: data?.clinic,
       position: data?.position,
       socialLinks: data?.socialLinks,
     }
@@ -46,9 +61,11 @@ export default function useProviderForm(props) {
   return {
     errors,
     control,
-    handleSubmit,
+    clinics,
     onSubmit,
     isLoading,
+    handleSubmit,
+    isLoadingClinics,
     ...props,
   }
 }
