@@ -7,8 +7,16 @@ import CustomButton from '../../../../../components/CustomButton'
 import CustomTextfield from '../../../../../components/CustomTextfield'
 
 export const ProviderForm = (props) => {
-  const { onSubmit, handleSubmit, control, isLoading, isEdit, errors } =
-    useProviderForm(props)
+  const {
+    onSubmit,
+    handleSubmit,
+    control,
+    isLoading,
+    isEdit,
+    errors,
+    clinics,
+    isLoadingClinics,
+  } = useProviderForm(props)
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -60,20 +68,26 @@ export const ProviderForm = (props) => {
             rules={{
               required: {
                 value: true,
-                message: 'Provider Address is required',
+                message: 'Clinic is required',
               },
             }}
-            name="address"
+            name="clinic"
             control={control}
-            render={({ field }) => (
-              <CustomTextfield
-                {...field}
-                label="Address"
-                error={errors?.address?.message}
-                placeholder="Enter Provider's Address"
-                errorMessage={errors?.address?.message}
-              />
-            )}
+            render={({ field }) =>
+              isLoadingClinics ? (
+                'Loading...'
+              ) : (
+                <CustomTextfield
+                  {...field}
+                  select
+                  options={clinics}
+                  label="Select Clinic"
+                  error={errors?.clinic?.message}
+                  placeholder="Select Clinic"
+                  errorMessage={errors?.clinic?.message}
+                />
+              )
+            }
           />
         </Grid>
         <Grid item xs={12} mb={3}>
