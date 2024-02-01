@@ -1,75 +1,75 @@
-import classNames from 'classnames'
-import List from '@mui/material/List'
-import { useDispatch } from 'react-redux'
-import ListItem from '@mui/material/ListItem'
-import React, { useEffect, useState } from 'react'
-import { LogoutOutlined } from '@mui/icons-material'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { Box, Button, Grid, IconButton, useMediaQuery } from '@mui/material'
-import FiberManualRecordOutlinedIcon from '@mui/icons-material/FiberManualRecordOutlined'
+import classNames from "classnames";
+import List from "@mui/material/List";
+import { useDispatch } from "react-redux";
+import ListItem from "@mui/material/ListItem";
+import React, { useEffect, useState } from "react";
+import { LogoutOutlined } from "@mui/icons-material";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Button, Grid, IconButton, useMediaQuery } from "@mui/material";
+import FiberManualRecordOutlinedIcon from "@mui/icons-material/FiberManualRecordOutlined";
 //imports
-import { useTheme } from '@mui/system'
-import { sidebarTabsList } from '../menuList'
-import { signOut, auth } from '../../../firebase'
-import appLogo from '../../../assets/images/app.svg'
-import mobileLogo from '../../../assets/images/mobilelogo.svg'
-import backgroundImage from '../../../assets/images/background.png'
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import { resetAuthValues } from '../../../redux/actions/loginActions'
+import { useTheme } from "@mui/system";
+import { sidebarTabsList } from "../menuList";
+import { signOut, auth } from "../../../firebase";
+import appLogo from "../../../assets/images/app.svg";
+import mobileLogo from "../../../assets/images/mobilelogo.svg";
+import backgroundImage from "../../../assets/images/background.png";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { resetAuthValues } from "../../../redux/actions/loginActions";
 
 const NavItem = (props) => {
-  const [activeTab, setActiveTab] = useState('')
+  const [activeTab, setActiveTab] = useState("");
 
-  const location = useLocation()
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const theme = useTheme()
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   useEffect(() => {
-    highlightActiveTab()
-  }, [location.pathname])
+    highlightActiveTab();
+  }, [location.pathname]);
 
   const highlightActiveTab = () => {
-    let pathname = location.pathname.split('/')
-    let activeTab = pathname[pathname.length - 1]
+    let pathname = location.pathname.split("/");
+    let activeTab = pathname[pathname.length - 1];
     if (activeTab) {
-      setActiveTab(activeTab)
+      setActiveTab(activeTab);
     }
-  }
+  };
 
   const onTabHandler = (e, tab) => {
-    e.preventDefault()
-    let tabKey = tab.key.toLowerCase()
+    e.preventDefault();
+    let tabKey = tab.key.toLowerCase();
     if (tabKey !== activeTab) {
-      if (tabKey === 'login') {
-        navigate('/login')
+      if (tabKey === "login") {
+        navigate("/login");
       }
-      if (tabKey === 'dashboard') {
-        navigate('/dashboard')
+      if (tabKey === "dashboard") {
+        navigate("/dashboard");
       } else {
-        navigate(`/${tabKey}`)
+        navigate(`/${tabKey}`);
       }
-      setActiveTab(tabKey)
-      props.passChild(tabKey)
+      setActiveTab(tabKey);
+      props?.passChild(tabKey);
     } else {
-      navigate(`/${tabKey}`)
+      navigate(`/${tabKey}`);
     }
-  }
+  };
 
   return (
-    <List sx={{ position: 'relative' }}>
+    <List sx={{ position: "relative" }}>
       <Grid>
         <img src={backgroundImage} className="background" alt="" />
       </Grid>
       <ListItemIcon
         sx={{
-          textAlign: 'right',
+          textAlign: "right",
           mt: 1,
           mr: 1,
-          display: { xs: 'block', md: 'none' },
+          display: { xs: "block", md: "none" },
         }}
       >
         <IconButton onClick={() => props.handleDrawerToggle()}>
@@ -79,24 +79,24 @@ const NavItem = (props) => {
 
       <ListItemIcon
         className="app-logo"
-        sx={{ textAlign: 'center', width: '100%', mb: 2, mt: 3 }}
+        sx={{ textAlign: "center", width: "100%", mb: 2, mt: 3 }}
       >
         <img src={isDesktop ? appLogo : mobileLogo} alt="app-logo" />
       </ListItemIcon>
       {!isDesktop && <div className="divider" />}
       {sidebarTabsList.map((menu, index) => {
-        let [textClass, iconColor] = ['sidebar-tab-text', 'white_icon']
-        ;[textClass, iconColor] =
+        let [textClass, iconColor] = ["sidebar-tab-text", "white_icon"];
+        [textClass, iconColor] =
           activeTab === menu.key.toLowerCase()
-            ? ['active-tab', 'white_icon']
-            : ['sidebar-tab-text', 'white_icon']
+            ? ["active-tab", "white_icon"]
+            : ["sidebar-tab-text", "white_icon"];
 
-        const Icon = isDesktop ? menu.icon : menu.mobileIcon ?? menu.icon
+        const Icon = isDesktop ? menu.icon : menu.mobileIcon ?? menu.icon;
         const itemIcon = menu?.icon ? (
           <Icon stroke={1.5} size="1rem" />
         ) : (
           <FiberManualRecordOutlinedIcon />
-        )
+        );
         return (
           <React.Fragment key={index}>
             <ListItem
@@ -107,44 +107,44 @@ const NavItem = (props) => {
               sx={{ my: 1, pl: { xs: 5, md: 2 } }}
             >
               <div
-                className={activeTab === menu.key.toLowerCase() ? 'border' : ''}
+                className={activeTab === menu.key.toLowerCase() ? "border" : ""}
               ></div>
-              <ListItemIcon className={iconColor} sx={{ minWidth: '30px' }}>
+              <ListItemIcon className={iconColor} sx={{ minWidth: "30px" }}>
                 {itemIcon}
               </ListItemIcon>
               <ListItemText
                 primary={!!isDesktop ? menu.text : menu.mobileText ?? menu.text}
               />
             </ListItem>
-            {isDesktop && menu.text === 'Information' && (
+            {isDesktop && menu.text === "Information" && (
               <div className="divider"></div>
             )}
           </React.Fragment>
-        )
+        );
       })}
       <Box
         sx={{
           mt: 16,
           mb: 6,
-          textAlign: 'center',
-          display: { xs: 'block', md: 'none' },
+          textAlign: "center",
+          display: { xs: "block", md: "none" },
         }}
       >
         <Button
           variant="contained"
           size="large"
-          sx={{ borderRadius: '10px' }}
+          sx={{ borderRadius: "10px" }}
           startIcon={<LogoutOutlined />}
           onClick={() => {
-            signOut(auth)
-            dispatch(resetAuthValues())
+            signOut(auth);
+            dispatch(resetAuthValues());
           }}
         >
           Log out
         </Button>
       </Box>
     </List>
-  )
-}
+  );
+};
 
-export default NavItem
+export default NavItem;
