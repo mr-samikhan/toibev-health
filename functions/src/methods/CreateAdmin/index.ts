@@ -11,6 +11,29 @@ export const createAdmin = () =>
         const { email, permissionLevel, username, password } =
           request.body as CreateAdminDto;
 
+        if (!email)
+          response
+            .status(400)
+            .json({ success: false, message: "Email field is required" });
+
+        if (!permissionLevel)
+          response.status(400).json({
+            success: false,
+            message: "Permission Level field is required",
+          });
+
+        if (!password)
+          response.status(400).json({
+            success: false,
+            message: "Password field is required",
+          });
+
+        if (!username)
+          response.status(400).json({
+            success: false,
+            message: "Username field is required",
+          });
+
         const user = await auth().createUser({
           email,
           password,

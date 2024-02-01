@@ -9,6 +9,11 @@ export const deleteAdmin = () =>
       try {
         const { id } = request.query as { id: string };
 
+        if (!id)
+          response
+            .status(400)
+            .json({ success: false, message: "ID field is required" });
+
         await auth().deleteUser(id);
 
         await firestore().doc(`/${COLLECTIONS.ADMINS}/${id}`).delete();

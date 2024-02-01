@@ -11,6 +11,29 @@ export const updateAdmin = () =>
         const { id, email, permissionLevel, username } =
           request.body as UpdateAdminDto;
 
+        if (!email)
+          response
+            .status(400)
+            .json({ success: false, message: "Email field is required" });
+
+        if (!permissionLevel)
+          response.status(400).json({
+            success: false,
+            message: "Permission Level field is required",
+          });
+
+        if (!id)
+          response.status(400).json({
+            success: false,
+            message: "ID field is required",
+          });
+
+        if (!username)
+          response.status(400).json({
+            success: false,
+            message: "Username field is required",
+          });
+
         const user = await auth().updateUser(id, {
           email,
           displayName: username,
