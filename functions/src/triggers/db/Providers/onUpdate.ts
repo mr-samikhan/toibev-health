@@ -51,51 +51,53 @@ export const onUpdateProvider = firestore
         );
 
       if (changedAvailability) {
-        const { date, time, scheduledBy } = changedAvailability;
+        const { date, time, scheduledBy, isScheduled } = changedAvailability;
 
-        clinicDocument = (await admin
-          .firestore()
-          .collection(COLLECTIONS.INFORMATION)
-          .doc("clinics")
-          .collection("list")
-          .doc(clinicId)
-          .get()) as DocumentSnapshot<Clinic>;
+        if (isScheduled && scheduledBy) {
+          clinicDocument = (await admin
+            .firestore()
+            .collection(COLLECTIONS.INFORMATION)
+            .doc("clinics")
+            .collection("list")
+            .doc(clinicId)
+            .get()) as DocumentSnapshot<Clinic>;
 
-        userDocument = (await admin
-          .firestore()
-          .collection(COLLECTIONS.USERS)
-          .doc(scheduledBy)
-          .get()) as DocumentSnapshot<User>;
+          userDocument = (await admin
+            .firestore()
+            .collection(COLLECTIONS.USERS)
+            .doc(scheduledBy)
+            .get()) as DocumentSnapshot<User>;
 
-        if (clinicDocument.exists && userDocument.exists) {
-          let clinicName: string = clinicDocument.data()?.title as string;
+          if (clinicDocument.exists && userDocument.exists) {
+            let clinicName: string = clinicDocument.data()?.title as string;
 
-          let clinicEmail: string = clinicDocument.data()?.email as string;
+            let clinicEmail: string = clinicDocument.data()?.email as string;
 
-          let patientName =
-            userDocument.data()?.firstName +
-            " " +
-            userDocument.data()?.lastName;
+            let patientName =
+              userDocument.data()?.firstName +
+              " " +
+              userDocument.data()?.lastName;
 
-          let patientEmail = userDocument.data()?.email;
+            let patientEmail = userDocument.data()?.email;
 
-          let providerName = afterData?.name;
+            let providerName = afterData?.name;
 
-          const htmlContent = template({
-            time,
-            date,
-            clinicName,
-            patientName,
-            patientEmail,
-            providerName,
-          });
+            const htmlContent = template({
+              time,
+              date,
+              clinicName,
+              patientName,
+              patientEmail,
+              providerName,
+            });
 
-          EmailService.send({
-            to: clinicEmail,
-            html: htmlContent,
-            from: process.env.SMTP_USER as string,
-            subject: "Patient Appointment Request",
-          });
+            EmailService.send({
+              to: clinicEmail,
+              html: htmlContent,
+              from: process.env.SMTP_USER as string,
+              subject: "Patient Appointment Request",
+            });
+          }
         }
       }
     }
