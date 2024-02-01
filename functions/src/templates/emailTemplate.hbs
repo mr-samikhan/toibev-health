@@ -1,19 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patient Appointment Request</title>
-</head>
-<body>
-  <h1>Hi, {{clinicName}}!</h1>
-  <p>{{patientName}} has requested an appointment for:</p>
-  <p>{{date}} {{time}}</p>
-  <p>with Provider {{providerName}}</p>
-  <p>Please reach out to {{patientName}} to confirm appointment.</p>
-  <h5>Email: {{patientEmail}}</h5>
-  <h4>Thank You,</h4>
-  <h4>Toiyabe</h4>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toiyabe Email</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'DM Sans', sans-serif; 
+        background-color: #468d8d;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .header {
+        position: absolute;
+      }
+      .header img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        opacity: 50%;
+      }
+      .logo_container {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+      }
+      .body_box_container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .body_box {
+        font-family: 'DM Sans', sans-serif; 
+        background-color: white;
+        padding: 20px;
+        border-radius: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 30px;
+        margin-bottom: 20px;
+      }
+
+      .body_box img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .footer {
+        text-align: right;
+      }
+      .footer img {
+        opacity: 50%;
+      }
+      .bottom_email_text {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #b2b2c3;
+        text-align: center;
+        top: 9px;
+        margin-bottom: -8px;
+        padding-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="./images/birds.png" alt="Top Left Image" />
+      </div>
+      <div class="logo_container">
+        <div>
+          <img
+            src="./images/logo_symbol.png"
+            alt="Logo"
+            style="max-width: 140px; height: 50px"
+          />
+        </div>
+        <div class="logo">
+          <img
+            src="./images/logo.png"
+            alt="Logo"
+            style="max-width: 140px; height: 50px"
+          />
+        </div>
+      </div>
+      <div class="body_box_container">
+        <div class="body_box">
+          <p>Hi, {{clinicName}},</p>
+          <p>{{patientName}} has requested an appointment for:</p>
+          <p>{{date}}, {{time}}</p>
+          <p>with Provider {{providerName}}.</p>
+          <p>Please reach out to {{patientName}} to confirm the appointment.</p>
+          <p>Email: {{patientEmail}}</p>
+          <p>Phone: {{patientPhone}}</p>
+          <br/>
+          <p>Thank You,</p>
+          <h4>Toiyabe</h4>
+          <p class="bottom_email_text">
+            Questions for us? Contact Us Here:
+            <a href="mailto:info@toiyabe.us">info@toiyabe.us</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <img src="./images/birds.png" alt="Bottom Right Image" />
+      </div>
+    </div>
+  </body>
 </html>
