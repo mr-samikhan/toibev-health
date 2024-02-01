@@ -26,7 +26,7 @@ export const onUpdateProvider = firestore
 
     const afterData = change.after.data();
 
-    const clinicId: string = afterData?.clinic || "";
+    const clinicId: string = afterData?.clinicId || "";
 
     let clinicDocument: DocumentSnapshot<Clinic>;
 
