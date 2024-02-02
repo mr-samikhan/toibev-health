@@ -45,7 +45,7 @@ export const updateUserEmailAndPassword = async (
       //   console.log('Account updated successfully!')
       resolve('Account updated successfully!')
     } catch (error) {
-      //   console.error('Error>>>>', error.code)
+      console.error('Error>>>>', error)
       reject(error)
     }
   })

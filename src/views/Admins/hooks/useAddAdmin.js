@@ -71,7 +71,10 @@ export default function useAddAdmin({ isEdit, data, setOpen, admins }) {
       onSuccess({ isDelete: false })
     },
     onError: (error) => {
-      if (error === 'auth/email-already-in-use') {
+      if (
+        error === 'auth/email-already-in-use' ||
+        error.code === 'ERR_BAD_RESPONSE'
+      ) {
         setError('email', { message: 'Email already in use' })
       }
       onError(error)

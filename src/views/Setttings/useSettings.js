@@ -69,12 +69,12 @@ export default function useSettings() {
       return
     }
     mutate({
-      id: user.id,
+      id: user.uid,
       oldEmail: '',
       newEmail: data.email,
-      newPassword: 'Abcd@123',
+      newPassword: data.password,
       username: data.fullname,
-      oldPassword: data.password,
+      oldPassword: data.oldPassword,
     })
   }
 
