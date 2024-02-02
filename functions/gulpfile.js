@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 
-const srcPath = "./src/templates/*.hbs";
+const srcPath = "./src/templates/**/*";
 const destPath = "lib/templates";
 
 gulp.task("copy-templates", function () {

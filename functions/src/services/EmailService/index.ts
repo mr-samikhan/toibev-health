@@ -1,8 +1,8 @@
+import { SendMailOptions } from "nodemailer";
 import { mailTransporter } from "../../config";
-import { EmailParams } from "./params";
 
 class Email {
-  send(params: EmailParams) {
+  send(params: SendMailOptions) {
     return new Promise((resolve, reject) => {
       try {
         mailTransporter.sendMail(params, (error: Error | null, info) => {

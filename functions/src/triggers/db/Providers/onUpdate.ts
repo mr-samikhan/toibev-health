@@ -8,6 +8,29 @@ import { EmailService } from "../../../services";
 import { DocumentSnapshot } from "firebase-admin/firestore";
 import { ProviderAvailability, Clinic, User } from "../../../types";
 
+const birdImagePath = path.join(
+  __dirname,
+  "../../../",
+  "templates/images",
+  "birds.png"
+);
+const logoImagePath = path.join(
+  __dirname,
+  "../../../",
+  "templates/images",
+  "logo.png"
+);
+const logoSymbolImagePath = path.join(
+  __dirname,
+  "../../../",
+  "templates/images",
+  "logo_symbol.png"
+);
+
+const birdImage = fs.readFileSync(birdImagePath);
+const logoImage = fs.readFileSync(logoImagePath);
+const logoSymbolImage = fs.readFileSync(logoSymbolImagePath);
+
 const templateFilePath = path.join(
   __dirname,
   "../../../",
@@ -96,6 +119,26 @@ export const onUpdateProvider = firestore
               html: htmlContent,
               from: process.env.SMTP_USER as string,
               subject: "Patient Appointment Request",
+              attachments: [
+                {
+                  filename: "birds.png",
+                  content: birdImage,
+                  encoding: "base64",
+                  cid: "birds",
+                },
+                {
+                  filename: "logo.png",
+                  content: logoImage,
+                  encoding: "base64",
+                  cid: "logo",
+                },
+                {
+                  filename: "logo_symbol.png",
+                  content: logoSymbolImage,
+                  encoding: "base64",
+                  cid: "logo_symbol",
+                },
+              ],
             });
           }
         }
