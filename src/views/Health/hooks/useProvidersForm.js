@@ -14,7 +14,7 @@ export default function useProviderForm(props) {
   } = useForm({
     defaultValues: {
       ...initialState,
-      clinic: isEdit ? initialState?.clinic : '',
+      clinic: isEdit ? initialState?.clinicId : '',
     },
   })
 
@@ -38,14 +38,14 @@ export default function useProviderForm(props) {
   clinics = clinics?.map((record) => {
     return {
       label: record.title,
-      value: record.title,
+      value: record.id,
     }
   })
 
   const onSubmit = (data) => {
     const body = {
       name: data?.name,
-      clinic: data?.clinic,
+      clinicId: data?.clinic,
       position: data?.position,
       socialLinks: data?.socialLinks,
     }

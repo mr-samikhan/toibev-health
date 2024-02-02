@@ -82,6 +82,27 @@ export default function Settings() {
           </Grid>
           <Grid item md={5}>
             <Controller
+              name="oldPassword"
+              control={control}
+              rules={{
+                required: { value: true, message: 'Old Password is required' },
+                pattern: atleastOneIntegerandOneCharacter(),
+              }}
+              render={({ field }) => (
+                <CustomTextfield
+                  {...field}
+                  type="password"
+                  label="Old Password"
+                  error={!!errors?.oldPassword}
+                  placeholder="Enter old password"
+                  startIconPrimary={<LockIcon />}
+                  errorMessage={errors?.oldPassword?.message}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={5}>
+            <Controller
               name="password"
               control={control}
               rules={{

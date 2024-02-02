@@ -54,6 +54,7 @@ export default function useLoginForm({ isEdit, data }) {
         return userDetails
       }
     } catch (error) {
+      console.log('Error adding document: ', error)
       setIsLoading(false)
       const err = getErrorMessage(error)
       setIsLoginError(err)

@@ -1,5 +1,5 @@
 export const getErrorMessage = (error) => {
-  error = error || error.code
+  error = error.code || error.message || error
   let errorMsg = ''
   if (error === 'auth/user-not-found') {
     errorMsg = 'This email is not registered!'
@@ -19,6 +19,8 @@ export const getErrorMessage = (error) => {
     errorMsg = 'Email is already in use!'
   } else if (error === 'permission-error') {
     errorMsg = 'You don`t have permission to delete Adminsitrator!'
+  } else if (error === 'auth/invalid-login-credentials') {
+    errorMsg = 'Invalid login credentials!'
   }
   return errorMsg
 }

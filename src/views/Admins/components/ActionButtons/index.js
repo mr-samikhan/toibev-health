@@ -6,6 +6,7 @@ import icons from '../../../../assets'
 import AddAdminForm from '../Forms/AddAdminForm'
 import DeleteAdminForm from '../Forms/DeleteAdminForm'
 import AlertDialog from '../../../../components/AlertDialog'
+import { auth } from '../../../../firebase'
 
 export function Actions({ data, admins }) {
   const [open, setOpen] = useState(false)
@@ -45,7 +46,10 @@ export function Actions({ data, admins }) {
           </IconButton>
         </Grid>
         <Grid item sx={{ paddingTop: '0px' }}>
-          <IconButton onClick={() => setOpenDeleteAdminForm(true)}>
+          <IconButton
+            onClick={() => setOpenDeleteAdminForm(true)}
+            disabled={auth?.currentUser?.uid === data?.uid}
+          >
             <img src={icons.deleteIcon} alt="delete-icon" />
           </IconButton>
         </Grid>

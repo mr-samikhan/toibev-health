@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app'
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -9,7 +9,7 @@ import {
   confirmPasswordReset,
   verifyPasswordResetCode,
   deleteUser,
-} from "firebase/auth";
+} from 'firebase/auth'
 
 import {
   getFirestore,
@@ -24,10 +24,10 @@ import {
   collectionGroup,
   setDoc,
   Timestamp,
-} from "firebase/firestore";
+} from 'firebase/firestore'
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { useDispatch } from "react-redux";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { useDispatch } from 'react-redux'
 
 const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
@@ -38,24 +38,15 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MESUREMENT_ID,
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-};
+}
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
 
-const auth = getAuth(app);
+const auth = getAuth(app)
 
-const firestore = getFirestore(app);
+const firestore = getFirestore(app)
 
-const storage = getStorage(app);
-
-onAuthStateChanged(auth, (user) => {
-  const dispatch = useDispatch();
-  if (user) {
-    const uid = user.uid;
-  } else {
-    dispatch({ type: "LOGOUT" });
-  }
-});
+const storage = getStorage(app)
 
 export {
   auth,
@@ -83,4 +74,4 @@ export {
   deleteUser,
   setDoc,
   Timestamp,
-};
+}
