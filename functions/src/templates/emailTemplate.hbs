@@ -5,56 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Toiyabe Email</title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap");
       body {
         margin: 0;
         padding: 0;
-        font-family: 'DM Sans', sans-serif; 
-        background-color: #468d8d;
+        font-family: "DM Sans", sans-serif;
       }
       .container {
-        max-width: 600px;
+        max-width: 700px;
         margin: 0 auto;
-        position: relative;
-      }
-      .header {
-        position: absolute;
+        background-color: #468d8d;
       }
       .header img {
         max-width: 100%;
         height: auto;
         display: block;
         margin: 0 auto;
-        opacity: 50%;
-      }
-      .logo_container {
-        width: 100%;
-        text-align: center;
-        margin: 10px 0;
-      }
-      .body_box_container {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        opacity: 0.5;
       }
       .body_box {
-        font-family: 'DM Sans', sans-serif; 
+        font-family: "DM Sans", sans-serif;
         background-color: white;
-        padding: 20px;
+        padding: 30px;
         border-radius: 30px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 0 30px;
+        margin: 0 25px;
         margin-bottom: 20px;
       }
-
       .body_box img {
         max-width: 100%;
         height: auto;
         display: block;
         margin-bottom: 10px;
       }
-
       .footer {
         text-align: right;
       }
@@ -66,56 +49,62 @@
         font-weight: 400;
         line-height: 20px;
         letter-spacing: 0px;
-        text-align: left;
         color: #b2b2c3;
         text-align: center;
-        top: 9px;
-        margin-bottom: -8px;
-        padding-top: 10px;
+        margin-top: 20px;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <img src="./images/birds.png" alt="Top Left Image" />
-      </div>
-      <div class="logo_container">
-        <div>
-          <img
-            src="./images/logo_symbol.png"
-            alt="Logo"
-            style="max-width: 140px; height: 50px"
-          />
-        </div>
-        <div class="logo">
-          <img
-            src="./images/logo.png"
-            alt="Logo"
-            style="max-width: 140px; height: 50px"
-          />
-        </div>
-      </div>
-      <div class="body_box_container">
-        <div class="body_box">
-          <p>Hi, {{clinicName}},</p>
-          <p>{{patientName}} has requested an appointment for:</p>
-          <p>{{date}}, {{time}}</p>
-          <p>with Provider {{providerName}}.</p>
-          <p>Please reach out to {{patientName}} to confirm the appointment.</p>
-          <p>Email: {{patientEmail}}</p>
-          <p>Phone: {{patientPhone}}</p>
-          <br/>
-          <p>Thank You,</p>
-          <h4>Toiyabe</h4>
-          <p class="bottom_email_text">
-            Questions for us? Contact Us Here:
-            <a href="mailto:info@toiyabe.us">info@toiyabe.us</a>
-          </p>
-        </div>
+      <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="left" width="25%" style="padding: 10px">
+            <div class="header">
+              <img
+                src="cid:birds"
+                alt="Image 1"
+                width="200"
+                style="display: block"
+              />
+            </div>
+          </td>
+          <td align="center" style="padding: 10px">
+            <div>
+              <img
+                src="cid:logo_symbol"
+                alt="Logo"
+                style="max-width: 140px; height: 50px"
+              />
+            </div>
+            <div class="logo">
+              <img
+                src="cid:logo"
+                alt="Logo"
+                style="max-width: 140px; height: 50px"
+              />
+            </div>
+          </td>
+          <td align="right" width="25%" style="padding: 10px" />
+        </tr>
+      </table>
+      <div class="body_box">
+        <p>Hi, {{clinicName}},</p>
+        <p>{{patientName}} has requested an appointment for:</p>
+        <p>{{date}}, {{time}}</p>
+        <p>with Provider {{providerName}}.</p>
+        <p>Please reach out to {{patientName}} to confirm the appointment.</p>
+        <p>Email: {{patientEmail}}</p>
+        <br />
+        <p>Thank You,</p>
+        <h4>Toiyabe</h4>
+        <p class="bottom_email_text">
+          Questions for us? Contact Us Here:
+          <a href="mailto:info@toiyabe.us">info@toiyabe.us</a>
+        </p>
       </div>
       <div class="footer">
-        <img src="./images/birds.png" alt="Bottom Right Image" />
+        <img src="cid:birds" alt="Bottom Right Image" />
       </div>
     </div>
   </body>
