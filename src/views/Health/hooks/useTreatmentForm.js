@@ -8,7 +8,7 @@ import { getErrorMessage } from '../../Login/utils'
 
 export default function useGroupSessionForm({
   isEdit,
-  data,
+  data: data_,
   setOpen,
   initialState,
 }) {
@@ -38,10 +38,8 @@ export default function useGroupSessionForm({
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-treatments')
-    }, 3000)
+    queryClient.invalidateQueries('get-all-treatments')
+    setOpen(false)
   }
 
   //error
@@ -68,11 +66,13 @@ export default function useGroupSessionForm({
     const body = {
       title: data?.title,
     }
-    isEdit ? mutate({ ...body, id: initialState.id }) : mutate(body)
+    isEdit
+      ? mutate({ ...body, id: initialState.id })
+      : mutate({ data: { ...body }, previous_recs: data_ })
   }
 
   useEffect(() => {
-    isEdit && reset({ ...data })
+    isEdit && reset({ ...data_ })
   }, isEdit)
 
   return {

@@ -47,7 +47,12 @@ export default function useProviderForm(props) {
       name: data?.name,
       clinicId: data?.clinic,
       position: data?.position,
-      socialLinks: data?.socialLinks,
+      socialLinks: {
+        facebook: data?.socialLinks?.facebook || '',
+        twitter: data?.socialLinks?.twitter || '',
+        linkedin: data?.socialLinks?.linkedin || '',
+        instagram: data?.socialLinks?.instagram || '',
+      },
     }
     isEdit
       ? mutate({ ...body, id: initialState.id, updatedAt: new Date() })

@@ -81,18 +81,28 @@ export const deleteGroupSession = async (id) => {
   }
 }
 
-export const addTreatment = async (data) => {
-  try {
-    const docRef = await addDoc(
-      collection(firestore, 'Treatment', 'general', 'list'),
-      data
-    )
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const addTreatment = async ({ data, previous_recs }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (
+        previous_recs?.some(
+          (rec) => rec?.title.toLowerCase() === data?.title.toLowerCase()
+        )
+      ) {
+        reject('duplicate-record')
+      } else {
+        const docRef = await addDoc(
+          collection(firestore, 'Treatment', 'general', 'list'),
+          data
+        )
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode)
+    }
+  })
 }
 
 export const addTreatmentResource = async (data) => {

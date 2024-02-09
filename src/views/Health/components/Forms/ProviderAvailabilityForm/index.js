@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, Grid, Typography } from '@mui/material'
-import { Calendar } from '@hassanmojab/react-modern-calendar-datepicker'
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css'
+import { Calendar, utils } from '@hassanmojab/react-modern-calendar-datepicker'
 
 //imports
 import './style.scss'
@@ -29,8 +29,9 @@ export const ProviderAvailabilityForm = (props) => {
         <Grid item xs={12} mb={3}>
           <Calendar
             value={selectedDays}
-            onChange={setSelectedDays}
             locale={myCustomLocale}
+            onChange={setSelectedDays}
+            minimumDate={utils().getToday()}
             calendarClassName="responsive-calendar"
           />
         </Grid>
