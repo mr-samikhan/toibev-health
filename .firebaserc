@@ -1,6 +1,8 @@
 {
   "projects": {
-    "default": "tihp-mobile-app"
+    "default": "tihp-mobile-app",
+    "tihp-mobile-app": "tihp-mobile-app"
   },
+  "targets": {},
   "etags": {}
 }

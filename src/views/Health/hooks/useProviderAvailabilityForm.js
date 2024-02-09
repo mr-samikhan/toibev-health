@@ -19,6 +19,7 @@ export const useProviderAvailabilityForm = (props) => {
       }
     }) ?? []
   )
+  console.log(initialState?.availabilities, 'initialState?.availabilities')
   const queryClient = useQueryClient()
   const [availableTimes, setAvailableTimes] = useState(
     defaultAvailableTimes?.map((timeSlot) => {

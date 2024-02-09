@@ -21,6 +21,8 @@ export const getErrorMessage = (error) => {
     errorMsg = 'You don`t have permission to delete Adminsitrator!'
   } else if (error === 'auth/invalid-login-credentials') {
     errorMsg = 'Invalid login credentials!'
+  } else if (error === 'duplicate-record') {
+    errorMsg = 'Record is already in use!'
   }
   return errorMsg
 }

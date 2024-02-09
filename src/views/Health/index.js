@@ -100,7 +100,9 @@ export function Health() {
           open={openTreatmentForm}
           setOpen={setOpenTreatmentForm}
           title={'Add Treatment'}
-          message={<TreatmentForm setOpen={setOpenTreatmentForm} />}
+          message={
+            <TreatmentForm setOpen={setOpenTreatmentForm} data={treatments} />
+          }
         />
       )}
 
