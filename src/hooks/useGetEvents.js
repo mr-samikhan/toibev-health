@@ -1,11 +1,17 @@
 import { useQuery } from 'react-query'
+import { orderBy, query } from 'firebase/firestore'
 import { firestore, collection, getDocs } from '../firebase'
 import { EventDetails } from '../views/Events/components/EventDetails'
 
 export const fetchInfo = async () => {
   let data = []
   try {
-    const querySnapshot = await getDocs(collection(firestore, 'Events'))
+    const q = query(
+      collection(firestore, 'Events'),
+      orderBy('createdAt', 'desc')
+    )
+
+    const querySnapshot = await getDocs(q)
 
     querySnapshot.forEach((document) => {
       let admin = {
