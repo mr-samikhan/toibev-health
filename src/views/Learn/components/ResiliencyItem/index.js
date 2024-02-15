@@ -26,7 +26,13 @@ export default function ResiliencyItem({ data, mobileMode, onOpenMainModal }) {
         open={open}
         setOpen={setOpen}
         title="Add Sub-Category"
-        message={<ResiliencySubCatForm setOpen={setOpen} cat={data?.value} />}
+        message={
+          <ResiliencySubCatForm
+            setOpen={setOpen}
+            cat={data?.value}
+            allSubCats={subCats}
+          />
+        }
       />
       <Grid container>
         <Grid item xs={12} sx={{ margin: '40px 0px' }}>

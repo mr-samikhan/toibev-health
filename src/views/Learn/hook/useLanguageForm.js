@@ -9,8 +9,14 @@ import { useGetCultures } from '../../../hooks/useGetCultures'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addLanguage, deleteLanguage, updateLanguage } from '../actions'
 
-export default function useLanguageForm({ isEdit, initialState, setOpen }) {
+export default function useLanguageForm({
+  isEdit,
+  setOpen,
+  initialState,
+  allLanguages,
+}) {
   const {
+    watch,
     control,
     handleSubmit,
     formState: { errors },
@@ -64,10 +70,10 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-languages')
-    }, 3000)
+    // setTimeout(() => {
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-languages')
+    // }, 3000)
   }
 
   //error
@@ -142,7 +148,13 @@ export default function useLanguageForm({ isEdit, initialState, setOpen }) {
       // audio: audioFile,
       // cover_img: selectedImage,
     }
-    isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
+    isEdit
+      ? mutate({
+          data: { ...data, id: initialState.id },
+          newTitle:
+            watch('title') !== initialState.title ? watch('title') : null,
+        })
+      : mutate({ data, allLanguages: allLanguages })
   }
 
   //update language work

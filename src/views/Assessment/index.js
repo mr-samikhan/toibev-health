@@ -22,7 +22,9 @@ export function Assessment() {
           open={open}
           title="Add Assessment"
           setOpen={setOpen}
-          message={<AssessmentForm setOpen={setOpen} />}
+          message={
+            <AssessmentForm setOpen={setOpen} assessments={assessments} />
+          }
         />
       )}
       <Grid

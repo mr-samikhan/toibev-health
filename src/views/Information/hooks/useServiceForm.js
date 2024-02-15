@@ -11,6 +11,7 @@ export default function useServiceForm({
   isEdit,
   clinics,
   setOpen,
+  services_,
   initialState,
 }) {
   const dispatch = useDispatch()
@@ -52,10 +53,8 @@ export default function useServiceForm({
           })
         )
 
-        setTimeout(() => {
-          setOpen(false)
-          queryClient.invalidateQueries('get-all-services')
-        }, 3000)
+        setOpen(false)
+        queryClient.invalidateQueries('get-all-services')
       },
       onError: (error) => {
         const err = getErrorMessage(error)
@@ -81,9 +80,7 @@ export default function useServiceForm({
             message: 'Service deleted successfully',
           })
         )
-        return setTimeout(() => {
-          queryClient.invalidateQueries('get-all-services')
-        }, 3000)
+        queryClient.invalidateQueries('get-all-services')
       },
       onError: (error) => {
         const err = getErrorMessage(error)
@@ -120,7 +117,7 @@ export default function useServiceForm({
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
-        : { ...body, createdAt: new Date() }
+        : { data: { ...body, createdAt: new Date() }, services_ }
     )
   }
 

@@ -7,7 +7,7 @@ import CustomButton from '../../../../components/CustomButton'
 import { ReactComponent as PeopleIcon } from '../../../../assets/icons/people.svg'
 import useTribeForm from '../../hook/useTribeForm'
 
-export default function TribeForm({ isEdit, initialState, setOpen }) {
+export default function TribeForm({ isEdit, initialState, setOpen, cultures }) {
   const {
     errors,
     control,
@@ -21,6 +21,7 @@ export default function TribeForm({ isEdit, initialState, setOpen }) {
   } = useTribeForm({
     isEdit,
     setOpen,
+    cultures,
     initialState,
   })
 

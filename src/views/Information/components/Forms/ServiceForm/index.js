@@ -17,6 +17,7 @@ export default function ServiceForm({
   setOpen,
   clinics,
   initialState,
+  services: services_,
 }) {
   const {
     errors,
@@ -36,7 +37,13 @@ export default function ServiceForm({
     selectedImageTwo,
     setSelectedImageTwo,
     setSelectedImageOne,
-  } = useServiceForm({ initialState, isEdit, setOpen, clinics })
+  } = useServiceForm({
+    initialState,
+    isEdit,
+    setOpen,
+    clinics,
+    services_,
+  })
 
   return (
     <Box

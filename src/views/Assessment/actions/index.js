@@ -1,98 +1,104 @@
 import {
-  updateDoc,
-  addDoc,
   doc,
-  collection,
+  addDoc,
+  updateDoc,
   firestore,
   deleteDoc,
-} from "../../../firebase";
+  collection,
+} from '../../../firebase'
+import { checkForDuplicate } from '../../../common/helpers'
+import { DUPLICATE_RECORD_ERROR } from '../../../constants'
 
-export const addAssessment = async (data) => {
-  try {
-    const docRef = await addDoc(collection(firestore, "Assessments"), data);
-    return docRef;
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    throw errorCode;
-  }
-};
+export const addAssessment = async ({ data, assessments }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(assessments, data.title)
+      if (!check) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await addDoc(collection(firestore, 'Assessments'), data)
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
+}
 
 export const updateAssessment = async (data) => {
   try {
-    const docRef = await updateDoc(
-      doc(firestore, "Assessments", data.id),
-      data
-    );
-    return docRef;
+    const docRef = await updateDoc(doc(firestore, 'Assessments', data.id), data)
+    return docRef
   } catch (e) {
-    return e;
+    return e
   }
-};
+}
 
 export const deleteAssessment = async (id) => {
   try {
-    const docRef = await deleteDoc(doc(firestore, "Assessments", id));
-    return docRef;
+    const docRef = await deleteDoc(doc(firestore, 'Assessments', id))
+    return docRef
   } catch (e) {
-    return e;
+    return e
   }
-};
+}
 
 export const addQuestion = async (data) => {
   try {
     const docRef = await addDoc(
-      collection(firestore, "Assessments", data.id, "questions"),
+      collection(firestore, 'Assessments', data.id, 'questions'),
       data.data
-    );
-    return docRef;
+    )
+    return docRef
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    throw errorCode;
+    const errorCode = error.code
+    const errorMessage = error.message
+    throw errorCode
   }
-};
+}
 
 export const updateQuestion = async (data) => {
   try {
     const docRef = await updateDoc(
-      doc(firestore, "Assessments", data.id, "questions", data.questionId),
+      doc(firestore, 'Assessments', data.id, 'questions', data.questionId),
       data.data
-    );
-    return docRef;
+    )
+    return docRef
   } catch (e) {
-    return e;
+    return e
   }
-};
+}
 export const addCondition = async (data) => {
-  console.log(data);
+  console.log(data)
   try {
     const docRef = await addDoc(
-      collection(firestore, "Assessments", data.assessmentId, "conditions"),
+      collection(firestore, 'Assessments', data.assessmentId, 'conditions'),
       data
-    );
-    return docRef;
+    )
+    return docRef
   } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    throw errorCode;
+    const errorCode = error.code
+    const errorMessage = error.message
+    throw errorCode
   }
-};
+}
 
 export const updateCondition = async (data) => {
   try {
     const docRef = await updateDoc(
       doc(
         firestore,
-        "Assessments",
+        'Assessments',
         data.assessmentId,
-        "conditions",
+        'conditions',
         data.conditionId
       ),
       data
-    );
-    return docRef;
+    )
+    return docRef
   } catch (e) {
-    return e;
+    return e
   }
-};
+}

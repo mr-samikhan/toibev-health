@@ -7,7 +7,12 @@ import { getErrorMessage } from '../../Login/utils'
 import { addClinic, deleteClinic, updateClinic } from '../actions'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
-export default function useClinicForm({ initialState, isEdit, setOpen }) {
+export default function useClinicForm({
+  isEdit,
+  setOpen,
+  clinics,
+  initialState,
+}) {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
 
@@ -41,10 +46,8 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-clinics')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-clinics')
   }
 
   //error
@@ -64,8 +67,7 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
       onSuccess({ isDelete: false })
     },
     onError: (error) => {
-      const err = getErrorMessage(error)
-      onError(err)
+      onError(error)
     },
   })
 
@@ -113,7 +115,7 @@ export default function useClinicForm({ initialState, isEdit, setOpen }) {
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
-        : { ...body, createdAt: new Date() }
+        : { data: { ...body, createdAt: new Date() }, clinics }
     )
   }
 

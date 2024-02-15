@@ -6,7 +6,12 @@ import { getErrorMessage } from '../../Login/utils'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 import { addAssessment, deleteAssessment, updateAssessment } from '../actions'
 
-export default function useAddAssessment({ isEdit, data, setOpen }) {
+export default function useAddAssessment({
+  data,
+  isEdit,
+  setOpen,
+  assessments,
+}) {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
 
@@ -32,10 +37,8 @@ export default function useAddAssessment({ isEdit, data, setOpen }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-assessments')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-assessments')
   }
 
   //error
@@ -48,10 +51,6 @@ export default function useAddAssessment({ isEdit, data, setOpen }) {
         message: err || 'Something went wrong!',
       })
     )
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-assessments')
-    }, 3000)
   }
 
   const { isLoading, mutate } = useMutation(
@@ -72,7 +71,7 @@ export default function useAddAssessment({ isEdit, data, setOpen }) {
   const onSubmit = (data) => {
     isEdit
       ? mutate({ ...data, id: data.id, updatedAt: new Date() })
-      : mutate({ ...data, createdAt: new Date() })
+      : mutate({ data: { ...data, createdAt: new Date() }, assessments })
   }
   return {
     errors,

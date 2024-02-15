@@ -38,8 +38,8 @@ export default function useGroupSessionForm({
       })
     )
 
-    queryClient.invalidateQueries('get-all-treatments')
     setOpen(false)
+    queryClient.invalidateQueries('get-all-treatments')
   }
 
   //error

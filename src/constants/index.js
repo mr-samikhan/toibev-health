@@ -126,3 +126,5 @@ export const myCustomLocale = {
   yearLetterSkip: 0,
   isRtl: false,
 }
+
+export const DUPLICATE_RECORD_ERROR = 'duplicate-record'

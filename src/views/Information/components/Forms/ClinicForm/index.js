@@ -14,7 +14,7 @@ import { ReactComponent as LocationIcon } from '../../../../../assets/icons/loca
 import { ReactComponent as ButterflyIcon } from '../../../../../assets/icons/butterfly.svg'
 import { ReactComponent as DepartmentIcon } from '../../../../../assets/icons/tag-user.svg'
 
-export default function ClinicForm({ initialState, isEdit, setOpen }) {
+export default function ClinicForm({ initialState, isEdit, setOpen, clinics }) {
   const {
     errors,
     control,
@@ -30,7 +30,7 @@ export default function ClinicForm({ initialState, isEdit, setOpen }) {
     selectedImageTwo,
     setSelectedImageOne,
     setSelectedImageTwo,
-  } = useClinicForm({ setOpen, initialState, isEdit })
+  } = useClinicForm({ setOpen, initialState, isEdit, clinics })
   return (
     <Box
       component="form"

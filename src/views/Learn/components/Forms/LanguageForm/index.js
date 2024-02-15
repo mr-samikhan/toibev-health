@@ -17,7 +17,12 @@ import locationIcon from '../../../../../assets/icons/location-blue.svg'
 import { ReactComponent as PeopleIcon } from '../../../../../assets/icons/people.svg'
 import { MuiCustomAutocomplete } from '../../../../../components/MuiCustomAutocomplete/MuiCustomAutocomplete'
 
-export default function LangugaeForm({ isEdit, initialState, setOpen }) {
+export default function LangugaeForm({
+  isEdit,
+  initialState,
+  setOpen,
+  allLanguages,
+}) {
   const {
     errors,
     control,
@@ -44,8 +49,9 @@ export default function LangugaeForm({ isEdit, initialState, setOpen }) {
     events,
   } = useLanguageForm({
     isEdit,
-    initialState,
     setOpen,
+    initialState,
+    allLanguages,
   })
 
   const [isCoursesModal, setIsCoursesModal] = React.useState(false)

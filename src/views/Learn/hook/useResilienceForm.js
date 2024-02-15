@@ -93,7 +93,7 @@ export default function useResilienceForm({
         oldCollectionName: title,
       })
     } else {
-      mutate(data)
+      mutate({ data, title: formData.title })
     }
   }
 

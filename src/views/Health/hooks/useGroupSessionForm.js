@@ -18,6 +18,7 @@ export default function useGroupSessionForm({
   isEdit,
   setOpen,
   initialState,
+  groupSessions,
 }) {
   const [endDate, setEndDate] = useState(isEdit ? getDate('endDate') : null)
   const [startDate, setStartDate] = useState(
@@ -52,14 +53,13 @@ export default function useGroupSessionForm({
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-group-sessions')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-group-sessions')
   }
 
   //error
   const onError = (error) => {
+    console.log('error', error)
     const err = getErrorMessage(error)
     dispatch(
       setAlertValues({
@@ -115,7 +115,7 @@ export default function useGroupSessionForm({
 
     isEdit
       ? mutate({ ...body, id: initialState.id, updatedAt: new Date() })
-      : mutate({ ...body, createdAt: new Date() })
+      : mutate({ data: { ...body, createdAt: new Date() }, groupSessions })
   }
 
   const onDelete = () => {

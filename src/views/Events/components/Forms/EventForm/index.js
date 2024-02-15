@@ -15,16 +15,8 @@ import { ReactComponent as TaskIcon } from '../../../../../assets/icons/task.svg
 import { ReactComponent as LinkIcon } from '../../../../../assets/icons/link.svg'
 import { ReactComponent as Clipboard } from '../../../../../assets/icons/clipboard.svg'
 import { ReactComponent as LocationIcon } from '../../../../../assets/icons/location.svg'
-import { useGetCultures } from '../../../../../hooks/useGetCultures'
-import { useGetEvents } from '../../../../../hooks/useGetEvents'
 
-export default function EventForm({
-  isEdit,
-  data,
-  open,
-  setOpen,
-  alldata: events,
-}) {
+export default function EventForm({ isEdit, data, open, setOpen, allData }) {
   const {
     watch,
     errors,
@@ -51,7 +43,7 @@ export default function EventForm({
     setSelectedVideo,
     setSelectedImage,
     recurrenceOptions,
-  } = useEventForm({ initialState: data, open, setOpen, isEdit })
+  } = useEventForm({ initialState: data, open, setOpen, isEdit, allData })
 
   const { pathname } = useLocation()
 
@@ -194,7 +186,7 @@ export default function EventForm({
             <Controller
               name="recurrence"
               control={control}
-              rules={{ required: 'Field is required' }}
+              // rules={{ required: 'Field is required' }}
               render={({ field: { value, onChange } }) => (
                 <RecurringPeriod
                   label="Select Period"

@@ -58,7 +58,13 @@ export function Information() {
           open={open}
           title="Add Service"
           setOpen={setOpen}
-          message={<ServiceForm setOpen={setOpen} clinics={clinics} />}
+          message={
+            <ServiceForm
+              setOpen={setOpen}
+              clinics={clinics}
+              services={services}
+            />
+          }
         />
       )}
       {openClinicForm && (
@@ -66,7 +72,7 @@ export function Information() {
           open={openClinicForm}
           title="Add Clinic"
           setOpen={setOpenClinicForm}
-          message={<ClinicForm setOpen={setOpenClinicForm} />}
+          message={<ClinicForm setOpen={setOpenClinicForm} clinics={clinics} />}
         />
       )}
       <Grid container justifyContent="space-between" alignItems="center" mb={3}>

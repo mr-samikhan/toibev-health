@@ -3,9 +3,12 @@ import { useForm } from 'react-hook-form'
 import { addProvider, updateProvider } from '../actions'
 import { useMutation, useQueryClient } from 'react-query'
 import { useGetClinics } from '../../../hooks/useGetClinics'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useProviderForm(props) {
-  const { isEdit, initialState, setOpen } = props
+  const { isEdit, initialState, setOpen, providers } = props
   const {
     reset,
     control,
@@ -19,16 +22,47 @@ export default function useProviderForm(props) {
   })
 
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
+
+  //success
+  const onSuccess = ({ isDelete }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Treatment deleted successfully'
+          : isEdit
+          ? 'Treatment updated successfully'
+          : 'Treatment added successfully',
+        isOpen: true,
+      })
+    )
+
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-providers')
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateProvider : addProvider,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-providers')
+        onSuccess({ isDelete: false })
       },
       onError: (error) => {
         console.log(error)
+        onError(error)
       },
     }
   )
@@ -56,7 +90,7 @@ export default function useProviderForm(props) {
     }
     isEdit
       ? mutate({ ...body, id: initialState.id, updatedAt: new Date() })
-      : mutate({ ...body, createdAt: new Date() })
+      : mutate({ data: { ...body, createdAt: new Date() }, providers })
   }
 
   useEffect(() => {

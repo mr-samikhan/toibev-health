@@ -7,12 +7,17 @@ import {
   updateTreatmentResource,
   deleteTreatmentResource,
 } from '../actions'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 export default function useTreatmentResourceForm({
   data,
   isEdit,
   setOpen,
   initialState,
+  allResources,
+  treatmentOptions,
 }) {
   const {
     control,
@@ -21,7 +26,6 @@ export default function useTreatmentResourceForm({
   } = useForm({
     defaultValues: { ...initialState },
   })
-
   const [treatDescription, setTreatDescription] = useState(
     initialState?.description
   )
@@ -46,16 +50,47 @@ export default function useTreatmentResourceForm({
 
   const queryClient = useQueryClient()
   const pdfInputRef = useRef(null)
+  const dispatch = useDispatch()
+
+  //success
+  const onSuccess = ({ isDelete }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Treatment Resource deleted successfully'
+          : isEdit
+          ? 'Treatment Resource updated successfully'
+          : 'Treatment Resource added successfully',
+        isOpen: true,
+      })
+    )
+
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-treatments')
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
 
   const { isLoading, mutate } = useMutation(
     isEdit ? updateTreatmentResource : addTreatmentResource,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-treatments')
+        onSuccess({ isDelete: false })
       },
       onError: (error) => {
         console.log(error)
+        onError(error)
       },
     }
   )
@@ -76,11 +111,13 @@ export default function useTreatmentResourceForm({
     deleteTreatmentResource,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-treatments')
+        onSuccess({
+          isDelete: true,
+        })
       },
       onError: (error) => {
         console.log(error)
+        onError(error)
       },
     }
   )
@@ -106,7 +143,10 @@ export default function useTreatmentResourceForm({
           dataId: data?.id,
           createdAt: new Date(),
         })
-      : mutate({ ...body, id: data?.id, updatedAt: new Date() })
+      : mutate({
+          data: { ...body, id: data?.id, updatedAt: new Date() },
+          treatmentOptions,
+        })
   }
 
   //update description

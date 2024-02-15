@@ -6,7 +6,12 @@ import { addCulture, deleteCulture, updateCulture } from '../actions'
 import { getErrorMessage } from '../../Login/utils'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
-export default function useTribeForm({ isEdit, initialState, setOpen }) {
+export default function useTribeForm({
+  isEdit,
+  initialState,
+  setOpen,
+  cultures,
+}) {
   const {
     control,
     handleSubmit,
@@ -36,11 +41,8 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
         isOpen: true,
       })
     )
-
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-cultures')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-cultures')
   }
 
   //error
@@ -84,7 +86,13 @@ export default function useTribeForm({ isEdit, initialState, setOpen }) {
       cover_img: selectedImage,
     }
 
-    isEdit ? mutate({ ...data, id: initialState.id }) : mutate(data)
+    isEdit
+      ? mutate({
+          data: { ...data, id: initialState.id },
+          newTitle:
+            watch('title') !== initialState.title ? watch('title') : null,
+        })
+      : mutate({ data, cultures })
   }
 
   return {
