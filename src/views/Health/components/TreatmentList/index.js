@@ -20,7 +20,13 @@ const Paper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }))
 
-export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
+export function TreatmentList({
+  list = [],
+  icon,
+  Actions,
+  ResourceActions,
+  treatmentOptions,
+}) {
   const [expanded, setExpanded] = React.useState(false)
   const [selectedId, setSelectedId] = React.useState(null)
 
@@ -68,6 +74,7 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                         <Actions
                           data={item}
                           setSelectedId={setSelectedId}
+                          treatmentOptions={treatmentOptions}
                           setTreatDescription={setTreatDescription}
                           expanded={expanded === `panel${index + 1}`}
                         />
@@ -127,8 +134,9 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
                             <TreatmentResource
                               index={index}
                               treatment={item}
-                              ResourceActions={ResourceActions}
                               icon={item?.cover_img || icon}
+                              ResourceActions={ResourceActions}
+                              treatmentOptions={treatmentOptions}
                             />
                           )}
                         </Grid>
@@ -145,7 +153,12 @@ export function TreatmentList({ list = [], icon, Actions, ResourceActions }) {
   )
 }
 
-export const TreatmentResource = ({ icon, treatment, ResourceActions }) => {
+export const TreatmentResource = ({
+  icon,
+  treatment,
+  ResourceActions,
+  treatmentOptions,
+}) => {
   const { data, isLoading } = useGetTreatmentOptions({
     id: treatment?.id,
   })
@@ -197,9 +210,11 @@ export const TreatmentResource = ({ icon, treatment, ResourceActions }) => {
               </Grid>
               <Grid item className="list-action">
                 <ResourceActions
+                  data={resource}
+                  allData={data}
                   resource={resource}
                   treatment={treatment}
-                  data={resource}
+                  treatmentOptions={treatmentOptions}
                 />
               </Grid>
             </Grid>

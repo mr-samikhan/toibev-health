@@ -1,3 +1,5 @@
+import { checkForDuplicate } from '../../../common/helpers'
+import { DUPLICATE_RECORD_ERROR } from '../../../constants'
 import {
   ref,
   doc,
@@ -10,6 +12,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from '../../../firebase'
+import { convertImageTo } from '../../../utils/imageConverter'
 
 const UNIQUE_STRING = Math.random().toString(36).substr(2, 9)
 
@@ -25,15 +28,24 @@ const uploadFile = async (file, path) => {
   }
 }
 
-export const addProvider = async (data) => {
-  try {
-    const docRef = await addDoc(collection(firestore, 'Providers'), data)
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const addProvider = async ({ data, providers }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = providers.some(
+        (item) => item?.name?.toLowerCase() === data?.name?.toLowerCase()
+      )
+      if (!check) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await addDoc(collection(firestore, 'Providers'), data)
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const updateProvider = async (data) => {
@@ -47,15 +59,25 @@ export const updateProvider = async (data) => {
   }
 }
 
-export const addGroupSession = async (data) => {
-  try {
-    const docRef = await addDoc(collection(firestore, 'GroupSessions'), data)
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const addGroupSession = async ({ data, groupSessions }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(groupSessions, data.title)
+      if (!check) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await addDoc(
+          collection(firestore, 'GroupSessions'),
+          data
+        )
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const updateGroupSession = async (data) => {
@@ -100,46 +122,59 @@ export const addTreatment = async ({ data, previous_recs }) => {
     } catch (error) {
       const errorCode = error.code
       const errorMessage = error.message
-      reject(errorCode)
+      reject(errorCode || errorMessage)
     }
   })
 }
 
-export const addTreatmentResource = async (data) => {
-  try {
-    const { file, fileName } = data.cover_img || {}
+export const addTreatmentResource = async ({ data, treatmentOptions }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(treatmentOptions, data.title)
+      if (!check) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const { file, fileName } = data.cover_img || {}
+        const convertedFile = file
+          ? await convertImageTo('jpg', file, fileName)
+          : ''
 
-    const cover_img = file
-      ? await uploadFile(file, `images/treatment/${fileName}`)
-      : ''
-    const pdfFile = data.pdf?.file
-      ? await uploadFile(data.pdf?.file, `pdfs/treatment/${data.pdf.fileName}`)
-      : ''
-    const docRef = await addDoc(
-      collection(
-        firestore,
-        'Treatment',
-        'general',
-        'list',
-        data?.id,
-        'options'
-      ),
-      {
-        ...data,
-        cover_img,
-        pdf: {
-          fileUrl: pdfFile,
-          fileName: data.pdf?.fileName ?? '',
-          fileSize: data.pdf?.fileSize ?? '',
-        },
+        const cover_img = file
+          ? await uploadFile(convertedFile, `images/treatment/${fileName}`)
+          : ''
+        const pdfFile = data.pdf?.file
+          ? await uploadFile(
+              data.pdf?.file,
+              `pdfs/treatment/${data.pdf.fileName}`
+            )
+          : ''
+        const docRef = await addDoc(
+          collection(
+            firestore,
+            'Treatment',
+            'general',
+            'list',
+            data?.id,
+            'options'
+          ),
+          {
+            ...data,
+            cover_img,
+            pdf: {
+              fileUrl: pdfFile,
+              fileName: data.pdf?.fileName ?? '',
+              fileSize: data.pdf?.fileSize ?? '',
+            },
+          }
+        )
+        resolve(docRef)
       }
-    )
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
@@ -148,7 +183,13 @@ export const updateTreatmentResource = async ({ id, dataId, ...rest }) => {
     let pdf = ''
     if (rest.cover_img.file) {
       const { file, fileName } = rest.cover_img || {}
-      const url = await uploadFile(file, `images/treatment/${fileName}`)
+      const convertedFile = file
+        ? await convertImageTo('jpg', file, fileName)
+        : ''
+      const url = await uploadFile(
+        convertedFile,
+        `images/treatment/${fileName}`
+      )
       cover_img = url
     }
     if (rest.pdf?.file) {
@@ -205,18 +246,25 @@ export const updateTreatment = async (data) => {
   }
 }
 
-export const addMedicationsList = async (data) => {
-  try {
-    const docRef = await addDoc(collection(firestore, 'MedicationsList'), {
-      ...data,
-      createdAt: new Date(),
-    })
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const addMedicationsList = async ({ data, medications }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(medications, data.title)
+      if (!check) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await addDoc(collection(firestore, 'MedicationsList'), {
+          ...data,
+          createdAt: new Date(),
+        })
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const updateMedicationsList = async (data) => {

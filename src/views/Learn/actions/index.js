@@ -13,6 +13,10 @@ import {
   getDownloadURL,
   getDocs,
 } from '../../../firebase'
+import { query, where } from 'firebase/firestore'
+import { checkForDuplicate } from '../../../common/helpers'
+import { DUPLICATE_RECORD_ERROR } from '../../../constants'
+import { convertImageTo } from '../../../utils/imageConverter'
 
 const UNIQUE_STRING = Math.random().toString(36).substr(2, 9)
 
@@ -28,45 +32,72 @@ const uploadFile = async (file, path) => {
   }
 }
 
-export const addCulture = async (data) => {
-  try {
-    const { file, fileName } = data.cover_img || {}
-    const cover_img = file
-      ? await uploadFile(file, `images/events/${fileName}`)
-      : ''
-    const culture = {
-      ...data,
-      cover_img,
-      createdAt: new Date(),
+export const addCulture = async ({ data, cultures }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(cultures, data.title)
+      if (check) {
+        const { file, fileName } = data.cover_img || {}
+        const convertedFile = file
+          ? await convertImageTo('jpg', file, file.name)
+          : ''
+        const cover_img = file
+          ? await uploadFile(convertedFile, `images/events/${fileName}`)
+          : ''
+        const culture = {
+          ...data,
+          cover_img,
+          createdAt: new Date(),
+        }
+        const docRef = await addDoc(collection(firestore, 'Culture'), culture)
+        resolve(docRef)
+      } else {
+        reject(DUPLICATE_RECORD_ERROR)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
     }
-    const docRef = await addDoc(collection(firestore, 'Culture'), culture)
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+  })
 }
 
-export const updateCulture = async (data) => {
-  try {
-    let cover_img = ''
-    if (data.cover_img.file) {
-      const { file, fileName } = data.cover_img || {}
-      const url = await uploadFile(file, `images/events/${fileName}`)
-      cover_img = url
+export const updateCulture = async ({ data, newTitle }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const recordExist = await checkForDuplicateRecord(
+        'Culture',
+        'title',
+        newTitle
+      )
+      if (recordExist) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        let cover_img = ''
+        if (data.cover_img.file) {
+          const { file, fileName } = data.cover_img || {}
+          const convertedFile = file
+            ? await convertImageTo('jpg', file, file.name)
+            : ''
+          const url = await uploadFile(
+            convertedFile,
+            `images/events/${fileName}`
+          )
+          cover_img = url
+        }
+        const docRef = await updateDoc(doc(firestore, 'Culture', data.id), {
+          ...data,
+          updatedAt: new Date(),
+          cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
+        })
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
     }
-    const docRef = await updateDoc(doc(firestore, 'Culture', data.id), {
-      ...data,
-      updatedAt: new Date(),
-      cover_img: data.cover_img.file ? cover_img : data.cover_img.fileUrl,
-    })
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+  })
 }
 
 export const deleteCulture = async (id) => {
@@ -96,140 +127,159 @@ const storeThumbnailInFirebase = async (thumbnailDataUrl, fileName) => {
   }
 }
 
-export const addLanguage = async (data) => {
-  try {
-    // let cover_img = ''
-    // if (data.cover_img?.file) {
-    //   cover_img = await uploadFile(
-    //     data.cover_img.file,
-    //     `images/languages/${data.cover_img?.fileName}`
-    //   )
-    // }
-    //upload multiple videos
-    // const videos = []
-    // for (const video of data.videos) {
-    //   const { file, fileName } = video || {}
-    //   const url = await uploadFile(file, `videos/languages/${fileName}`)
+export const addLanguage = async ({ data, allLanguages }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const check = checkForDuplicate(allLanguages, data.title)
+      if (check) {
+        //upload audio image file
+        const words = []
+        for (const word of data.words) {
+          const { image, audio, title } = word || {}
+          const convertedFile = image.file
+            ? await convertImageTo('jpg', image.file, image.file.name)
+            : ''
 
-    //   const thumbnailUrl = await storeThumbnailInFirebase(
-    //     video.thumbnail,
-    //     `images/languages/${fileName}`
-    //   )
-    //   videos.push({
-    //     fileUrl: url,
-    //     thumbnail: thumbnailUrl,
-    //   })
-    // }
-    //end
-
-    //upload audio image file
-    const words = []
-    for (const word of data.words) {
-      const { image, audio, title } = word || {}
-
-      const imageUrl = await uploadFile(
-        image.file,
-        `images/languages/${image.fileName}`
-      )
-      const audioUrl = await uploadFile(
-        audio.file,
-        `audio/languages/${audio.fileName}`
-      )
-      words.push({
-        title,
-        image: {
-          fileUrl: imageUrl,
-          fileName: image.fileName,
-          fileSize: image.fileSize,
-        },
-        audio: {
-          fileUrl: audioUrl,
-          fileName: audio.fileName,
-          fileSize: audio.fileSize,
-        },
-      })
-    }
-    // end
-
-    const language = {
-      ...data,
-      createdAt: new Date(),
-      words,
-      // cover_img,
-      // videos,
-    }
-    const docRef = await addDoc(collection(firestore, 'Languages'), language)
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
-}
-
-export const updateLanguage = async (data) => {
-  try {
-    const words = []
-
-    await Promise.all(
-      data.words.map(async (word) => {
-        let { image, audio, title } = word || {}
-
-        if (image?.file === undefined || image?.file === '') {
-          image = {
-            fileUrl: image?.fileUrl,
-            fileName: image?.fileName,
-            fileSize: image?.fileSize,
-          }
-        }
-
-        if (audio?.file === undefined || audio?.file === '') {
-          audio = {
-            fileUrl: audio?.fileUrl,
-            fileName: audio?.fileName,
-            fileSize: audio?.fileSize,
-          }
-        }
-
-        if (image?.file !== undefined) {
-          const imgUrl = await uploadFile(
-            image.file,
+          const imageUrl = await uploadFile(
+            convertedFile,
             `images/languages/${image.fileName}`
           )
-          word.image = {
-            fileUrl: imgUrl,
-            fileName: image.fileName,
-            fileSize: image.fileSize,
-          }
-        }
-
-        if (audio?.file !== undefined) {
           const audioUrl = await uploadFile(
             audio.file,
             `audio/languages/${audio.fileName}`
           )
-          word.audio = {
-            fileUrl: audioUrl,
-            fileName: audio.fileName,
-            fileSize: audio.fileSize,
-          }
+          words.push({
+            title,
+            image: {
+              fileUrl: imageUrl,
+              fileName: image.fileName,
+              fileSize: image.fileSize,
+            },
+            audio: {
+              fileUrl: audioUrl,
+              fileName: audio.fileName,
+              fileSize: audio.fileSize,
+            },
+          })
         }
+        // end
 
-        words.push({ ...word, title })
-      })
-    )
-    const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
-      ...data,
-      updatedAt: new Date(),
-      words,
-    })
+        const language = {
+          ...data,
+          createdAt: new Date(),
+          words,
+          // cover_img,
+          // videos,
+        }
+        const docRef = await addDoc(
+          collection(firestore, 'Languages'),
+          language
+        )
+        resolve(docRef)
+      } else {
+        reject(DUPLICATE_RECORD_ERROR)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
+}
 
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
+export const checkForDuplicateRecord = async (
+  collectionName,
+  keyTobeChecked,
+  value
+) => {
+  const collRef = collection(firestore, collectionName)
+  const titleQuery = query(collRef, where(keyTobeChecked, '==', value))
+  const querySnapshot = await getDocs(titleQuery)
+
+  if (value !== null && querySnapshot.docs.length > 0) {
+    return true
+  } else {
+    return false
   }
+}
+
+export const updateLanguage = async ({ data, newTitle }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const recordExist = await checkForDuplicateRecord(
+        'Languages',
+        'title',
+        newTitle
+      )
+      if (recordExist) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const words = []
+        await Promise.all(
+          data.words.map(async (word) => {
+            let { image, audio, title } = word || {}
+
+            if (image?.file === undefined || image?.file === '') {
+              image = {
+                fileUrl: image?.fileUrl,
+                fileName: image?.fileName,
+                fileSize: image?.fileSize,
+              }
+            }
+
+            if (audio?.file === undefined || audio?.file === '') {
+              audio = {
+                fileUrl: audio?.fileUrl,
+                fileName: audio?.fileName,
+                fileSize: audio?.fileSize,
+              }
+            }
+
+            if (image?.file !== undefined) {
+              const convertedFile = image.file
+                ? await convertImageTo('jpg', image.file, image.file.name)
+                : ''
+              const imgUrl = await uploadFile(
+                convertedFile,
+                `images/languages/${image.fileName}`
+              )
+              word.image = {
+                fileUrl: imgUrl,
+                fileName: image.fileName,
+                fileSize: image.fileSize,
+              }
+            }
+
+            if (audio?.file !== undefined) {
+              const audioUrl = await uploadFile(
+                audio.file,
+                `audio/languages/${audio.fileName}`
+              )
+              word.audio = {
+                fileUrl: audioUrl,
+                fileName: audio.fileName,
+                fileSize: audio.fileSize,
+              }
+            }
+
+            words.push({ ...word, title })
+          })
+        )
+        const docRef = await updateDoc(doc(firestore, 'Languages', data.id), {
+          ...data,
+          updatedAt: new Date(),
+          words,
+        })
+
+        resolve(docRef)
+      }
+    } catch (error) {
+      console.log(error, 'error')
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const deleteLanguage = async (id) => {
@@ -243,18 +293,24 @@ export const deleteLanguage = async (id) => {
   }
 }
 
-export const addResiliency = async (data) => {
-  try {
-    const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
-      ...data,
-      createdAt: new Date(),
-    })
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const addResiliency = async ({ data, title }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (data.menu.some((item) => item.title === title)) {
+        reject(DUPLICATE_RECORD_ERROR)
+      }
+      console.log(data, '>>>>')
+      const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+        ...data,
+        createdAt: new Date(),
+      })
+      resolve(docRef)
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const updateResiliency = async ({
@@ -403,40 +459,51 @@ export const deleteResiliency = async ({ collectionName, data }) => {
   }
 }
 
-export const addResiliencySubCat = async (data) => {
+export const addResiliencySubCat = async ({ data, allSubCats }) => {
   try {
-    const { file, fileName } = data.cover_img || {}
+    if (allSubCats?.some((item) => item?.title === data?.title)) {
+      throw DUPLICATE_RECORD_ERROR
+    } else {
+      const { file, fileName } = data?.cover_img || {}
 
-    const cover_img = file
-      ? await uploadFile(file, `images/resiliency-subCat/${fileName}`)
-      : ''
+      const convertedFile = file
+        ? await convertImageTo('jpg', file, fileName)
+        : ''
 
-    const pdfFile = data.pdf.file
-      ? await uploadFile(
-          data.pdf.file,
-          `pdfs/resiliency-subCat/${data.pdf.fileName}`
-        )
-      : ''
+      const cover_img = file
+        ? await uploadFile(
+            convertedFile,
+            `images/resiliency-subCat/${fileName}`
+          )
+        : ''
 
-    const subCat = {
-      title: data.title,
-      cover_img,
-      pdf: {
-        fileUrl: pdfFile,
-        fileName: data.pdf?.fileName ?? '',
-        fileSize: data.pdf?.fileSize ?? '',
-      },
+      const pdfFile = data?.pdf?.file
+        ? await uploadFile(
+            data.pdf.file,
+            `pdfs/resiliency-subCat/${data.pdf.fileName}`
+          )
+        : ''
+
+      const subCat = {
+        title: data.title,
+        cover_img,
+        pdf: {
+          fileUrl: pdfFile,
+          fileName: data.pdf?.fileName ?? '',
+          fileSize: data.pdf?.fileSize ?? '',
+        },
+      }
+
+      const docRef = await addDoc(
+        collection(firestore, 'Resiliency', 'general', data?.cat),
+        subCat
+      )
+      return docRef
     }
-
-    const docRef = await addDoc(
-      collection(firestore, 'Resiliency', 'general', data?.cat),
-      subCat
-    )
-    return docRef
   } catch (error) {
     const errorCode = error.code
     const errorMessage = error.message
-    throw error
+    throw error || errorMessage
   }
 }
 
@@ -445,7 +512,13 @@ export const updateResiliencySubCat = async ({ data, collectionName }) => {
     let cover_img = ''
     if (data.cover_img.file) {
       const { file, fileName } = data.cover_img || {}
-      const url = await uploadFile(file, `images/resiliency-subCat/${fileName}`)
+      const convertedFile = file
+        ? await convertImageTo('jpg', file, fileName)
+        : ''
+      const url = await uploadFile(
+        convertedFile,
+        `images/resiliency-subCat/${fileName}`
+      )
       cover_img = url
     }
 

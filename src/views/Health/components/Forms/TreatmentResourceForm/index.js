@@ -25,6 +25,8 @@ export default function TreatmentResourceForm({
   data,
   setOpen,
   initialState,
+  allResources,
+  treatmentOptions,
 }) {
   const {
     pdf,
@@ -46,6 +48,8 @@ export default function TreatmentResourceForm({
     data,
     setOpen,
     initialState,
+    allResources,
+    treatmentOptions,
   })
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>

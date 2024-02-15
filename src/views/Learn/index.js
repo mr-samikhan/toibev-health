@@ -53,7 +53,7 @@ export function Learn() {
           title="Add Culture"
           open={open}
           setOpen={setOpen}
-          message={<TribeForm setOpen={setOpen} />}
+          message={<TribeForm setOpen={setOpen} cultures={cultures} />}
         />
       )}
 
@@ -62,7 +62,7 @@ export function Learn() {
           title="Add Language"
           open={open}
           setOpen={setOpen}
-          message={<LangugaeForm setOpen={setOpen} />}
+          message={<LangugaeForm setOpen={setOpen} allLanguages={languages} />}
         />
       )}
       {tab === 2 && open && (

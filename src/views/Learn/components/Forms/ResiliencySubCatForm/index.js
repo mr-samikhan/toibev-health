@@ -22,9 +22,10 @@ const StyledHeading = ({ children }) => (
 
 export default function ResiliencySubCatForm({
   cat,
-  setOpen,
-  initialState,
   isEdit,
+  setOpen,
+  allSubCats,
+  initialState,
 }) {
   const {
     pdf,
@@ -42,8 +43,9 @@ export default function ResiliencySubCatForm({
   } = useResiliencySubCatForm({
     cat,
     setOpen,
-    initialState,
     isEdit,
+    allSubCats,
+    initialState,
   })
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>

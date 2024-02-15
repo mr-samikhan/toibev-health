@@ -60,6 +60,7 @@ export function TreatmentActions({
   expanded,
   setSelectedId,
   setTreatDescription,
+  treatmentOptions,
 }) {
   const [open, setOpen] = useState(false)
   const [openResourceForm, setOpenResourceForm] = useState(false)
@@ -82,7 +83,11 @@ export function TreatmentActions({
           setOpen={setOpenResourceForm}
           title={'Add Treatment Resource'}
           message={
-            <TreatmentResourceForm data={data} setOpen={setOpenResourceForm} />
+            <TreatmentResourceForm
+              data={data}
+              setOpen={setOpenResourceForm}
+              treatmentOptions={treatmentOptions}
+            />
           }
         />
       )}
@@ -132,7 +137,13 @@ export function TreatmentActions({
   )
 }
 
-export function TreatmentResourceActions({ treatment, expanded, resource }) {
+export function TreatmentResourceActions({
+  treatment,
+  expanded,
+  resource,
+  allData,
+  treatmentOptions,
+}) {
   const [openResourceForm, setOpenResourceForm] = useState(false)
 
   return (
@@ -146,8 +157,10 @@ export function TreatmentResourceActions({ treatment, expanded, resource }) {
             <TreatmentResourceForm
               isEdit
               data={treatment}
+              allResources={allData}
               initialState={resource}
               setOpen={setOpenResourceForm}
+              treatmentOptions={treatmentOptions}
             />
           }
         />

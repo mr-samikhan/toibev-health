@@ -10,7 +10,12 @@ import {
 import { getErrorMessage } from '../../Login/utils'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 
-export default function useMedicationForm({ isEdit, initialState, setOpen }) {
+export default function useMedicationForm({
+  isEdit,
+  setOpen,
+  medications,
+  initialState,
+}) {
   const {
     control,
     handleSubmit,
@@ -35,10 +40,8 @@ export default function useMedicationForm({ isEdit, initialState, setOpen }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-medication')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-medication')
   }
 
   //error
@@ -74,7 +77,9 @@ export default function useMedicationForm({ isEdit, initialState, setOpen }) {
       title: data?.title,
       url: data?.url,
     }
-    isEdit ? mutate({ ...body, id: initialState.id }) : mutate(body)
+    isEdit
+      ? mutate({ ...body, id: initialState.id })
+      : mutate({ data: body, medications })
   }
 
   const onDelete = () => {

@@ -4,8 +4,11 @@ import { useMutation, useQueryClient } from 'react-query'
 
 //imports
 import { Timestamp } from 'firebase/firestore'
-import { addEvent, updateEvent, deleteEvent } from '../actions'
 import { getFormatedDate } from '../../../utils/dateFormats'
+import { addEvent, updateEvent, deleteEvent } from '../actions'
+import { useDispatch } from 'react-redux'
+import { setAlertValues } from '../../../redux/actions/loginActions'
+import { getErrorMessage } from '../../Login/utils'
 
 const recurrenceOptions = [
   { label: 'Hourly', value: 'hourly' },
@@ -30,8 +33,15 @@ const days = [
   { label: 'Sunday', value: 'sunday', checked: false },
 ]
 
-export default function useEventForm({ initialState, setOpen, isEdit }) {
+export default function useEventForm({
+  initialState,
+  setOpen,
+  isEdit,
+  allData,
+}) {
   const queryClient = useQueryClient()
+  const dispatch = useDispatch()
+
   const [selectedVideo, setSelectedVideo] = useState({
     fileUrl: initialState?.video || '',
   })
@@ -46,7 +56,9 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
   const [selectedPdf, setSelectedPdf] = useState({
     ...(initialState?.pdf || {}),
   })
-  const [isRecurring, setIsRecurring] = useState(false)
+  const [isRecurring, setIsRecurring] = useState(
+    initialState?.isRecurring || false
+  )
 
   function getDate(value) {
     if (!initialState[value]?.seconds) return ''
@@ -73,12 +85,44 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
 
   const { recurrence, frequency } = watch()
 
-  const { isLoading, mutate } = useMutation(isEdit ? updateEvent : addEvent, {
-    onSuccess: (success) => {
+  //success
+  const onSuccess = ({ isDelete, message }) => {
+    dispatch(
+      setAlertValues({
+        type: 'success',
+        message: isDelete
+          ? 'Event deleted successfully'
+          : isEdit
+          ? message || 'Event updated successfully'
+          : 'Event added successfully',
+        isOpen: true,
+      })
+    )
+
+    setTimeout(() => {
       setOpen(false)
       queryClient.invalidateQueries('get-all-events')
+    }, 2000)
+  }
+
+  //error
+  const onError = (error) => {
+    const err = getErrorMessage(error)
+    dispatch(
+      setAlertValues({
+        type: 'error',
+        isOpen: true,
+        message: err || 'Something went wrong!',
+      })
+    )
+  }
+
+  const { isLoading, mutate } = useMutation(isEdit ? updateEvent : addEvent, {
+    onSuccess: (success) => {
+      onSuccess({ isDelete: false })
     },
     onError: (error) => {
+      onError(error)
       console.log(error)
     },
   })
@@ -87,10 +131,10 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     deleteEvent,
     {
       onSuccess: (success) => {
-        setOpen(false)
-        queryClient.invalidateQueries('get-all-events')
+        onSuccess({ isDelete: true, message: success })
       },
       onError: (error) => {
+        onError(error)
         console.log(error)
       },
     }
@@ -102,7 +146,7 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
     setWeekdays(newWeekdays)
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     function getCurrentTime() {
       const now = new Date()
       const hours = now.getHours().toString().padStart(2, '0') // Get hours and pad with leading zero if necessary
@@ -126,7 +170,10 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
       image: selectedImage,
       webLink: data.webLink,
       location: data.location,
+      frequency: frequency || '',
+      period: data.period || '',
       endTime: data.endTime || currentTime,
+      recurrence: isRecurring ? recurrence : '',
       startTime: data.startTime || currentTime,
       description: data.description,
       startDate: Timestamp.fromDate(
@@ -143,11 +190,10 @@ export default function useEventForm({ initialState, setOpen, isEdit }) {
         )
       ),
     }
-
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
-        : { ...body, createdAt: new Date() }
+        : { data: { ...body, createdAt: new Date() }, allData }
     )
   }
 

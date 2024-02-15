@@ -10,6 +10,7 @@ export default function useResiliencySubCatForm({
   cat,
   isEdit,
   setOpen,
+  allSubCats,
   initialState,
 }) {
   const {
@@ -52,10 +53,8 @@ export default function useResiliencySubCatForm({
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-reseliency')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-reseliency')
   }
 
   //error
@@ -111,7 +110,7 @@ export default function useResiliencySubCatForm({
           data: { ...data, id: initialState?.id, createdAt: new Date() },
           collectionName: cat,
         })
-      : mutate(data)
+      : mutate({ data, allSubCats })
   }
 
   return {

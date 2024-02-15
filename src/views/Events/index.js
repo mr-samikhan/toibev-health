@@ -29,7 +29,7 @@ export function Events() {
           open={open}
           title="Add Event"
           setOpen={setOpen}
-          message={<EventForm open={open} setOpen={setOpen} />}
+          message={<EventForm open={open} setOpen={setOpen} allData={data} />}
         />
       )}
 

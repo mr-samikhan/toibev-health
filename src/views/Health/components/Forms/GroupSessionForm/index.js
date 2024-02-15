@@ -20,6 +20,7 @@ export const GroupSessionForm = (props) => {
     setEndDate,
     setStartDate,
     handleSubmit,
+    groupSessions,
     isLoadingDelete,
   } = useGroupSessionForm(props)
 

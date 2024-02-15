@@ -1,11 +1,17 @@
 import { useQuery } from 'react-query'
 import { parseAddress } from 'parse-address'
+import { orderBy, query } from 'firebase/firestore'
 import { firestore, collection, getDocs } from '../firebase'
 
 const fetchInfo = async () => {
   let providersData = []
   try {
-    const querySnapshot = await getDocs(collection(firestore, 'Providers'))
+    const q = query(
+      collection(firestore, 'Providers'),
+      orderBy('createdAt', 'desc')
+    )
+
+    const querySnapshot = await getDocs(q)
 
     querySnapshot.forEach(async (document) => {
       let provider = {

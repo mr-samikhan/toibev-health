@@ -50,6 +50,7 @@ export function Health() {
     isLoadingGroupSessions,
     isFetchingGroupSessions,
     setOpenGroupSessionForm,
+    treatmentOptions,
   } = useHealth({})
 
   if (
@@ -76,7 +77,9 @@ export function Health() {
           open={openAddProvider}
           setOpen={setOpenAddProvider}
           title={'Add Provider'}
-          message={<ProviderForm setOpen={setOpenAddProvider} />}
+          message={
+            <ProviderForm setOpen={setOpenAddProvider} providers={providers} />
+          }
         />
       )}
       {openGroupSessionForm && (
@@ -84,7 +87,12 @@ export function Health() {
           open={openGroupSessionForm}
           setOpen={setOpenGroupSessionForm}
           title={'Add Group Session'}
-          message={<GroupSessionForm setOpen={setOpenGroupSessionForm} />}
+          message={
+            <GroupSessionForm
+              groupSessions={groupSessions}
+              setOpen={setOpenGroupSessionForm}
+            />
+          }
         />
       )}
       {openMedicationForm && (
@@ -92,7 +100,12 @@ export function Health() {
           open={openMedicationForm}
           setOpen={setOpenMedicationForm}
           title={'Add Medication'}
-          message={<MedicationForm setOpen={setOpenMedicationForm} />}
+          message={
+            <MedicationForm
+              medications={medication}
+              setOpen={setOpenMedicationForm}
+            />
+          }
         />
       )}
       {openTreatmentForm && (
@@ -101,7 +114,11 @@ export function Health() {
           setOpen={setOpenTreatmentForm}
           title={'Add Treatment'}
           message={
-            <TreatmentForm setOpen={setOpenTreatmentForm} data={treatments} />
+            <TreatmentForm
+              data={treatments}
+              setOpen={setOpenTreatmentForm}
+              treatmentOptions={treatmentOptions}
+            />
           }
         />
       )}
@@ -229,6 +246,7 @@ export function Health() {
             list={treatments}
             icon={icons.peopleIcon}
             Actions={TreatmentActions}
+            treatmentOptions={treatmentOptions}
             ResourceActions={TreatmentResourceActions}
           />
         </Grid>

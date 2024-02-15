@@ -9,7 +9,7 @@ import CustomButton from '../../../../../components/CustomButton'
 import CustomTextfield from '../../../../../components/CustomTextfield'
 import { ReactComponent as NotesIcon } from '../../../../../assets/icons/assesments.svg'
 
-export default function AssessmentForm({ isEdit, data, setOpen }) {
+export default function AssessmentForm({ isEdit, data, setOpen, assessments }) {
   const {
     errors,
     control,
@@ -22,6 +22,7 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
     data,
     isEdit,
     setOpen,
+    assessments,
   })
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +64,7 @@ export default function AssessmentForm({ isEdit, data, setOpen }) {
           />
         </Grid>
         <Grid item xs={12} mb={2}>
-          <CustomButton variant="contained" type="submit">
+          <CustomButton variant="contained" type="submit" disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Save assessment'}
           </CustomButton>
         </Grid>
