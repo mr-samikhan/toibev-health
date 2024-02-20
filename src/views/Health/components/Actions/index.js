@@ -11,7 +11,7 @@ import AlertDialog from '../../../../components/AlertDialog'
 import TreatmentResourceForm from '../Forms/TreatmentResourceForm'
 import { ProviderAvailabilityForm } from '../Forms/ProviderAvailabilityForm'
 
-export function Actions({ data }) {
+export function Actions({ data, list }) {
   const { open, setOpen, setOpenAvailability, openAvalability } = useActions({})
 
   return (
@@ -22,7 +22,12 @@ export function Actions({ data }) {
           setOpen={setOpen}
           title={'Edit Provider'}
           message={
-            <ProviderForm initialState={data} isEdit setOpen={setOpen} />
+            <ProviderForm
+              isEdit
+              setOpen={setOpen}
+              initialState={data}
+              providers={list}
+            />
           }
         />
       )}

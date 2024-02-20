@@ -34,7 +34,7 @@ export const addProvider = async ({ data, providers }) => {
       const check = providers.some(
         (item) => item?.name?.toLowerCase() === data?.name?.toLowerCase()
       )
-      if (!check) {
+      if (check) {
         reject(DUPLICATE_RECORD_ERROR)
       } else {
         const docRef = await addDoc(collection(firestore, 'Providers'), data)
@@ -48,15 +48,29 @@ export const addProvider = async ({ data, providers }) => {
   })
 }
 
-export const updateProvider = async (data) => {
-  try {
-    const docRef = await updateDoc(doc(firestore, 'Providers', data?.id), data)
-    return docRef
-  } catch (error) {
-    const errorCode = error.code
-    const errorMessage = error.message
-    throw errorCode
-  }
+export const updateProvider = async ({ data, providers, newTitle }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (
+        newTitle !== null &&
+        providers?.some(
+          (item) => item?.title?.toLowerCase() === newTitle?.toLowerCase()
+        )
+      ) {
+        reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await updateDoc(
+          doc(firestore, 'Providers', data?.id),
+          data
+        )
+        resolve(docRef)
+      }
+    } catch (error) {
+      const errorCode = error.code
+      const errorMessage = error.message
+      reject(errorCode || errorMessage)
+    }
+  })
 }
 
 export const addGroupSession = async ({ data, groupSessions }) => {

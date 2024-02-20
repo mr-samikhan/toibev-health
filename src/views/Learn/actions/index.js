@@ -296,15 +296,15 @@ export const deleteLanguage = async (id) => {
 export const addResiliency = async ({ data, title }) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (data.menu.some((item) => item.title === title)) {
+      if (data?.menu?.some((item) => item?.title === title)) {
         reject(DUPLICATE_RECORD_ERROR)
+      } else {
+        const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
+          ...data,
+          createdAt: new Date(),
+        })
+        resolve(docRef)
       }
-      console.log(data, '>>>>')
-      const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {
-        ...data,
-        createdAt: new Date(),
-      })
-      resolve(docRef)
     } catch (error) {
       const errorCode = error.code
       const errorMessage = error.message

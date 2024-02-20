@@ -89,7 +89,11 @@ export default function useProviderForm(props) {
       },
     }
     isEdit
-      ? mutate({ ...body, id: initialState.id, updatedAt: new Date() })
+      ? mutate({
+          data: { ...body, id: initialState.id, updatedAt: new Date() },
+          providers,
+          newTitle: data?.name === initialState?.name ? null : data?.name,
+        })
       : mutate({ data: { ...body, createdAt: new Date() }, providers })
   }
 
