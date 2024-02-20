@@ -42,10 +42,8 @@ export default function useQuestionForm({ isEdit, setOpen, initialState }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-assessment-questions')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-assessment-questions')
   }
 
   //error
@@ -58,10 +56,6 @@ export default function useQuestionForm({ isEdit, setOpen, initialState }) {
         message: err || 'Something went wrong!',
       })
     )
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-assessment-questions')
-    }, 3000)
   }
 
   const handleAddAnswer = () => {
@@ -115,11 +109,23 @@ export default function useQuestionForm({ isEdit, setOpen, initialState }) {
 
     mutate(
       isEdit
-        ? { ...body, questionId: initialState?.id, updatedAt: new Date() }
+        ? {
+            data: {
+              ...body,
+              questionId: initialState?.id,
+              updatedAt: new Date(),
+            },
+            questions,
+            newTitle:
+              data.question === initialState?.question ? null : data.question,
+          }
         : {
-            ...body,
-            createdAt: new Date(),
-            index: questions?.length === 0 ? 0 : questions?.length + 1,
+            data: {
+              ...body,
+              createdAt: new Date(),
+              index: questions?.length === 0 ? 0 : questions?.length + 1,
+            },
+            questions,
           }
     )
   }
