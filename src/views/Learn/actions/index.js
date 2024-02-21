@@ -296,7 +296,18 @@ export const deleteLanguage = async (id) => {
 export const addResiliency = async ({ data, title }) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (data?.menu?.some((item) => item?.title === title)) {
+      const querySnapshot = await getDocs(collection(firestore, 'Resiliency'))
+      let resiliencyData = {}
+      querySnapshot.forEach((doc) => {
+        if (doc.id === 'general') {
+          resiliencyData = doc.data()
+        }
+      })
+      if (
+        resiliencyData?.menu?.some(
+          (item) => item?.title?.toLowerCase() === title?.toLowerCase()
+        )
+      ) {
         reject(DUPLICATE_RECORD_ERROR)
       } else {
         const docRef = await setDoc(doc(firestore, 'Resiliency', 'general'), {

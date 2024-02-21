@@ -9,7 +9,9 @@ import { defaultAvailableTimes, myCustomLocale } from '../../../constants'
 export const useProviderAvailabilityForm = (props) => {
   const { isEdit, initialState, setOpen } = props
 
+  const queryClient = useQueryClient()
   const { control, handleSubmit, reset } = useForm()
+
   const [selectedDays, setSelectedDays] = useState(
     initialState?.availabilities?.map(({ date }) => {
       return {
@@ -19,8 +21,7 @@ export const useProviderAvailabilityForm = (props) => {
       }
     }) ?? []
   )
-  console.log(initialState?.availabilities, 'initialState?.availabilities')
-  const queryClient = useQueryClient()
+
   const [availableTimes, setAvailableTimes] = useState(
     defaultAvailableTimes?.map((timeSlot) => {
       const isSelected = initialState?.availabilities?.some((selectedTime) => {
@@ -72,12 +73,13 @@ export const useProviderAvailabilityForm = (props) => {
     )
 
     const uniqueArray = Array.from(uniqueSet).map((item) => JSON.parse(item))
-    console.log(uniqueArray)
 
     mutate({
-      availabilities: uniqueArray,
-      id: initialState.id,
-      updatedAt: new Date(),
+      data: {
+        availabilities: uniqueArray,
+        id: initialState.id,
+        updatedAt: new Date(),
+      },
     })
   }
 
