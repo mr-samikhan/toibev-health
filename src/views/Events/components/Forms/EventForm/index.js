@@ -15,6 +15,7 @@ import { ReactComponent as TaskIcon } from '../../../../../assets/icons/task.svg
 import { ReactComponent as LinkIcon } from '../../../../../assets/icons/link.svg'
 import { ReactComponent as Clipboard } from '../../../../../assets/icons/clipboard.svg'
 import { ReactComponent as LocationIcon } from '../../../../../assets/icons/location.svg'
+import MuiTimePicker from '../../../../../components/MuiTimePicker/MuiTImePicker'
 
 export default function EventForm({ isEdit, data, open, setOpen, allData }) {
   const {
@@ -142,7 +143,7 @@ export default function EventForm({ isEdit, data, open, setOpen, allData }) {
             <DatePicker date={endDate} setDate={setEndDate} label="End Date" />
           </Grid>
 
-          <Grid item xs={6} mb={3}>
+          {/* <Grid item xs={6} mb={3}>
             <Controller
               name="startTime"
               control={control}
@@ -155,8 +156,30 @@ export default function EventForm({ isEdit, data, open, setOpen, allData }) {
                 />
               )}
             />
+          </Grid>  */}
+          <Grid
+            item
+            md={12}
+            display="flex"
+            justifyContent="space-between"
+            gap={1}
+          >
+            <Controller
+              name="startTime"
+              control={control}
+              render={({ field }) => (
+                <MuiTimePicker label="Start Time" {...field} />
+              )}
+            />
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field }) => (
+                <MuiTimePicker label="End Time" {...field} />
+              )}
+            />
           </Grid>
-          <Grid item xs={6} mb={3}>
+          {/* <Grid item xs={6} mb={3}>
             <Controller
               name="endTime"
               control={control}
@@ -166,10 +189,11 @@ export default function EventForm({ isEdit, data, open, setOpen, allData }) {
                   label="End Time"
                   placeholder="Enter Time"
                   {...field}
+                  onFocus={field.value ? field.onBlur() : null}
                 />
               )}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid item xs={12} mb={3}>

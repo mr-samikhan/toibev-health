@@ -9,6 +9,9 @@ import { addEvent, updateEvent, deleteEvent } from '../actions'
 import { useDispatch } from 'react-redux'
 import { setAlertValues } from '../../../redux/actions/loginActions'
 import { getErrorMessage } from '../../Login/utils'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import utc from 'dayjs/plugin/utc'
 
 const recurrenceOptions = [
   { label: 'Hourly', value: 'hourly' },
@@ -146,11 +149,20 @@ export default function useEventForm({
     setWeekdays(newWeekdays)
   }
 
+  const getTimeString = (time) => {
+    dayjs.extend(customParseFormat)
+    dayjs.extend(utc)
+    const parsedDate = dayjs(time)
+
+    const timeOnly = parsedDate.format('h:mm')
+    return timeOnly
+  }
+
   const onSubmit = async (data) => {
     function getCurrentTime() {
       const now = new Date()
-      const hours = now.getHours().toString().padStart(2, '0') // Get hours and pad with leading zero if necessary
-      const minutes = now.getMinutes().toString().padStart(2, '0') // Get minutes and pad with leading zero if necessary
+      const hours = now.getHours().toString().padStart(2, '0')
+      const minutes = now.getMinutes().toString().padStart(2, '0')
       return `${hours}:${minutes}`
     }
 
@@ -172,24 +184,28 @@ export default function useEventForm({
       location: data.location,
       frequency: frequency || '',
       period: data.period || '',
-      endTime: data.endTime || currentTime,
+      endTime: getTimeString(data.endTime.$d) || currentTime,
       recurrence: isRecurring ? recurrence : '',
-      startTime: data.startTime || currentTime,
+      startTime: getTimeString(data.startTime.$d) || currentTime,
       description: data.description,
       startDate: Timestamp.fromDate(
         new Date(
           getFormatedDate(
             startDate || currentDate,
-            data.startTime || currentTime
+            data.startTime.$d || currentTime
           )
         )
       ),
       endDate: Timestamp.fromDate(
         new Date(
-          getFormatedDate(endDate || currentDate, data.endTime || currentTime)
+          getFormatedDate(
+            endDate || currentDate,
+            data.endTime.$d || currentTime
+          )
         )
       ),
     }
+
     mutate(
       isEdit
         ? { ...body, id: initialState?.id, updatedAt: new Date() }
