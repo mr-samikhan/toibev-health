@@ -90,6 +90,8 @@ export const useGetProviders = ({ enabled = true }) => {
     // console.log(groupedProvidersByLocation, 'groupedProvidersByLocation')
   }
 
+  const availabilities = data?.map((provider) => provider.availabilities)
+
   const totalScheduledAppointments = data?.reduce((accumulator, user) => {
     if (Array.isArray(user?.availabilities)) {
       const lengthOfScheduledItems = user?.availabilities?.filter(
@@ -108,5 +110,6 @@ export const useGetProviders = ({ enabled = true }) => {
     providers: data,
     groupedProvidersByLocation,
     totalScheduledAppointments,
+    availabilities,
   }
 }

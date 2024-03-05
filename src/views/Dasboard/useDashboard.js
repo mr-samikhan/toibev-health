@@ -7,6 +7,9 @@ import { useGetProviders } from '../../hooks/useGetProviders'
 import { useGetReseliency } from '../../hooks/useGetReseliency'
 import { useGetAssessments } from '../../hooks/useGetAssessments'
 import { useGetAssessmentConditions } from '../../hooks/useGetAssessmentConditions'
+import { Timestamp, collection, getDocs, query } from 'firebase/firestore'
+import { firestore } from '../../firebase'
+import { fetchAvailablilites } from '../Health/actions'
 
 export const useDashboard = () => {
   const [tab, setTab] = useState(0)
@@ -23,7 +26,7 @@ export const useDashboard = () => {
     conditions: [],
     surveyConditions: [],
     groupedProvidersByLocation: [],
-    totalScheduledAppointments: 0,
+    totalScheduledAppointments: null,
   })
 
   const {
@@ -119,6 +122,13 @@ export const useDashboard = () => {
         startDate,
         endDate
       )
+      fetchAvailablilites(startDate, endDate).then((res) =>
+        setFilterData((prev) => ({
+          ...prev,
+          totalScheduledAppointments: res,
+        }))
+      )
+
       return setFilterData((prev) => ({
         ...prev,
         users: usersFilter,
@@ -176,6 +186,9 @@ export const useDashboard = () => {
     isLoadingSurveyConditions,
     groupedProvidersByLocation: groupProviders,
     isFetchingSurveyConditions,
-    totalScheduledAppointments,
+    totalScheduledAppointments:
+      startDate && endDate
+        ? filterData?.totalScheduledAppointments
+        : totalScheduledAppointments,
   }
 }
