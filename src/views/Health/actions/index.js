@@ -11,6 +11,8 @@ import {
   collection,
   uploadBytes,
   getDownloadURL,
+  query,
+  getDocs,
 } from '../../../firebase'
 import { convertImageTo } from '../../../utils/imageConverter'
 
@@ -302,4 +304,36 @@ export const deleteMedicationsList = async (id) => {
     console.error('Error deleting document:', error)
     throw error
   }
+}
+
+export const fetchAvailablilites = async (startDate, endDate) => {
+  const providersRef = collection(firestore, 'Providers')
+  const startDate_ = new Date(startDate)
+  const endDate_ = new Date(endDate)
+
+  const startSeconds = Math.floor(startDate_.getTime() / 1000)
+  const endSeconds = Math.floor(endDate_.getTime() / 1000)
+  const q = query(providersRef)
+  const querySnapshot = await getDocs(q)
+  let totalCount = 0
+
+  querySnapshot.forEach((doc) => {
+    const availabilities = doc.data().availabilities || []
+
+    const countForDoc = availabilities.reduce((count, avail) => {
+      if (
+        avail?.isScheduled === true &&
+        avail?.scheduledAt &&
+        avail?.scheduledAt?.seconds >= startSeconds &&
+        avail?.scheduledAt?.seconds <= endSeconds
+      ) {
+        count++
+      }
+      return count
+    }, 0)
+
+    totalCount += countForDoc
+  })
+
+  return totalCount
 }

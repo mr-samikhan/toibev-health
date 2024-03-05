@@ -1,9 +1,11 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
 import { TextField, InputAdornment, IconButton } from '@mui/material'
-import DatePicker from '@hassanmojab/react-modern-calendar-datepicker'
 import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css'
 import { ReactComponent as CalenderIcon } from '../../assets/icons/calendar.svg'
+import DatePicker, {
+  utils,
+} from '@hassanmojab/react-modern-calendar-datepicker'
 
 export const CustomIconButton = styled((props) => <IconButton {...props} />)(
   ({ theme }) => ({
@@ -84,6 +86,7 @@ export default function CustomDatePicker({ date, setDate, label }) {
       shouldHighlightWeekends
       inputPlaceholder="Select a day"
       renderInput={renderCustomInput}
+      minimumDate={utils().getToday()}
     />
   )
 }

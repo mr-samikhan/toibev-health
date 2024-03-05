@@ -66,11 +66,13 @@ export default function CustomTextfield({
   errorMessage,
   EndIconPrimary,
   handleEnterKeyPress,
+  onFocus,
   ...rest
 }) {
   return (
     <CustomTextField
       fullWidth
+      onBlur={onFocus}
       id="outlined"
       select={select}
       multiline={multiline}
