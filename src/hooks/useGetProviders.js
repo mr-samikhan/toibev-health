@@ -87,7 +87,7 @@ export const useGetProviders = ({ enabled = true }) => {
     })
 
     groupedProvidersByLocation = Object.values(groupedProviders)
-    // console.log(groupedProvidersByLocation, 'groupedProvidersByLocation')
+    console.log(groupedProvidersByLocation, 'groupedProvidersByLocation')
   }
 
   const availabilities = data?.map((provider) => provider.availabilities)

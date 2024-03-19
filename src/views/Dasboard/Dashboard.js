@@ -108,7 +108,7 @@ export function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <Grid container flexDirection="column" className="section" mb={3}>
             <Grid item mb={1}>
               <Typography className="heading">Location</Typography>
@@ -120,8 +120,8 @@ export function Dashboard() {
               />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12} md={6}>
+        </Grid> */}
+        {/* <Grid item xs={12} md={6}>
           <Grid container flexDirection="column" className="section" mb={3}>
             <Grid item mb={1} sx={{ maxWidth: '100%' }}>
               <Typography className="heading">Surveys</Typography>
@@ -147,7 +147,7 @@ export function Dashboard() {
               />
             </Grid>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   )

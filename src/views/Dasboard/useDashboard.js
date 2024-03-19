@@ -3,13 +3,11 @@ import { useSelector } from 'react-redux'
 
 import { useGetUsers } from '../../hooks/useGetUsers'
 import { useGetEvents } from '../../hooks/useGetEvents'
+import { fetchAvailablilites } from '../Health/actions'
 import { useGetProviders } from '../../hooks/useGetProviders'
 import { useGetReseliency } from '../../hooks/useGetReseliency'
 import { useGetAssessments } from '../../hooks/useGetAssessments'
 import { useGetAssessmentConditions } from '../../hooks/useGetAssessmentConditions'
-import { Timestamp, collection, getDocs, query } from 'firebase/firestore'
-import { firestore } from '../../firebase'
-import { fetchAvailablilites } from '../Health/actions'
 
 export const useDashboard = () => {
   const [tab, setTab] = useState(0)
