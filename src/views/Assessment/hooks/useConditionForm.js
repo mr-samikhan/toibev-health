@@ -51,10 +51,8 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-assessment-conditions')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-assessment-conditions')
   }
 
   //error
@@ -67,10 +65,8 @@ export default function useConditionForm({ isEdit, setOpen, initialState }) {
         message: err || 'Something went wrong!',
       })
     )
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-assessment-conditions')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-assessment-conditions')
   }
 
   const { isLoading, mutate } = useMutation(

@@ -36,10 +36,8 @@ export default function useResilienceForm({
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-reseliency')
-    }, 3000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-reseliency')
   }
 
   //error

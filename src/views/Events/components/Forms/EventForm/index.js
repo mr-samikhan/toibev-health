@@ -301,8 +301,8 @@ export default function EventForm({ isEdit, data, open, setOpen, allData }) {
                 rows={4}
                 label="Details"
                 placeholder="Type details of event"
-                error={errors.details}
-                errorMessage={errors?.details?.message}
+                error={errors.description}
+                errorMessage={errors?.description?.message}
                 EndIcon={TaskIcon}
                 {...field}
               />

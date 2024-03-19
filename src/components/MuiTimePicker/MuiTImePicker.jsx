@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import * as React from 'react'
+import { TextField } from '@mui/material'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
@@ -9,25 +10,34 @@ import { ReactComponent as YourCustomIcon } from '../../assets/icons/clock-icon.
 const MuiTimePicker = (props) => {
   const { label, value, onChange } = props || {}
 
-  const defaultTimeValue = React.useMemo(() => dayjs(value, 'HH:mm'), [])
+  const defaultTimeValue = React.useMemo(() => {
+    return value && dayjs(value, 'HH:mm').isValid()
+      ? dayjs(value, 'HH:mm')
+      : null
+  }, [value])
 
-  const [value_] = React.useState(defaultTimeValue)
+  const [value_, setValue_] = React.useState(defaultTimeValue)
 
-  const Tester = () => {
-    return <></>
-  }
+  React.useEffect(() => {
+    setValue_(defaultTimeValue)
+  }, [defaultTimeValue])
+
   return (
     <React.Fragment>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={['TimePicker']}>
           <TimePicker
             format="hh:mm A"
-            onChange={onChange}
+            onChange={(newValue) => {
+              onChange(newValue)
+              setValue_(newValue)
+            }}
             label={label}
             value={value_}
+            renderInput={(params) => <TextField {...params} />}
             slots={{
               openPickerIcon: YourCustomIcon,
-              actionBar: Tester,
+              actionBar: () => <></>,
             }}
             sx={{
               width: '300px',

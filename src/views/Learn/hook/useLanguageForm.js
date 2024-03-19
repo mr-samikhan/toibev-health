@@ -70,10 +70,8 @@ export default function useLanguageForm({
       })
     )
 
-    // setTimeout(() => {
     setOpen(false)
     queryClient.invalidateQueries('get-all-languages')
-    // }, 3000)
   }
 
   //error

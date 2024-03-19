@@ -102,10 +102,8 @@ export default function useEventForm({
       })
     )
 
-    setTimeout(() => {
-      setOpen(false)
-      queryClient.invalidateQueries('get-all-events')
-    }, 2000)
+    setOpen(false)
+    queryClient.invalidateQueries('get-all-events')
   }
 
   //error
@@ -184,26 +182,57 @@ export default function useEventForm({
       location: data.location,
       frequency: frequency || '',
       period: data.period || '',
-      endTime: getTimeString(data.endTime.$d) || currentTime,
-      recurrence: isRecurring ? recurrence : '',
-      startTime: getTimeString(data.startTime.$d) || currentTime,
       description: data.description,
-      startDate: Timestamp.fromDate(
-        new Date(
-          getFormatedDate(
-            startDate || currentDate,
-            data.startTime.$d || currentTime
-          )
-        )
-      ),
-      endDate: Timestamp.fromDate(
-        new Date(
-          getFormatedDate(
-            endDate || currentDate,
-            data.endTime.$d || currentTime
-          )
-        )
-      ),
+      recurrence: isRecurring ? recurrence : '',
+
+      startTime: isEdit
+        ? isEdit && data?.startTime?.$d
+          ? getTimeString(data?.startTime?.$d)
+          : initialState?.startTime
+        : getTimeString(data?.startTime?.$d) || getTimeString(startDate),
+      endTime: isEdit
+        ? isEdit && data?.endTime?.$d
+          ? getTimeString(data?.endTime?.$d)
+          : initialState?.endTime
+        : getTimeString(data?.endTime?.$d) || getTimeString(endDate),
+      startDate: isEdit
+        ? isEdit && data?.startTime?.$d
+          ? Timestamp.fromDate(
+              new Date(
+                getFormatedDate(
+                  startDate,
+                  getTimeString(data?.startTime?.$d) || currentTime
+                )
+              )
+            )
+          : initialState?.startDate
+        : Timestamp.fromDate(
+            new Date(
+              getFormatedDate(
+                startDate,
+                getTimeString(data?.startTime?.$d) || currentTime
+              )
+            )
+          ),
+      endDate: isEdit
+        ? isEdit && data?.endTime?.$d
+          ? Timestamp.fromDate(
+              new Date(
+                getFormatedDate(
+                  endDate,
+                  getTimeString(data?.endTime?.$d) || currentTime
+                )
+              )
+            )
+          : initialState?.endDate
+        : Timestamp.fromDate(
+            new Date(
+              getFormatedDate(
+                endDate,
+                getTimeString(data?.endTime?.$d) || currentTime
+              )
+            )
+          ),
     }
 
     mutate(
