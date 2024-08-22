@@ -1,13 +1,12 @@
-import React from 'react'
-import { CircularProgress, Grid, Typography } from '@mui/material'
+import React from "react";
+import { CircularProgress, Grid, Typography } from "@mui/material";
 
 //imports
-import icons from '../../assets/index'
-import { useDashboard } from './useDashboard'
-import StatsCard from './components/StatsCard'
-import { CustomTabs } from '../../components/Tabs'
-import CustomCarousel from '../../components/Carousel'
-import DashboardListing from './components/DashboardListing'
+import icons from "../../assets/index";
+import { useDashboard } from "./useDashboard";
+import StatsCard from "./components/StatsCard";
+import CustomCarousel from "../../components/Carousel";
+import DashboardListing from "./components/DashboardListing";
 
 export function Dashboard() {
   const {
@@ -34,7 +33,7 @@ export function Dashboard() {
     groupedProvidersByLocation,
     isFetchingSurveyConditions,
     totalScheduledAppointments,
-  } = useDashboard({})
+  } = useDashboard({});
 
   if (
     isLoadingUsers ||
@@ -49,7 +48,7 @@ export function Dashboard() {
       <Grid container alignItems="center" justifyContent="center">
         <CircularProgress />
       </Grid>
-    )
+    );
   }
 
   return (
@@ -81,7 +80,7 @@ export function Dashboard() {
 
             <StatsCard
               title="Views"
-              count={'3,548'}
+              count={"3,548"}
               icon={icons.statsViewsIcon}
             />
           </CustomCarousel>
@@ -94,7 +93,7 @@ export function Dashboard() {
               <Typography className="heading">Events</Typography>
             </Grid>
             <Grid item>
-              <DashboardListing list={events} listing={'events'} />
+              <DashboardListing list={events} listing={"events"} />
             </Grid>
           </Grid>
         </Grid>
@@ -150,5 +149,5 @@ export function Dashboard() {
         </Grid> */}
       </Grid>
     </Grid>
-  )
+  );
 }
