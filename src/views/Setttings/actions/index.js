@@ -3,24 +3,24 @@ import {
   updateEmail,
   updatePassword,
   signInWithEmailAndPassword,
-} from 'firebase/auth'
-import { auth, firestore } from '../../../firebase'
-import { doc, getFirestore, onSnapshot, updateDoc } from 'firebase/firestore'
+} from "firebase/auth";
+import { auth, firestore } from "../../../firebase";
+import { doc, getFirestore, onSnapshot, updateDoc } from "firebase/firestore";
 
 export const updateUserEmailAndPassword = async (
   values = {
-    id: '',
-    oldEmail: '',
-    newEmail: '',
-    oldPassword: '',
-    newPassword: '',
-    username: '',
+    id: "",
+    oldEmail: "",
+    newEmail: "",
+    oldPassword: "",
+    newPassword: "",
+    username: "",
   }
 ) => {
-  const { currentUser } = auth
-  const authentication = getAuth()
+  const { currentUser } = auth;
+  const authentication = getAuth();
 
-  const { id, newEmail, newPassword, oldPassword, username } = values
+  const { id, newEmail, newPassword, oldPassword, username } = values;
 
   return new Promise(async (resolve, reject) => {
     try {
@@ -28,53 +28,53 @@ export const updateUserEmailAndPassword = async (
         authentication,
         currentUser.email,
         oldPassword
-      )
-      const user = userCredential.user
+      );
+      const user = userCredential.user;
 
-      await updateEmail(user, newEmail)
+      await updateEmail(user, newEmail);
 
-      await updatePassword(user, newPassword)
+      await updatePassword(user, newPassword);
 
-      const firestore = getFirestore()
-      await updateDoc(doc(firestore, 'Admins', id), {
+      const firestore = getFirestore();
+      await updateDoc(doc(firestore, "admins", id), {
         email: newEmail,
         username: username,
         updatedAt: new Date(),
-      })
+      });
 
       //   console.log('Account updated successfully!')
-      resolve('Account updated successfully!')
+      resolve("Account updated successfully!");
     } catch (error) {
-      console.error('Error>>>>', error)
-      reject(error)
+      console.error("Error>>>>", error);
+      reject(error);
     }
-  })
-}
+  });
+};
 
-export const getCurrentUser = async (values = { id: '' }) => {
-  const { id } = values || {}
+export const getCurrentUser = async (values = { id: "" }) => {
+  const { id } = values || {};
   return new Promise(async (resolve, reject) => {
     try {
-      const currentUserUid = id
+      const currentUserUid = id;
 
-      const userDocRef = doc(firestore, 'Admins', currentUserUid)
+      const userDocRef = doc(firestore, "admins", currentUserUid);
       const unsubscribe = onSnapshot(
         userDocRef,
         (userDocSnapshot) => {
           if (userDocSnapshot.exists()) {
-            const userData = userDocSnapshot.data()
-            resolve(userData)
+            const userData = userDocSnapshot.data();
+            resolve(userData);
           } else {
-            reject('User document does not exist.')
+            reject("User document does not exist.");
           }
-          return unsubscribe
+          return unsubscribe;
         },
         (error) => {
-          reject(error)
+          reject(error);
         }
-      )
+      );
     } catch (error) {
-      reject(error)
+      reject(error);
     }
-  })
-}
+  });
+};
